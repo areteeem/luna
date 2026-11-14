@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+node_modules/
+dist/
+.cache/
+work/
+
+# Local generated artifacts
+output/
+tmp/
+
+# Local generated artifacts
+output/
+tmp/
+
+# Ignore Markdown documents as requested
+*.md

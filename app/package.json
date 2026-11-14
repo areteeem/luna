@@ -1,0 +1,42 @@
+{
+  "name": "lunar-window",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ../scripts/dev.mjs",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "dev:ui": "vite --host 127.0.0.1",
+    "setup:science": "node ../scripts/run_python.mjs scripts/setup_science.py",
+    "setup:terrain": "node ../scripts/run_python.mjs scripts/setup_visual_terrain.py"
+  },
+  "dependencies": {
+    "@mlc-ai/web-llm": "^0.2.88",
+    "@phosphor-icons/react": "^2.1.10",
+    "@radix-ui/react-slider": "^1.6.1",
+    "cesium": "^1.147.0",
+    "dockview-react": "^8.9.0",
+    "driver.js": "^1.11.0",
+    "jspdf": "^4.2.1",
+    "motion": "^14.14.0",
+    "react": "^19.3.1",
+    "react-colorful": "^5.8.1",
+    "react-dom": "^19.3.1",
+    "sonner": "^2.0.8",
+    "vite-plugin-cesium": "^1.2.23"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.90.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  }
+}

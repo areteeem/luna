@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Explore the Moon’s south pole. See how terrain and timing shape sunlight and Earth visibility with LUNA." />
+    <link rel="icon" type="image/png" href="%BASE_URL%favicon-light.png" />
+    <link rel="preload" href="%BASE_URL%landing/inter.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" as="image" imagesrcset="%BASE_URL%landing/moon-640.webp 640w, %BASE_URL%landing/moon-1120.webp 1120w" imagesizes="(max-width: 680px) 122vw, (max-width: 1166px) 90vw, 1050px" fetchpriority="high" />
+    <link rel="stylesheet" href="/src/landing.css" />
+    <title>LUNA — Lunar Landing Site Navigator</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#explore">Skip to content</a>
+    <div class="intro" id="intro" hidden aria-hidden="true">
+      <img src="%BASE_URL%landing/logo-dark.webp" alt="" width="512" height="512" />
+    </div>
+
+    <header class="site-header" data-header>
+      <div class="nav-shell">
+        <a class="wordmark" href="#explore" aria-label="LUNA home">
+          <img class="mark-light" src="%BASE_URL%landing/nav-light.webp" alt="" width="104" height="104" />
+          <img class="mark-dark" src="%BASE_URL%landing/nav-dark.webp" alt="" width="104" height="104" />
+        </a>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a href="#explore">Explore</a>
+          <a href="#mission">The Mission</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#science">Science</a>
+          <a href="#about">About</a>
+        </nav>
+        <a class="button nav-launch" href="%BASE_URL%navigator.html" data-launch>Launch LUNA <span aria-hidden="true">↗</span></a>
+        <details class="mobile-menu">
+          <summary aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span></summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#explore">Explore</a>
+            <a href="#mission">The Mission</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#science">Science</a>
+            <a href="#about">About</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="explore" aria-labelledby="hero-title">
+        <div class="section-copy hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> NASA Space Apps Challenge 2026</p>
+          <h1 id="hero-title">The Moon is complicated.<br /> Exploring it shouldn’t be.</h1>
+          <p class="lede">Meet LUNA. Explore the Moon’s south pole, visualize sunlight and Earth visibility, and compare potential landing sites through one intuitive interface.</p>
+          <div class="actions">
+            <a class="button" href="%BASE_URL%navigator.html" data-launch>Get Started <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#film" data-film-link>Explore the Demo <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+        <figure class="moon-stage">
+          <img class="hero-moon" src="%BASE_URL%landing/moon-1120.webp" srcset="%BASE_URL%landing/moon-640.webp 640w, %BASE_URL%landing/moon-1120.webp 1120w" sizes="(max-width: 680px) 122vw, (max-width: 1166px) 90vw, 1050px" width="1120" height="1120" fetchpriority="high" alt="Detailed south-up view of the Moon’s cratered disk" />
+          <figcaption class="visual-label hero-label"><span>01 / LUNAR DISK</span><span>South-up view · NASA SVS</span></figcaption>
+          <span class="visual-label hero-coordinate" aria-hidden="true">TARGET REGION<br />LUNAR SOUTH POLE</span>
+        </figure>
+      </section>
+
+      <section class="problem dark" id="mission" aria-labelledby="problem-title" data-dark>
+        <div class="section-copy">
+          <p class="eyebrow">The Mission</p>
+          <h2 id="problem-title">Sunlight doesn’t<br />guarantee a signal.</h2>
+          <p class="lede">At the lunar south pole, surrounding terrain can block sunlight and direct communication with Earth. A promising landing site may offer favorable conditions at one moment and very different conditions at another.</p>
+          <p class="statement">Where you land, and when, changes everything.</p>
+        </div>
+        <figure class="terrain-stage">
+          <img src="%BASE_URL%landing/shackleton.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Earth above the terrain near the rim of Shackleton crater, in a NASA visualization" data-horizon-image data-sun-image="%BASE_URL%landing/shackleton-sun.webp" />
+          <figcaption class="visual-label terrain-label"><span>SHACKLETON CRATER RIM</span><span>NASA visualization · <span class="horizon-state" data-horizon-state>Earth above the horizon</span></span></figcaption>
+          <button class="horizon-control" type="button" data-horizon-toggle hidden>Show the Sun <span aria-hidden="true">↗</span></button>
+        </figure>
+      </section>
+
+      <section class="film section-pad" id="film" aria-labelledby="film-title">
+        <div class="section-copy">
+          <h2 id="film-title">Meet LUNA.</h2>
+          <p class="lede" data-film-description>See the lunar navigator, the local horizon, and a site comparison.</p>
+        </div>
+        <div class="film-stage wide" data-film-stage>
+          <img src="%BASE_URL%landing/navigator-rover.webp" width="2940" height="1741" loading="lazy" decoding="async" alt="LUNA navigator showing the Apollo region rover route and lunar globe" />
+          <button class="film-play" data-film-play type="button" hidden><span class="play-symbol" aria-hidden="true">▶</span> Watch the 3-minute project demonstration</button>
+        </div>
+        <div class="actions">
+          <a class="button" href="%BASE_URL%navigator.html" data-launch data-film-launch hidden>Launch LUNA <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#product" data-film-next>See the workspace <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+
+      <section class="product pale section-pad" id="product" aria-labelledby="product-title">
+        <div class="section-copy">
+          <h2 id="product-title">One interface.<br />A clearer perspective.</h2>
+          <p class="lede">LUNA brings lunar terrain, Sun and Earth positions, and mission timing into a single interactive workspace.</p>
+          <div class="actions"><a class="text-link" href="%BASE_URL%navigator.html" data-launch>Explore the Application <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="product-stage wide">
+          <img class="product-screen" src="%BASE_URL%landing/navigator-rover.webp" width="2940" height="1741" loading="lazy" decoding="async" alt="LUNA navigator showing the Apollo rover route, lunar map, and timeline" />
+          <img class="product-moon" src="%BASE_URL%landing/moon-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="" />
+        </figure>
+      </section>
+
+      <section class="capability sunlight" aria-labelledby="sunlight-title">
+        <div class="section-copy">
+          <p class="eyebrow">Illumination</p>
+          <h2 id="sunlight-title">Follow the Sun.</h2>
+          <p class="lede">Examine how the Sun moves relative to the local lunar horizon and explore potential illumination periods.</p>
+          <div class="actions"><a class="text-link" href="%BASE_URL%navigator.html" data-launch>Explore Sunlight <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="sun-stage wide">
+          <img src="%BASE_URL%landing/illumination.webp" srcset="%BASE_URL%landing/illumination-800.webp 800w, %BASE_URL%landing/illumination.webp 1600w" sizes="(max-width: 680px) calc(100vw - 44px), (max-width: 1350px) 90vw, 1220px" width="1600" height="900" loading="lazy" decoding="async" alt="NASA rendering of long shadows across the cratered lunar south pole, based on laser altimeter measurements" />
+          <figcaption class="visual-label"><span>GRAZING SUNLIGHT</span><span>NASA GSFC / SVS</span></figcaption>
+        </figure>
+      </section>
+
+      <section class="capability earth dark" aria-labelledby="earth-title" data-dark>
+        <div class="earth-inner wide">
+          <div class="section-copy">
+            <p class="eyebrow">Earth Visibility</p>
+            <h2 id="earth-title">Stay within<br />sight of Earth.</h2>
+            <p class="lede">Explore when Earth appears above the local horizon and identify potential direct-to-Earth communication opportunities.</p>
+            <div class="actions"><a class="text-link" href="%BASE_URL%navigator.html" data-launch>Explore Earth Visibility <span aria-hidden="true">↗</span></a></div>
+          </div>
+          <figure class="earth-stage">
+            <img src="%BASE_URL%landing/earth.webp" width="800" height="800" loading="lazy" decoding="async" alt="Earth above the Moon in a photograph taken during the Apollo 8 mission" />
+            <figcaption class="visual-label"><span>APOLLO 8</span><span>NASA photograph</span></figcaption>
+          </figure>
+        </div>
+        <img class="orbiter" src="%BASE_URL%landing/orbiter.webp" width="560" height="400" loading="lazy" decoding="async" alt="" />
+      </section>
+
+      <section class="capability comparison pale" aria-labelledby="comparison-title">
+        <div class="section-copy">
+          <p class="eyebrow">Site Comparison</p>
+          <h2 id="comparison-title">Two sites.<br />Different possibilities.</h2>
+          <p class="lede">Compare candidate locations and mission dates to understand how illumination and Earth visibility conditions vary.</p>
+          <div class="actions"><a class="text-link" href="%BASE_URL%navigator.html" data-launch>Compare Landing Sites <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="comparison-grid wide">
+          <figure><img src="%BASE_URL%landing/navigator-rover.webp" width="2940" height="1741" loading="lazy" decoding="async" alt="LUNA navigator showing an Apollo region rover route and lunar map" /><figcaption class="visual-label">Rover planning · Apollo region</figcaption></figure>
+          <figure><img src="%BASE_URL%landing/navigator-analysis.webp" width="2940" height="1741" loading="lazy" decoding="async" alt="LUNA navigator showing mission analysis alongside a lunar site map" /><figcaption class="visual-label">Mission analysis · Site conditions</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section-pad steps" id="how-it-works" aria-labelledby="steps-title">
+        <div class="section-copy">
+          <p class="eyebrow">Three Steps</p>
+          <h2 id="steps-title">From location to insight.</h2>
+        </div>
+        <ol class="editorial-grid wide">
+          <li><span aria-hidden="true">01</span><h3>Choose a site.</h3><p>Select a location near the lunar south pole.</p></li>
+          <li><span aria-hidden="true">02</span><h3>Set your mission date.</h3><p>Explore changes in Sun and Earth positions over time.</p></li>
+          <li><span aria-hidden="true">03</span><h3>See the conditions.</h3><p>Inspect visibility, review potential windows, and compare locations.</p></li>
+        </ol>
+        <div class="actions"><a class="button" href="%BASE_URL%navigator.html" data-launch>Get Started <span aria-hidden="true">↗</span></a></div>
+      </section>
+
+      <section class="science dark section-pad" id="science" aria-labelledby="science-title" data-dark>
+        <div class="section-copy">
+          <p class="eyebrow">Behind the Interface</p>
+          <h2 id="science-title">Built around<br />lunar geometry.</h2>
+          <p class="lede">LUNA uses lunar terrain information and celestial position calculations to visualize how the local horizon affects sunlight and Earth visibility.</p>
+        </div>
+        <figure class="science-figure wide">
+          <img src="%BASE_URL%landing/geometry-timeline.webp" width="1694" height="1064" loading="lazy" decoding="async" alt="LUNA Geometry and timeline view plotting Sun and Earth elevation over a 24-hour mission interval" />
+          <figcaption class="visual-label">Mission geometry · Sun and Earth elevations over time</figcaption>
+        </figure>
+        <div class="editorial-grid wide">
+          <div><h3>Lunar terrain</h3><p>Terrain elevation helps establish the local horizon.</p></div>
+          <div><h3>Celestial positions</h3><p>Sun and Earth positions are evaluated for selected locations and times.</p></div>
+          <div><h3>Visibility analysis</h3><p>Apparent positions are compared with the horizon to screen potential visibility windows.</p></div>
+        </div>
+        <details class="methodology wide" id="methodology">
+          <summary>Data, methodology and limits <span aria-hidden="true">+</span></summary>
+          <div class="methodology-body">
+            <p>LUNA uses NASA JPL’s SPICE toolkit, DE440s translations, and the MOON_ME lunar frame. Where elevation data are enabled and available, LUNA samples the surrounding terrain to estimate a local horizon. Regional elevation and a higher-resolution Site04 model come from the Lunar Orbiter Laser Altimeter.</p>
+            <p>Visibility windows depend on the settings, terrain coverage, and time sampling. Small or short-lived obstructions can be missed. Earth visibility indicates a geometric opportunity for contact. Assessing an RF link or a landing requires additional evidence.</p>
+            <ul>
+              <li><a href="https://naif.jpl.nasa.gov/naif/">NASA JPL NAIF / SPICE</a></li>
+              <li><a href="https://pgda.gsfc.nasa.gov/products/90">Regional lunar south-pole DEM</a></li>
+              <li><a href="https://pgda.gsfc.nasa.gov/products/78">LOLA Site04 elevation model</a></li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <section class="audiences pale section-pad" aria-labelledby="audiences-title">
+        <div class="section-copy"><h2 id="audiences-title">Made for curious minds.</h2></div>
+        <div class="editorial-grid wide">
+          <div><h3>Mission Planners</h3><p>Explore candidate sites and potential operating conditions.</p></div>
+          <div><h3>Students and Educators</h3><p>Understand lunar geometry through interactive visualization.</p></div>
+          <div><h3>Space Enthusiasts</h3><p>Discover what makes exploration of the Moon’s south pole challenging.</p></div>
+        </div>
+      </section>
+
+      <section class="about section-pad" id="about" aria-labelledby="about-title">
+        <div class="wide about-grid">
+          <div class="section-copy">
+            <p class="eyebrow">About the Project</p>
+            <h2 id="about-title">Created to make lunar exploration more accessible.</h2>
+            <p class="lede">I’m Artem Kachan, a student and software developer from Ukraine. I created LUNA to make complex lunar exploration concepts easier to visualize, compare, and understand.</p>
+            <p>LUNA is a hackathon project focused on understanding illumination and communication constraints at candidate lunar south pole landing sites.</p>
+            <a class="text-link" href="#film" data-film-link>Explore the Demo <span aria-hidden="true">›</span></a>
+          </div>
+          <figure class="about-mark">
+            <img src="%BASE_URL%landing/logo-light.webp" width="512" height="512" loading="lazy" decoding="async" alt="LUNA logo" />
+            <figcaption class="visual-label">Artem Kachan · Ukraine<br />NASA Space Apps Challenge 2026</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="final-cta dark" aria-labelledby="final-title" data-dark>
+        <div class="section-copy">
+          <h2 id="final-title">Your journey starts<br />on the Moon.</h2>
+          <p class="lede">Explore the lunar south pole with LUNA.</p>
+          <div class="actions">
+            <a class="button" href="%BASE_URL%navigator.html" data-launch>Get Started <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#film" data-film-link>Explore the Demo <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+        <img src="%BASE_URL%landing/moon-1120.webp" width="1120" height="1120" loading="lazy" decoding="async" alt="" />
+      </section>
+    </main>
+
+    <footer class="site-footer pale">
+      <div class="wide">
+        <div class="footer-top">
+          <div>
+            <a class="wordmark" href="#explore"><img src="%BASE_URL%landing/logo-light.webp" alt="LUNA home" width="512" height="512" /></a>
+            <p>Lunar exploration, made accessible.</p>
+          </div>
+          <nav aria-label="Footer navigation">
+            <a href="#explore">Explore</a><a href="#mission">The Mission</a><a href="#how-it-works">How It Works</a>
+            <a href="#science">Science</a><a href="#about">About</a><a href="#film" data-film-link>Explore the Demo <span aria-hidden="true">›</span></a>
+          </nav>
+        </div>
+        <p class="footer-note">LUNA is an independent NASA Space Apps Challenge 2026 project for research screening and education. It has no NASA endorsement or flight qualification.</p>
+        <p class="footer-note">Image credits <a href="https://svs.gsfc.nasa.gov/5049/">Moon disk</a>, <a href="https://science.nasa.gov/resource/earth-and-sun-from-the-moons-south-pole/">Shackleton horizon</a>, <a href="https://svs.gsfc.nasa.gov/3577/">south-pole terrain</a>, <a href="https://www.nasa.gov/image-article/apollo-8-earthrise/">Earthrise</a>, and <a href="https://svs.gsfc.nasa.gov/20140/">LRO illustration</a> from NASA and NASA’s Scientific Visualization Studio.</p>
+        <div class="footer-bottom"><span>Created by Artem Kachan</span><span>© 2026 LUNA</span></div>
+      </div>
+    </footer>
+
+    <dialog class="desktop-dialog" id="desktop-dialog" aria-labelledby="desktop-title" aria-describedby="desktop-description">
+      <div class="desktop-card">
+        <p class="eyebrow">LUNA Navigator</p>
+        <h2 id="desktop-title">Continue your exploration on desktop.</h2>
+        <p id="desktop-description">LUNA’s interactive navigator is designed for a larger screen. Open this address on your computer to begin.</p>
+        <input id="desktop-address" aria-label="Desktop navigator URL" readonly spellcheck="false" />
+        <p class="local-note" data-local-note hidden>This local address opens on the computer running LUNA.</p>
+        <div class="actions">
+          <button class="button" type="button" data-copy autofocus>Copy URL</button>
+          <form method="dialog"><button class="text-link" type="submit">Return to Website</button></form>
+        </div>
+        <p class="copy-status" aria-live="polite"></p>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/landing.ts"></script>
+  </body>
+</html>
