@@ -1,0 +1,42 @@
+{
+  "verified_at_utc": "2026-11-14T11:07:38.999282+00:00",
+  "scope": "research-package-only",
+  "status": "passed",
+  "checks": [
+    "All repository JSON parses without NaN/Infinity",
+    "22 asset paths, sizes and SHA-256 hashes match",
+    "Raw and normalized Sun/Earth tables match (49 observations each)",
+    "Real DEM crop shape, lunar CRS, resolution and height metadata match",
+    "32 tasks have unique IDs, positive estimates and acyclic ordered dependencies",
+    "Authored Markdown links resolve locally",
+    "Source register snapshot paths resolve"
+  ],
+  "ephemeris_rows": {
+    "sun": 49,
+    "earth": 49
+  },
+  "raster": {
+    "shape": [
+      256,
+      256
+    ],
+    "pixel_m": [
+      5.0,
+      5.0
+    ],
+    "lunar_radius_m": 1737400,
+    "sample_height_range_m": [
+      347.6687316894531,
+      1199.0318603515625
+    ]
+  },
+  "tasks": 32,
+  "p0_hours_including_reserve": 20.5,
+  "not_verified": [
+    "Terrain horizons",
+    "Visibility/event accuracy",
+    "Application UI",
+    "Hosting",
+    "Award eligibility"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "actual_date": "2026-11-14",
+  "initial_attempts": [
+    {
+      "id": "pgda69",
+      "url": "https://pgda.gsfc.nasa.gov/products/69",
+      "status": "failed",
+      "error": "The read operation timed out"
+    },
+    {
+      "id": "pgda78",
+      "url": "https://pgda.gsfc.nasa.gov/products/78",
+      "bytes": 317341,
+      "status": "downloaded"
+    },
+    {
+      "id": "pgda90",
+      "url": "https://pgda.gsfc.nasa.gov/products/90",
+      "bytes": 27981,
+      "status": "downloaded"
+    },
+    {
+      "id": "horizons-api",
+      "url": "https://ssd-api.jpl.nasa.gov/doc/horizons.html",
+      "bytes": 112553,
+      "status": "downloaded"
+    },
+    {
+      "id": "horizons-manual",
+      "url": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+      "bytes": 229979,
+      "status": "downloaded"
+    },
+    {
+      "id": "challenge",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/",
+      "status": "failed",
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1147)>"
+    },
+    {
+      "id": "participant-faqs",
+      "url": "https://www.spaceappschallenge.org/resources/participant-faqs/",
+      "status": "failed",
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1147)>"
+    },
+    {
+      "id": "participant-guides",
+      "url": "https://www.spaceappschallenge.org/resources/",
+      "status": "failed",
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1147)>"
+    },
+    {
+      "id": "svs4930",
+      "url": "https://svs.gsfc.nasa.gov/4930/",
+      "bytes": 76169,
+      "status": "downloaded"
+    },
+    {
+      "id": "svs5228",
+      "url": "https://svs.gsfc.nasa.gov/5228/",
+      "bytes": 35152,
+      "status": "downloaded"
+    },
+    {
+      "id": "sites",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "bytes": 77567,
+      "status": "downloaded"
+    }
+  ],
+  "corrections": [
+    "Initial fetch requested PGDA90 but returned PGDA69 content; content retained as pgda69.html. PGDA90 was fetched again with a review query parameter and its title checked.",
+    "TLS verification failed for command-line Space Apps fetches; browser review succeeded. TLS verification was not disabled.",
+    "PGDA69 60 m COG URL returned a 404 page; no raster from it is included.",
+    "Site04 remote range read failed; bounded full source download and local crop succeeded."
+  ]
+}

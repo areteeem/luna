@@ -1,0 +1,28 @@
+{
+  "frame_note": "East-positive lunar geographic coordinates as in NASA source; verify frame before terrain fusion.",
+  "source_url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+  "actual_review_date": "2026-11-14",
+  "sites": [
+    {
+      "name": "Apollo 11",
+      "latitude_deg": 0.67416,
+      "longitude_east_deg": 23.47314,
+      "kind": "historical-landing",
+      "terrain_coverage_in_repo": false
+    },
+    {
+      "name": "Odysseus (IM-1)",
+      "latitude_deg": -80.13,
+      "longitude_east_deg": 1.44,
+      "kind": "historical-landing",
+      "terrain_coverage_in_repo": false
+    },
+    {
+      "name": "Chandrayaan 3",
+      "latitude_deg": -69.3741,
+      "longitude_east_deg": 32.32,
+      "kind": "historical-landing",
+      "terrain_coverage_in_repo": false
+    }
+  ]
+}

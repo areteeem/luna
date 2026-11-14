@@ -1,0 +1,39 @@
+id,priority,phase,hours,depends_on,title,acceptance,status
+T01,P0,Kickoff,0.5,,"Verify 2026 guides, advance-work ruling and Kyiv cutoff",Record exact rules and local deadlines before reuse,planned
+T02,P0,Kickoff,0.25,T01,Set up locked app environment,Build and checks run from clean clone,planned
+T03,P0,Data,1.25,T02,Fetch/cache airless geometry and add minimal custom-coordinate proxy,Preserve request/header; correct UTC/units; validated serialized online custom requests,planned
+T04,P0,Data,0.5,T03,Choose two traceable study points,Points inside Site01/Site04; exact frame and altitude documented,planned
+T05,P0,Data,0.75,T04,Acquire near/far terrain and error metadata,No nodata sectors silently treated as clear sky,planned
+T06,P0,Science,2,T05,Compute curved-surface terrain horizon,Analytic sphere and extended-range checks pass,planned
+T07,P0,Science,1.5,T06,Compute visibility windows and refine events,Disk rules explicit; interval accounting and sampling convergence pass,planned
+T08,P0,Data,0.5,T07,Freeze two showcase bundles,Date coverage and method/source hashes stored,planned
+T09,P0,Design,0.25,T08,Freeze scenario/result contract,Unknown/unsupported states and source fields explicit,planned
+T10,P0,Design,0.5,T09,Select visual direction using Product Design,Three options reviewed; choose one before UI scaffold,planned
+T11,P0,UI,0.75,T10,Build accessible comparison shell,Two independent scenarios with shared state conventions,planned
+T12,P0,UI,0.75,T11,"Add lunar polar map, presets and custom inputs",Valid Moon CRS; invalid/out-of-coverage coordinates explicit,planned
+T13,P0,UI,0.5,T12,Add date controls and delay action,A pinned; B date shifts within supported coverage,planned
+T14,P0,UI,0.5,T13,Add scenario deltas and alignment modes,UTC vs elapsed-time comparison clearly labeled,planned
+T15,P0,UI,1,T14,Render synchronized horizon and timeline,"Azimuth wrap, cursor and next-event buttons work",planned
+T16,P0,UI,0.5,T15,Add window metrics and text table,Durations/longest gaps/overlap consistent; no invented watts,planned
+T17,P0,Trust,0.5,T16,Add source drawer and model limitations,Terrain/astronomy-only and line-of-sight labels visible,planned
+T18,P0,Trust,0.5,T17,Add reproducible CSV/JSON export,"Exact settings, coverage and sources survive round trip",planned
+T19,P0,Validation,1.25,T18,Run scientific validation gates,Record real errors and convergence; remove unsupported claims,planned
+T20,P0,Validation,0.5,T19,"Check offline, errors and stale requests",No network needed for showcase after initial load,planned
+T21,P0,Validation,0.5,T20,Run mentor/novice task review,Record task results or state self-review-only limitation,planned
+T22,P0,Validation,0.5,T21,"Check browser, keyboard and narrow-screen behavior",Core task works without mouse or map,planned
+T23,P0,Validation,0.75,T22,Fix blocking issues and freeze features,No P0 defect in recorded demonstration,planned
+T24,P0,Submission,0.75,T23,"Prepare verified story, demo and source credits",Use 2026 format; show measured example and one limitation,planned
+T25,P0,Submission,0.5,T24,Verify final project page and upload,Submit before confirmed Kyiv cutoff; inspect submitted state,planned
+T26,P0,Reserve,2.75,T25,"Reserve for terrain, QA and submission overruns",Use earlier when needed; never expand scope automatically,planned
+T27,P1,Extension,1,T23,Harden live service and expand cached date coverage,"Bounded queue, cache metrics and deployment load checks",planned
+T28,P1,Extension,0.75,T23,Add optional horizontal panel proxy,All hardware assumptions visible; no battery-survival claim,planned
+T29,P1,Extension,0.75,T23,Add guided educational walkthrough,Same numerical results; definitions tested with a novice,planned
+T30,P2,Post-event,6,T23,Add SPICE local geometry and regression suite,Pinned kernels/time/frame; independent discrepancy analysis,planned
+T31,P2,Post-event,4,T23,Add 3D terrain view,Same scientific coordinates and accessible 2D fallback,planned
+T32,P2,Post-event,8,T30,Add station-specific link access,Station masks and RF assumptions validated separately,planned
+T33,P1,Interaction,0.5,T15,Add hover inspection to battery and solar chart,"Pointer and keyboard navigation select the nearest sample and show UTC, nominal/conservative battery, solar watts, load and reserve; focus and leave behavior are accessible",done
+T34,P1,Terrain,2,T05,Terrain-screen every proposed shortlist location,"Attempt detailed terrain screening for shortlisted points; display only measured candidates passing all mission-start checks; hide uncovered coordinates from lists, map markers and reports while retaining scan and terrain coverage counts",done
+T35,P1,AI and reports,3,T18,Make report and local AI workflows hardware-tolerant,"PDF/CSV/JSON export succeeds without a compatible AI GPU; local inference detects supported Mac/GPU/CPU backends, falls back safely, and explains when image review cannot run",done
+T36,P1,Reliability,2,T20,Recover the lunar map from zero-size layout and renderer errors,"Guard zero-width/height resize calls, retry after the panel becomes visible, detect renderer/context loss, and provide a bounded recovery action with diagnostics; switching views restores map use",done
+T37,P1,AI guidance,4,T27,Build a reviewable AI mission-analysis coach,"AI can read current inputs/results, explain findings, suggest parameter edits and compare better-scoring sites with evidence; proposed changes are reviewable before application and never claim landing or crew safety",done
+T38,P1,Terrain UX,1,T34,Add local visual terrain inspection at the active study point,"Capture labeled LOLA hillshade/elevation/slope views, send only to the configured on-device vision model, display qualitative findings separately from DEM measurements, and retain a clear no-model/data-gap path",done

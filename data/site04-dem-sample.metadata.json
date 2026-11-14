@@ -1,0 +1,43 @@
+{
+  "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
+  "source_shape": [
+    3200,
+    3200
+  ],
+  "source_crs_wkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]",
+  "window": [
+    1472,
+    1472,
+    256,
+    256
+  ],
+  "sample_pixel_m": [
+    5.0,
+    5.0
+  ],
+  "sample_shape": [
+    256,
+    256
+  ],
+  "source_scales": [
+    1.0
+  ],
+  "source_offsets": [
+    0.0
+  ],
+  "source_nodata": null,
+  "sample_min_raw": 347.6687316894531,
+  "sample_max_raw": 1199.0318603515625,
+  "sample_bounds_m": [
+    -1640.0,
+    -7640.0,
+    -360.0,
+    -6360.0
+  ],
+  "purpose": "Ingestion fixture, not enough terrain for horizon modeling",
+  "download_note": "Range read failed; source downloaded fully under 64 MiB cap, cropped locally. Original retained in work only.",
+  "nodata_description": "NaN",
+  "actual_retrieval_date": "2026-11-14",
+  "source_bytes": 40980806,
+  "source_sha256": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758"
+}

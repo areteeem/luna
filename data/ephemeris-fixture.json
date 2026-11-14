@@ -1,0 +1,619 @@
+{
+  "schema_version": "research-fixture-v1",
+  "retrieval_records": {
+    "sun": {
+      "actual_retrieval_date": "2026-11-14"
+    },
+    "earth": {
+      "actual_retrieval_date": "2026-11-14"
+    }
+  },
+  "mode": "astronomy-only-ingestion-fixture",
+  "frame": "MEAN_ME (Horizons header)",
+  "observer": {
+    "longitude_east_deg": 0,
+    "latitude_deg": -89.5,
+    "reference_altitude_km": 0
+  },
+  "sample_step_seconds": 3600,
+  "endpoint_included": true,
+  "limitations": [
+    "No terrain model",
+    "Not the DEM crop coordinate",
+    "Not an event-accuracy fixture"
+  ],
+  "bodies": {
+    "sun": [
+      {
+        "time_utc": "2026-11-14T00:00:00Z",
+        "azimuth_deg": 126.627333,
+        "elevation_deg": 1.258335,
+        "angular_radius_deg": 0.2697233333333333
+      },
+      {
+        "time_utc": "2026-11-14T01:00:00Z",
+        "azimuth_deg": 126.119544,
+        "elevation_deg": 1.261914,
+        "angular_radius_deg": 0.26972138888888886
+      },
+      {
+        "time_utc": "2026-11-14T02:00:00Z",
+        "azimuth_deg": 125.611763,
+        "elevation_deg": 1.265514,
+        "angular_radius_deg": 0.26971944444444446
+      },
+      {
+        "time_utc": "2026-11-14T03:00:00Z",
+        "azimuth_deg": 125.103991,
+        "elevation_deg": 1.269136,
+        "angular_radius_deg": 0.2697173611111111
+      },
+      {
+        "time_utc": "2026-11-14T04:00:00Z",
+        "azimuth_deg": 124.596228,
+        "elevation_deg": 1.272778,
+        "angular_radius_deg": 0.26971541666666665
+      },
+      {
+        "time_utc": "2026-11-14T05:00:00Z",
+        "azimuth_deg": 124.088474,
+        "elevation_deg": 1.27644,
+        "angular_radius_deg": 0.2697133333333333
+      },
+      {
+        "time_utc": "2026-11-14T06:00:00Z",
+        "azimuth_deg": 123.580728,
+        "elevation_deg": 1.280122,
+        "angular_radius_deg": 0.2697111111111111
+      },
+      {
+        "time_utc": "2026-11-14T07:00:00Z",
+        "azimuth_deg": 123.072991,
+        "elevation_deg": 1.283824,
+        "angular_radius_deg": 0.2697090277777778
+      },
+      {
+        "time_utc": "2026-11-14T08:00:00Z",
+        "azimuth_deg": 122.565263,
+        "elevation_deg": 1.287545,
+        "angular_radius_deg": 0.26970680555555554
+      },
+      {
+        "time_utc": "2026-11-14T09:00:00Z",
+        "azimuth_deg": 122.057544,
+        "elevation_deg": 1.291286,
+        "angular_radius_deg": 0.26970458333333336
+      },
+      {
+        "time_utc": "2026-11-14T10:00:00Z",
+        "azimuth_deg": 121.549834,
+        "elevation_deg": 1.295045,
+        "angular_radius_deg": 0.2697023611111111
+      },
+      {
+        "time_utc": "2026-11-14T11:00:00Z",
+        "azimuth_deg": 121.042133,
+        "elevation_deg": 1.298824,
+        "angular_radius_deg": 0.2697001388888889
+      },
+      {
+        "time_utc": "2026-11-14T12:00:00Z",
+        "azimuth_deg": 120.534441,
+        "elevation_deg": 1.30262,
+        "angular_radius_deg": 0.26969791666666665
+      },
+      {
+        "time_utc": "2026-11-14T13:00:00Z",
+        "azimuth_deg": 120.026758,
+        "elevation_deg": 1.306435,
+        "angular_radius_deg": 0.2696955555555556
+      },
+      {
+        "time_utc": "2026-11-14T14:00:00Z",
+        "azimuth_deg": 119.519085,
+        "elevation_deg": 1.310267,
+        "angular_radius_deg": 0.26969319444444445
+      },
+      {
+        "time_utc": "2026-11-14T15:00:00Z",
+        "azimuth_deg": 119.01142,
+        "elevation_deg": 1.314117,
+        "angular_radius_deg": 0.2696908333333333
+      },
+      {
+        "time_utc": "2026-11-14T16:00:00Z",
+        "azimuth_deg": 118.503765,
+        "elevation_deg": 1.317984,
+        "angular_radius_deg": 0.26968847222222225
+      },
+      {
+        "time_utc": "2026-11-14T17:00:00Z",
+        "azimuth_deg": 117.996119,
+        "elevation_deg": 1.321868,
+        "angular_radius_deg": 0.2696861111111111
+      },
+      {
+        "time_utc": "2026-11-14T18:00:00Z",
+        "azimuth_deg": 117.488482,
+        "elevation_deg": 1.325769,
+        "angular_radius_deg": 0.2696836111111111
+      },
+      {
+        "time_utc": "2026-11-14T19:00:00Z",
+        "azimuth_deg": 116.980854,
+        "elevation_deg": 1.329686,
+        "angular_radius_deg": 0.2696811111111111
+      },
+      {
+        "time_utc": "2026-11-14T20:00:00Z",
+        "azimuth_deg": 116.473236,
+        "elevation_deg": 1.333619,
+        "angular_radius_deg": 0.2696786111111111
+      },
+      {
+        "time_utc": "2026-11-14T21:00:00Z",
+        "azimuth_deg": 115.965627,
+        "elevation_deg": 1.337568,
+        "angular_radius_deg": 0.2696761111111111
+      },
+      {
+        "time_utc": "2026-11-14T22:00:00Z",
+        "azimuth_deg": 115.458028,
+        "elevation_deg": 1.341532,
+        "angular_radius_deg": 0.2696736111111111
+      },
+      {
+        "time_utc": "2026-11-14T23:00:00Z",
+        "azimuth_deg": 114.950438,
+        "elevation_deg": 1.345511,
+        "angular_radius_deg": 0.26967097222222225
+      },
+      {
+        "time_utc": "2026-11-15T00:00:00Z",
+        "azimuth_deg": 114.442858,
+        "elevation_deg": 1.349506,
+        "angular_radius_deg": 0.26966847222222223
+      },
+      {
+        "time_utc": "2026-11-15T01:00:00Z",
+        "azimuth_deg": 113.935287,
+        "elevation_deg": 1.353515,
+        "angular_radius_deg": 0.2696658333333333
+      },
+      {
+        "time_utc": "2026-11-15T02:00:00Z",
+        "azimuth_deg": 113.427726,
+        "elevation_deg": 1.357538,
+        "angular_radius_deg": 0.2696631944444445
+      },
+      {
+        "time_utc": "2026-11-15T03:00:00Z",
+        "azimuth_deg": 112.920175,
+        "elevation_deg": 1.361575,
+        "angular_radius_deg": 0.26966055555555557
+      },
+      {
+        "time_utc": "2026-11-15T04:00:00Z",
+        "azimuth_deg": 112.412633,
+        "elevation_deg": 1.365626,
+        "angular_radius_deg": 0.26965791666666666
+      },
+      {
+        "time_utc": "2026-11-15T05:00:00Z",
+        "azimuth_deg": 111.905101,
+        "elevation_deg": 1.36969,
+        "angular_radius_deg": 0.2696551388888889
+      },
+      {
+        "time_utc": "2026-11-15T06:00:00Z",
+        "azimuth_deg": 111.397578,
+        "elevation_deg": 1.373767,
+        "angular_radius_deg": 0.2696523611111111
+      },
+      {
+        "time_utc": "2026-11-15T07:00:00Z",
+        "azimuth_deg": 110.890065,
+        "elevation_deg": 1.377857,
+        "angular_radius_deg": 0.2696497222222222
+      },
+      {
+        "time_utc": "2026-11-15T08:00:00Z",
+        "azimuth_deg": 110.382562,
+        "elevation_deg": 1.381959,
+        "angular_radius_deg": 0.2696469444444445
+      },
+      {
+        "time_utc": "2026-11-15T09:00:00Z",
+        "azimuth_deg": 109.875069,
+        "elevation_deg": 1.386073,
+        "angular_radius_deg": 0.2696441666666667
+      },
+      {
+        "time_utc": "2026-11-15T10:00:00Z",
+        "azimuth_deg": 109.367586,
+        "elevation_deg": 1.390199,
+        "angular_radius_deg": 0.26964125
+      },
+      {
+        "time_utc": "2026-11-15T11:00:00Z",
+        "azimuth_deg": 108.860113,
+        "elevation_deg": 1.394337,
+        "angular_radius_deg": 0.2696384722222222
+      },
+      {
+        "time_utc": "2026-11-15T12:00:00Z",
+        "azimuth_deg": 108.352649,
+        "elevation_deg": 1.398486,
+        "angular_radius_deg": 0.26963569444444446
+      },
+      {
+        "time_utc": "2026-11-15T13:00:00Z",
+        "azimuth_deg": 107.845196,
+        "elevation_deg": 1.402645,
+        "angular_radius_deg": 0.2696327777777778
+      },
+      {
+        "time_utc": "2026-11-15T14:00:00Z",
+        "azimuth_deg": 107.337752,
+        "elevation_deg": 1.406816,
+        "angular_radius_deg": 0.2696298611111111
+      },
+      {
+        "time_utc": "2026-11-15T15:00:00Z",
+        "azimuth_deg": 106.830318,
+        "elevation_deg": 1.410996,
+        "angular_radius_deg": 0.26962694444444446
+      },
+      {
+        "time_utc": "2026-11-15T16:00:00Z",
+        "azimuth_deg": 106.322895,
+        "elevation_deg": 1.415187,
+        "angular_radius_deg": 0.2696240277777778
+      },
+      {
+        "time_utc": "2026-11-15T17:00:00Z",
+        "azimuth_deg": 105.815481,
+        "elevation_deg": 1.419386,
+        "angular_radius_deg": 0.2696211111111111
+      },
+      {
+        "time_utc": "2026-11-15T18:00:00Z",
+        "azimuth_deg": 105.308078,
+        "elevation_deg": 1.423596,
+        "angular_radius_deg": 0.26961819444444446
+      },
+      {
+        "time_utc": "2026-11-15T19:00:00Z",
+        "azimuth_deg": 104.800685,
+        "elevation_deg": 1.427814,
+        "angular_radius_deg": 0.2696151388888889
+      },
+      {
+        "time_utc": "2026-11-15T20:00:00Z",
+        "azimuth_deg": 104.293302,
+        "elevation_deg": 1.432041,
+        "angular_radius_deg": 0.26961222222222225
+      },
+      {
+        "time_utc": "2026-11-15T21:00:00Z",
+        "azimuth_deg": 103.785929,
+        "elevation_deg": 1.436276,
+        "angular_radius_deg": 0.2696091666666667
+      },
+      {
+        "time_utc": "2026-11-15T22:00:00Z",
+        "azimuth_deg": 103.278566,
+        "elevation_deg": 1.440519,
+        "angular_radius_deg": 0.2696061111111111
+      },
+      {
+        "time_utc": "2026-11-15T23:00:00Z",
+        "azimuth_deg": 102.771213,
+        "elevation_deg": 1.44477,
+        "angular_radius_deg": 0.2696030555555556
+      },
+      {
+        "time_utc": "2026-11-16T00:00:00Z",
+        "azimuth_deg": 102.263871,
+        "elevation_deg": 1.449028,
+        "angular_radius_deg": 0.2696
+      }
+    ],
+    "earth": [
+      {
+        "time_utc": "2026-11-14T00:00:00Z",
+        "azimuth_deg": 358.773423,
+        "elevation_deg": -4.148545,
+        "angular_radius_deg": 0.9008586111111111
+      },
+      {
+        "time_utc": "2026-11-14T01:00:00Z",
+        "azimuth_deg": 358.715758,
+        "elevation_deg": -4.106364,
+        "angular_radius_deg": 0.9008893055555556
+      },
+      {
+        "time_utc": "2026-11-14T02:00:00Z",
+        "azimuth_deg": 358.658024,
+        "elevation_deg": -4.063862,
+        "angular_radius_deg": 0.9009241666666667
+      },
+      {
+        "time_utc": "2026-11-14T03:00:00Z",
+        "azimuth_deg": 358.600228,
+        "elevation_deg": -4.021042,
+        "angular_radius_deg": 0.9009633333333333
+      },
+      {
+        "time_utc": "2026-11-14T04:00:00Z",
+        "azimuth_deg": 358.542374,
+        "elevation_deg": -3.977907,
+        "angular_radius_deg": 0.9010068055555556
+      },
+      {
+        "time_utc": "2026-11-14T05:00:00Z",
+        "azimuth_deg": 358.484467,
+        "elevation_deg": -3.934461,
+        "angular_radius_deg": 0.9010544444444444
+      },
+      {
+        "time_utc": "2026-11-14T06:00:00Z",
+        "azimuth_deg": 358.426512,
+        "elevation_deg": -3.890705,
+        "angular_radius_deg": 0.9011065277777778
+      },
+      {
+        "time_utc": "2026-11-14T07:00:00Z",
+        "azimuth_deg": 358.368514,
+        "elevation_deg": -3.846643,
+        "angular_radius_deg": 0.9011627777777779
+      },
+      {
+        "time_utc": "2026-11-14T08:00:00Z",
+        "azimuth_deg": 358.310478,
+        "elevation_deg": -3.802277,
+        "angular_radius_deg": 0.9012234722222222
+      },
+      {
+        "time_utc": "2026-11-14T09:00:00Z",
+        "azimuth_deg": 358.252411,
+        "elevation_deg": -3.757611,
+        "angular_radius_deg": 0.9012884722222222
+      },
+      {
+        "time_utc": "2026-11-14T10:00:00Z",
+        "azimuth_deg": 358.194315,
+        "elevation_deg": -3.712647,
+        "angular_radius_deg": 0.9013579166666666
+      },
+      {
+        "time_utc": "2026-11-14T11:00:00Z",
+        "azimuth_deg": 358.136198,
+        "elevation_deg": -3.667388,
+        "angular_radius_deg": 0.9014316666666666
+      },
+      {
+        "time_utc": "2026-11-14T12:00:00Z",
+        "azimuth_deg": 358.078065,
+        "elevation_deg": -3.621837,
+        "angular_radius_deg": 0.90151
+      },
+      {
+        "time_utc": "2026-11-14T13:00:00Z",
+        "azimuth_deg": 358.01992,
+        "elevation_deg": -3.575998,
+        "angular_radius_deg": 0.9015926388888889
+      },
+      {
+        "time_utc": "2026-11-14T14:00:00Z",
+        "azimuth_deg": 357.96177,
+        "elevation_deg": -3.529872,
+        "angular_radius_deg": 0.9016797222222223
+      },
+      {
+        "time_utc": "2026-11-14T15:00:00Z",
+        "azimuth_deg": 357.903619,
+        "elevation_deg": -3.483462,
+        "angular_radius_deg": 0.9017713888888889
+      },
+      {
+        "time_utc": "2026-11-14T16:00:00Z",
+        "azimuth_deg": 357.845473,
+        "elevation_deg": -3.436773,
+        "angular_radius_deg": 0.9018674999999999
+      },
+      {
+        "time_utc": "2026-11-14T17:00:00Z",
+        "azimuth_deg": 357.787338,
+        "elevation_deg": -3.389806,
+        "angular_radius_deg": 0.9019680555555556
+      },
+      {
+        "time_utc": "2026-11-14T18:00:00Z",
+        "azimuth_deg": 357.72922,
+        "elevation_deg": -3.342564,
+        "angular_radius_deg": 0.9020731944444444
+      },
+      {
+        "time_utc": "2026-11-14T19:00:00Z",
+        "azimuth_deg": 357.671123,
+        "elevation_deg": -3.295051,
+        "angular_radius_deg": 0.9021829166666666
+      },
+      {
+        "time_utc": "2026-11-14T20:00:00Z",
+        "azimuth_deg": 357.613054,
+        "elevation_deg": -3.24727,
+        "angular_radius_deg": 0.9022972222222222
+      },
+      {
+        "time_utc": "2026-11-14T21:00:00Z",
+        "azimuth_deg": 357.555019,
+        "elevation_deg": -3.199222,
+        "angular_radius_deg": 0.9024159722222223
+      },
+      {
+        "time_utc": "2026-11-14T22:00:00Z",
+        "azimuth_deg": 357.497023,
+        "elevation_deg": -3.150912,
+        "angular_radius_deg": 0.9025394444444444
+      },
+      {
+        "time_utc": "2026-11-14T23:00:00Z",
+        "azimuth_deg": 357.439072,
+        "elevation_deg": -3.102343,
+        "angular_radius_deg": 0.9026675000000001
+      },
+      {
+        "time_utc": "2026-11-15T00:00:00Z",
+        "azimuth_deg": 357.381171,
+        "elevation_deg": -3.053516,
+        "angular_radius_deg": 0.9028001388888889
+      },
+      {
+        "time_utc": "2026-11-15T01:00:00Z",
+        "azimuth_deg": 357.323327,
+        "elevation_deg": -3.004436,
+        "angular_radius_deg": 0.9029373611111111
+      },
+      {
+        "time_utc": "2026-11-15T02:00:00Z",
+        "azimuth_deg": 357.265546,
+        "elevation_deg": -2.955105,
+        "angular_radius_deg": 0.9030793055555556
+      },
+      {
+        "time_utc": "2026-11-15T03:00:00Z",
+        "azimuth_deg": 357.207834,
+        "elevation_deg": -2.905526,
+        "angular_radius_deg": 0.9032259722222222
+      },
+      {
+        "time_utc": "2026-11-15T04:00:00Z",
+        "azimuth_deg": 357.150196,
+        "elevation_deg": -2.855702,
+        "angular_radius_deg": 0.9033772222222222
+      },
+      {
+        "time_utc": "2026-11-15T05:00:00Z",
+        "azimuth_deg": 357.092639,
+        "elevation_deg": -2.805637,
+        "angular_radius_deg": 0.9035333333333333
+      },
+      {
+        "time_utc": "2026-11-15T06:00:00Z",
+        "azimuth_deg": 357.035169,
+        "elevation_deg": -2.755333,
+        "angular_radius_deg": 0.9036940277777777
+      },
+      {
+        "time_utc": "2026-11-15T07:00:00Z",
+        "azimuth_deg": 356.977792,
+        "elevation_deg": -2.704793,
+        "angular_radius_deg": 0.9038594444444444
+      },
+      {
+        "time_utc": "2026-11-15T08:00:00Z",
+        "azimuth_deg": 356.920514,
+        "elevation_deg": -2.65402,
+        "angular_radius_deg": 0.9040295833333333
+      },
+      {
+        "time_utc": "2026-11-15T09:00:00Z",
+        "azimuth_deg": 356.863341,
+        "elevation_deg": -2.603018,
+        "angular_radius_deg": 0.9042044444444445
+      },
+      {
+        "time_utc": "2026-11-15T10:00:00Z",
+        "azimuth_deg": 356.806279,
+        "elevation_deg": -2.551789,
+        "angular_radius_deg": 0.9043841666666667
+      },
+      {
+        "time_utc": "2026-11-15T11:00:00Z",
+        "azimuth_deg": 356.749335,
+        "elevation_deg": -2.500337,
+        "angular_radius_deg": 0.9045686111111112
+      },
+      {
+        "time_utc": "2026-11-15T12:00:00Z",
+        "azimuth_deg": 356.692516,
+        "elevation_deg": -2.448664,
+        "angular_radius_deg": 0.9047577777777778
+      },
+      {
+        "time_utc": "2026-11-15T13:00:00Z",
+        "azimuth_deg": 356.635826,
+        "elevation_deg": -2.396774,
+        "angular_radius_deg": 0.9049518055555555
+      },
+      {
+        "time_utc": "2026-11-15T14:00:00Z",
+        "azimuth_deg": 356.579274,
+        "elevation_deg": -2.344669,
+        "angular_radius_deg": 0.9051505555555556
+      },
+      {
+        "time_utc": "2026-11-15T15:00:00Z",
+        "azimuth_deg": 356.522865,
+        "elevation_deg": -2.292354,
+        "angular_radius_deg": 0.9053541666666667
+      },
+      {
+        "time_utc": "2026-11-15T16:00:00Z",
+        "azimuth_deg": 356.466605,
+        "elevation_deg": -2.23983,
+        "angular_radius_deg": 0.9055625
+      },
+      {
+        "time_utc": "2026-11-15T17:00:00Z",
+        "azimuth_deg": 356.410501,
+        "elevation_deg": -2.187101,
+        "angular_radius_deg": 0.9057758333333333
+      },
+      {
+        "time_utc": "2026-11-15T18:00:00Z",
+        "azimuth_deg": 356.35456,
+        "elevation_deg": -2.134171,
+        "angular_radius_deg": 0.9059938888888889
+      },
+      {
+        "time_utc": "2026-11-15T19:00:00Z",
+        "azimuth_deg": 356.298788,
+        "elevation_deg": -2.081042,
+        "angular_radius_deg": 0.9062168055555556
+      },
+      {
+        "time_utc": "2026-11-15T20:00:00Z",
+        "azimuth_deg": 356.243192,
+        "elevation_deg": -2.027718,
+        "angular_radius_deg": 0.9064444444444444
+      },
+      {
+        "time_utc": "2026-11-15T21:00:00Z",
+        "azimuth_deg": 356.187778,
+        "elevation_deg": -1.974201,
+        "angular_radius_deg": 0.9066770833333333
+      },
+      {
+        "time_utc": "2026-11-15T22:00:00Z",
+        "azimuth_deg": 356.132553,
+        "elevation_deg": -1.920495,
+        "angular_radius_deg": 0.9069145833333333
+      },
+      {
+        "time_utc": "2026-11-15T23:00:00Z",
+        "azimuth_deg": 356.077523,
+        "elevation_deg": -1.866604,
+        "angular_radius_deg": 0.9071569444444444
+      },
+      {
+        "time_utc": "2026-11-16T00:00:00Z",
+        "azimuth_deg": 356.022696,
+        "elevation_deg": -1.812529,
+        "angular_radius_deg": 0.9074040277777778
+      }
+    ]
+  }
+}

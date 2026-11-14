@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "actual_initial_preparation_date": "2026-11-14",
+  "assets": [
+    {
+      "path": "data/README.md",
+      "bytes": 2287,
+      "sha256": "0f7989a4327cdba1ddc009b5b87f7778efb774a4cb1b1f70a434b3c5267041e5"
+    },
+    {
+      "path": "data/acquisition-log.json",
+      "bytes": 2652,
+      "sha256": "3d9a1623333edf10dc6728859d48b6839f0ade2b5f713bd07f863ce381e9f5c4"
+    },
+    {
+      "path": "data/earth-horizons.json",
+      "bytes": 9705,
+      "sha256": "67e9be158306f0b6888e5d1e41bcbc48a5364a95bf63d2b0bc42191fc8548b1c"
+    },
+    {
+      "path": "data/earth-request.json",
+      "bytes": 519,
+      "sha256": "bc135e0dc58d640e871c73f95135915f63902da5230495d0ab71ad695237b8c6"
+    },
+    {
+      "path": "data/ephemeris-fixture.csv",
+      "bytes": 6541,
+      "sha256": "31494f991e5e2d1ceb1cc434c7ab6884f0bdeb1ad1ebe2f4c3ba99ba83d5cd43"
+    },
+    {
+      "path": "data/ephemeris-fixture.json",
+      "bytes": 18289,
+      "sha256": "49a07d750d1b9fa62138f6c9d4f9b6ecb503f6d2309b74551de88742ef4d3899"
+    },
+    {
+      "path": "data/historical-sites.json",
+      "bytes": 824,
+      "sha256": "92cfe3f36d7ee3b0167c755debd6fb3d0ac874a619948eb619a391f76f8b0e12"
+    },
+    {
+      "path": "data/horizons-api.html",
+      "bytes": 112553,
+      "sha256": "6ca45d9c222d6e5c425ae3e0a3c44225cf8b6d30c4a14892b0f1157b0ab4cfe4"
+    },
+    {
+      "path": "data/horizons-manual.html",
+      "bytes": 229979,
+      "sha256": "be45b0137b37068c48760bbaf306f52a72c10239c175ba91119a30eb30612a81"
+    },
+    {
+      "path": "data/lola-readme.txt",
+      "bytes": 1829,
+      "sha256": "e985a2337c9de1cd665b0ddad8b7f1fac88d65c96d1e47d1b975a91c8e53e7bd"
+    },
+    {
+      "path": "data/moon-trek-api.html",
+      "bytes": 1551,
+      "sha256": "fb30a36aa707c5c9cd33411698a52d1949e2eec1e0b1bebbb209b805d5972a82"
+    },
+    {
+      "path": "data/naif-frame.txt",
+      "bytes": 21437,
+      "sha256": "78732477b96f9863e7b0d65bcee3c22b8707ca5ed0db56d1173319cb2e8c7993"
+    },
+    {
+      "path": "data/pgda69.html",
+      "bytes": 27981,
+      "sha256": "aca046555f29da9fcbe926c0b90450ce69e78a44cc406bc2a60d9a010eb3fe42"
+    },
+    {
+      "path": "data/pgda78.html",
+      "bytes": 317341,
+      "sha256": "46d07b37c38c30013e0c71bd61b24e22a9a44d657654328974552e671f376416"
+    },
+    {
+      "path": "data/pgda90.html",
+      "bytes": 30348,
+      "sha256": "cd41983f4a9fa1ac3d065bee5cee5c0aa920cac5b2157cd7a1d7a66064452634"
+    },
+    {
+      "path": "data/site04-dem-sample.metadata.json",
+      "bytes": 1382,
+      "sha256": "7880dc0db947e169d5cd90bba153c16b673b46f249212cef368c88af7e4637f2"
+    },
+    {
+      "path": "data/site04-dem-sample.tif",
+      "bytes": 246789,
+      "sha256": "cad57fd2c3e0ddc24eaa16f3ab8d102b05ac90b147207dd487651be31e895fe4"
+    },
+    {
+      "path": "data/sites.html",
+      "bytes": 77567,
+      "sha256": "586aef752114a651b5a056299fdf2d850b6dfbb418580f49b6c099dfe70e705f"
+    },
+    {
+      "path": "data/sun-horizons.json",
+      "bytes": 9705,
+      "sha256": "c28accb28d462529c8ae833c878bb17fca21ec9026dcf8c4d3a5717d10e88774"
+    },
+    {
+      "path": "data/sun-request.json",
+      "bytes": 518,
+      "sha256": "4c52708fbd94840556802e5b3e5eb70723c7e0298f58ce37a36052bdbda77b39"
+    },
+    {
+      "path": "data/svs4930.html",
+      "bytes": 76169,
+      "sha256": "7ccf348dbf11ef5b19ab4ff52dfc893f8f435e9f30ebf782b65765fba9ddce00"
+    },
+    {
+      "path": "data/svs5228.html",
+      "bytes": 35152,
+      "sha256": "de25b40a9a29ff5cf231da794fa627f2981dca1dfa96273dda6546077572d4d2"
+    }
+  ]
+}

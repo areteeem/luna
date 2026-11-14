@@ -1,0 +1,206 @@
+{
+  "scope": "Selected NASA science/data sources and official Space Apps administrative sources; not an exhaustive inventory",
+  "sources": [
+    {
+      "id": "challenge",
+      "title": "Lunar Landing Site Navigator",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/",
+      "owner": "Official Space Apps",
+      "review_date": "2026-11-14",
+      "status": "browser-reviewed",
+      "use_and_limitations": "Authoritative objectives; full Details tab matched pasted brief."
+    },
+    {
+      "id": "faq",
+      "title": "2026 Participant FAQs",
+      "url": "https://www.spaceappschallenge.org/resources/participant-faqs/",
+      "owner": "Official Space Apps",
+      "review_date": "2026-11-14",
+      "status": "browser-reviewed",
+      "use_and_limitations": "Advance-work restriction; local solo eligibility; guides released Nov 13. Not a dataset."
+    },
+    {
+      "id": "2026",
+      "title": "2026 event and submission dates",
+      "url": "https://www.spaceappschallenge.org/2026/",
+      "owner": "Official Space Apps",
+      "review_date": "2026-11-14",
+      "status": "web-reviewed",
+      "use_and_limitations": "General submission window; verify Kyiv-specific end time."
+    },
+    {
+      "id": "pgda78",
+      "title": "High-resolution LOLA South Pole Sites",
+      "url": "https://pgda.gsfc.nasa.gov/products/78",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Site-specific 5 m terrain, uncertainty, slopes, ROI and ensembles; core near-field source.",
+      "snapshot": "data/pgda78.html"
+    },
+    {
+      "id": "lola-readme",
+      "title": "LOLA 5 m product README",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/README",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "MOON_ME/DE421 frame; pixel centers; height and error units; site names.",
+      "snapshot": "data/lola-readme.txt"
+    },
+    {
+      "id": "dem",
+      "title": "Site04 Shackleton rim elevation",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded-crop",
+      "use_and_limitations": "Full source downloaded under cap, crop retained; insufficient extent for horizon.",
+      "snapshot": "data/site04-dem-sample.tif"
+    },
+    {
+      "id": "pgda90",
+      "title": "A New View of the Lunar South Pole",
+      "url": "https://pgda.gsfc.nasa.gov/products/90",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Regional COG terrain, effective resolution and errors; 20 m DEM listed at 2.6 GB, not downloaded.",
+      "snapshot": "data/pgda90.html"
+    },
+    {
+      "id": "pgda81",
+      "title": "South Pole LOLA DEM Mosaic",
+      "url": "https://pgda.gsfc.nasa.gov/products/81",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "web-reviewed",
+      "use_and_limitations": "Alternative 5 m regional mosaic, too large for core browser payload."
+    },
+    {
+      "id": "pgda69",
+      "title": "Lunar Polar Illumination",
+      "url": "https://pgda.gsfc.nasa.gov/products/69",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Long-term averages; not date-specific windows. One tested COG link returned 404.",
+      "snapshot": "data/pgda69.html"
+    },
+    {
+      "id": "horizons-api",
+      "title": "JPL Horizons API documentation",
+      "url": "https://ssd-api.jpl.nasa.gov/doc/horizons.html",
+      "owner": "NASA JPL SSD",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Core astronomy API; live responses preserved for Sun/Earth.",
+      "snapshot": "data/horizons-api.html"
+    },
+    {
+      "id": "horizons-manual",
+      "title": "JPL Horizons manual",
+      "url": "https://ssd.jpl.nasa.gov/horizons/manual.html",
+      "owner": "NASA JPL SSD",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Observer frame, time, quantities and airless conventions.",
+      "snapshot": "data/horizons-manual.html"
+    },
+    {
+      "id": "trek",
+      "title": "Moon Trek WMTS API",
+      "url": "https://trek.nasa.gov/tiles/apidoc/",
+      "owner": "NASA Solar System Treks",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Map context; actual polar layer/capabilities/CORS still need testing.",
+      "snapshot": "data/moon-trek-api.html"
+    },
+    {
+      "id": "sites",
+      "title": "Spacecraft and artificial objects on the Moon",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "owner": "NASA GSFC",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Historical coordinates; distinguish real landing coordinates from study points.",
+      "snapshot": "data/sites.html"
+    },
+    {
+      "id": "svs4930",
+      "title": "South pole illumination 2023\u20132030",
+      "url": "https://svs.gsfc.nasa.gov/4930/",
+      "owner": "NASA SVS",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Qualitative temporal shadow reference, not numerical ground truth at arbitrary coordinates.",
+      "snapshot": "data/svs4930.html"
+    },
+    {
+      "id": "svs5228",
+      "title": "Lunar South Pole Illumination with Earth and Sun",
+      "url": "https://svs.gsfc.nasa.gov/5228/",
+      "owner": "NASA SVS",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Visual grounding for horizon view; page retained, media not downloaded.",
+      "snapshot": "data/svs5228.html"
+    },
+    {
+      "id": "naif-frame",
+      "title": "Lunar frame definitions",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_080317.tf",
+      "owner": "NASA JPL NAIF",
+      "review_date": "2026-11-14",
+      "status": "downloaded",
+      "use_and_limitations": "Review of DE421 lunar frame conventions; not a complete SPICE setup.",
+      "snapshot": "data/naif-frame.txt"
+    },
+    {
+      "id": "spice",
+      "title": "NAIF SPICE Toolkit",
+      "url": "https://naif.jpl.nasa.gov/naif/toolkit.html",
+      "owner": "NASA JPL NAIF",
+      "review_date": "2026-11-14",
+      "status": "catalog-only",
+      "use_and_limitations": "Post-event local geometry route; no toolkit/kernel-set verification claimed."
+    },
+    {
+      "id": "spk",
+      "title": "Planetary ephemeris kernels",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/",
+      "owner": "NASA JPL NAIF",
+      "review_date": "2026-11-14",
+      "status": "catalog-only",
+      "use_and_limitations": "Pin translation kernel version and coverage if implementing SPICE."
+    },
+    {
+      "id": "pck",
+      "title": "Orientation kernels",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/",
+      "owner": "NASA JPL NAIF",
+      "review_date": "2026-11-14",
+      "status": "catalog-only",
+      "use_and_limitations": "Pair lunar orientation with the selected frame; never use an arbitrary latest file."
+    },
+    {
+      "id": "lsk",
+      "title": "Leap-second kernels",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/",
+      "owner": "NASA JPL NAIF",
+      "review_date": "2026-11-14",
+      "status": "catalog-only",
+      "use_and_limitations": "UTC to ET support for future SPICE backend."
+    },
+    {
+      "id": "svs5027",
+      "title": "South pole illumination 2025\u20132028",
+      "url": "https://svs.gsfc.nasa.gov/5027/",
+      "owner": "NASA SVS",
+      "review_date": "2026-11-14",
+      "status": "catalog-only",
+      "use_and_limitations": "Wider-area visual reference suggested in notes; recheck before use."
+    }
+  ]
+}
