@@ -1,0 +1,46 @@
+import type { Preferences } from "./preferences";
+import { createContext, useContext } from "react";
+import type { Geometry, Study, Annotation } from "./study";
+import type { MapActions, MapTool } from "./MapView";
+import type { LunarPoint, RouteOverlay } from "./surfaceRoutes";
+export type WorkspaceValue = {
+  preferences: Preferences;
+  setPreferences: (p: Preferences) => void;
+  openPreferences: (section?: string) => void;
+  exportFile: (format: string) => Promise<void>;
+  previewReport: () => Promise<void>;
+  undo: (redo?: boolean) => void;
+  arrangeLayout: (preset: string) => void;
+  study: Study;
+  projects: Study[];
+  update: (p: Partial<Study>) => void;
+  addStudy: (study: Study) => void;
+  geometry?: Geometry;
+  compare?: Geometry;
+  computing: boolean;
+  error: string;
+  recalculate: () => void;
+  mapActions: React.RefObject<MapActions | null>;
+  tool: MapTool;
+  setTool: (t: MapTool) => void;
+  walkMode: boolean;
+  setWalkMode: (enabled: boolean) => void;
+  notify: (s: string) => void;
+  selectedAnnotation: string | null;
+  selectAnnotation: (id: string | null) => void;
+  addAnnotation: (a: Annotation) => void;
+  routeOverlay: RouteOverlay | null;
+  setRouteOverlay: (overlay: RouteOverlay | null) => void;
+  setRoutePicker: (pick: ((point: LunarPoint) => void) | null) => void;
+  pickRoutePoint: (point: LunarPoint) => boolean;
+  showRouteMap: () => void;
+  showPanel: (id: string) => void;
+  openHelp: () => void;
+  runTour: () => void;
+};
+export const WorkspaceContext = createContext<WorkspaceValue | null>(null);
+export function useWorkspace() {
+  const value = useContext(WorkspaceContext);
+  if (!value) throw new Error("Workspace unavailable");
+  return value;
+}
