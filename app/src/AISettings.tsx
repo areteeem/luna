@@ -374,7 +374,9 @@ export default function AISettingsPanel() {
             offline use. Text/JSON/CSV attachments work; this text-model flow
             does not accept images.
           </p>
-          <p className="hint">If this device has no usable WebGPU, LUNA can retry text requests through a connected local Ollama model. Ollama uses the hardware backends available on macOS and other systems, with CPU inference as a slower fallback. PDF and data exports do not need an AI model.</p>
+          <p className="hint">{hosted
+            ? "If WebGPU is unavailable, choose Ollama above to connect to a model on this device. PDF and data exports do not need an AI model."
+            : "If this device has no usable WebGPU, LUNA can retry through a connected local Ollama model. PDF and data exports do not need an AI model."}</p>
           <button
             disabled={busy}
             onClick={() =>
@@ -409,7 +411,9 @@ export default function AISettingsPanel() {
           </p>
           {cfg.provider === "ollama" && (
             <p className={status.resources.ollama_running ? "hint" : "warning"}>
-              Local server {status.resources.ollama_running ? "is running" : "is stopped"} · {status.resources.ollama_installed ? "Ollama installed" : "Ollama not installed"}
+              {hosted
+                ? status.providers.ollama?.connected ? "Ollama connected for this session." : "Ollama is not connected in this browser."
+                : `Local server ${status.resources.ollama_running ? "is running" : "is stopped"} · ${status.resources.ollama_installed ? "Ollama installed" : "Ollama not installed"}`}
             </p>
           )}
           <p className="hint">{status.resources.estimate_note}</p>
