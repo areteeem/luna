@@ -1,3 +1,5 @@
+import { scienceRequest } from "./scienceClient";
+import { hosted } from "./runtime";
 import ChatPanel from "./ChatPanel";
 import FrostedBackdrop from "./FrostedBackdrop";
 import HelpGuide from "./HelpGuide";
@@ -190,7 +192,7 @@ function useGeometry(study: Study | null, scenario: "A" | "B") {
       try {
         const payload = JSON.parse(key);
         if (revision) payload._recalculation = revision;
-        const response = await fetch("/api/geometry", {
+        const response = await scienceRequest("/api/geometry", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -633,6 +635,7 @@ export default function App() {
     return () => clearTimeout(t);
   }, [workspace, notify, preferences.autosaveMs]);
   useEffect(() => {
+    if (hosted) return;
     let live = true;
     const refreshTasks = async () => {
       const [offline, ai] = await Promise.allSettled([

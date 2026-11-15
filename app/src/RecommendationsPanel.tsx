@@ -1,3 +1,4 @@
+import { scienceRequest } from "./scienceClient";
 import { useEffect, useRef, useState } from "react";
 import { useWorkspace } from "./WorkspaceContext";
 import { geometryKey, activeSite } from "./study";
@@ -60,7 +61,7 @@ export function RecommendationsPanel() {
     setBusy(true); setError(""); setReviews({});
     try {
       const payload = JSON.parse(fingerprint);
-      const response = await fetch("/api/recommendations", {
+      const response = await scienceRequest("/api/recommendations", {
         method: "POST", signal:controller.signal, headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload, area_scope: scope, radius_km: radius,
           ...(scope === "region" && region ? {region:region.coordinates,region_id:region.id} : {}), analysis: { ...SCIENCE_DEFAULTS, ...s.analysis, enabled: true } }),

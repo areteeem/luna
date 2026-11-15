@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import { useEffect, useState } from "react";
 import { useWorkspace } from "./WorkspaceContext";
 import { aiAPI, browserModels, loadBrowserModel } from "./ai";
@@ -157,8 +158,9 @@ export default function AISettingsPanel() {
         </div>
       </details>
       <nav className="ai-provider-options" aria-label="AI provider">
-        {([['ollama', 'Ollama', 'Local runtime'], ['browser', 'WebGPU', 'Runs in this browser'], ['openai', 'OpenAI', 'Cloud API'], ['gemini', 'Gemini', 'Cloud API']] as const).map(([provider, title, detail]) => <button key={provider} type="button" aria-pressed={cfg.provider === provider} onClick={() => { edit({ provider, model: "" }); setAck(false); }}><strong>{title}</strong><small>{detail}</small></button>)}
+        {([['ollama', 'Ollama', 'Local runtime'], ['browser', 'WebGPU', 'Runs in this browser'], ['openai', 'OpenAI', 'Cloud API'], ['gemini', 'Gemini', 'Cloud API']] as const).filter(([provider]) => !hosted || provider === "ollama" || provider === "browser").map(([provider, title, detail]) => <button key={provider} type="button" aria-pressed={cfg.provider === provider} onClick={() => { edit({ provider, model: "" }); setAck(false); }}><strong>{title}</strong><small>{detail}</small></button>)}
       </nav>
+      {hosted ? <p className="hint">WebGPU and Ollama use this device. OpenAI and Gemini are available in the installed editor.</p> : <>
       <p className="hint">Cloud providers receive the study context and files you choose to share. Web searches originate from this computer; search results and opened page text are sent to the selected AI provider. Ollama and WebGPU run locally on this device. Review proposed AI changes and computed assumptions before relying on them.</p>
       <p>
         Connect a cloud provider, use Ollama, or download a WebGPU model
@@ -166,6 +168,7 @@ export default function AISettingsPanel() {
         attachments you select to that provider. Keys stay in the local server's
         memory and must be re-entered after a restart.
       </p>
+      </>}
       <label className="field">
         Active provider
         <select
@@ -178,13 +181,13 @@ export default function AISettingsPanel() {
             setAck(false);
           }}
         >
-          <option value="openai">OpenAI API</option>
-          <option value="gemini">Gemini API</option>
+          {!hosted && <option value="openai">OpenAI API</option>}
+          {!hosted && <option value="gemini">Gemini API</option>}
           <option value="ollama">Ollama · local runtime</option>
           <option value="browser">Browser-local · WebLLM / WebGPU</option>
         </select>
       </label>
-      {["openai", "gemini"].includes(cfg.provider) && (
+      {!hosted && ["openai", "gemini"].includes(cfg.provider) && (
         <>
           <label className="field">
             Credential provider
@@ -252,7 +255,18 @@ export default function AISettingsPanel() {
           </button>
         </>
       )}
-      {cfg.provider === "ollama" && (
+      {hosted && cfg.provider === "ollama" && (
+        <>
+          <p>Start Ollama on this device and add <code>{window.location.origin}</code> to <code>OLLAMA_ORIGINS</code>. Keep the listener on loopback and allow local network access if your browser asks.</p>
+          <button disabled={busy} onClick={() => run(async () => {
+            const result = await aiAPI<{ models: { id: string }[] }>("connect", { provider: "ollama" });
+            edit({ model: result.models[0]?.id || "" });
+            setMessage(result.models.length ? "Ollama connected." : "No local models found. Install a model with Ollama or use WebGPU.");
+          })}>Connect / refresh installed models</button>
+          <button type="button" onClick={() => { edit({ provider: "browser", model: "" }); setMessage(""); }}>Use WebGPU</button>
+        </>
+      )}
+      {!hosted && cfg.provider === "ollama" && (
         <>
           <p>
             Ollama endpoint: 127.0.0.1:11434. No cloud key or custom remote
@@ -456,14 +470,14 @@ export default function AISettingsPanel() {
           />
         </div>
       )}
-      {cfg.provider === "ollama" && (
+      {!hosted && cfg.provider === "ollama" && (
         <p className="hint">
           {recommended
             ? `Suggested for this computer: ${recommended.id}. This leaves memory headroom; GPU support and speed still vary.`
             : "No listed model fits current available memory and disk with headroom. You can still review estimates before choosing."}
         </p>
       )}
-      {cfg.provider === "ollama" && (
+      {!hosted && cfg.provider === "ollama" && (
         <button
           disabled={busy || (insufficient && !ack)}
           onClick={() =>
@@ -637,11 +651,11 @@ export default function AISettingsPanel() {
           value={cfg.shareResults}
           onChange={(shareResults) => edit({ shareResults })}
         />
-        <Check
+        {!hosted && <Check
           label="Allow web browsing (search from this computer)"
           value={cfg.allowWebBrowsing}
           onChange={(allowWebBrowsing) => edit({ allowWebBrowsing })}
-        />
+        />}
         <Check
           label="Allow reversible app edits"
           value={cfg.allowEdits}

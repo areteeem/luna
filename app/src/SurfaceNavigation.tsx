@@ -1,3 +1,4 @@
+import { scienceRequest } from "./scienceClient";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, Trash, Crosshair, Plus, X } from "@phosphor-icons/react";
 import { activeSite, surfaceDistance, uid } from "./study";
@@ -194,7 +195,7 @@ function RoutePlanner({ initialLander }: { initialLander: LunarPoint }) {
       controller.abort();
     }, 25_000);
     try {
-      const response = await fetch("/api/routes", {
+      const response = await scienceRequest("/api/routes", {
         method: "POST", signal: controller.signal, headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lander: draft.lander, stops: draft.stops.map(stop => stop.point), avoid: draft.avoid, mobility,

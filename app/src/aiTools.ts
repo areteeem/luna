@@ -1,3 +1,4 @@
+import { scienceRequest } from "./scienceClient";
 import { DEFAULT_REPORT } from "./preferences";
 import { createStudy, geometryKey, isStudy, uid, newSatellite } from "./study";
 import type { Geometry, MissionEvent, Study, Annotation } from "./study";
@@ -732,7 +733,7 @@ export async function executeActions(
               enabled: true,
             },
           });
-          const response = await fetch("/api/geometry", {
+          const response = await scienceRequest("/api/geometry", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: geometryKey(current, current.active),
@@ -746,7 +747,7 @@ export async function executeActions(
           const radius = Number(action.radius_km ?? 2);
           if (!Number.isFinite(radius) || radius < 0.1 || radius > 20)
             throw new Error("Search radius must be 0.1-20 km");
-          const response = await fetch("/api/recommendations", {
+          const response = await scienceRequest("/api/recommendations", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -770,7 +771,7 @@ export async function executeActions(
           const radius = Number(action.radius_km ?? 2);
           if (!Number.isFinite(radius) || radius < 0.1 || radius > 20)
             throw new Error("Search radius must be 0.1-20 km");
-          const response = await fetch("/api/recommendations", {
+          const response = await scienceRequest("/api/recommendations", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

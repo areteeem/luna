@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import { useEffect, useState } from "react";
 import { useWorkspace } from "./WorkspaceContext";
 import { activeSite } from "./study";
@@ -32,6 +33,11 @@ async function api<T>(path: string, data?: unknown): Promise<T> {
   return body;
 }
 export default function OfflinePanel() {
+  if (hosted) return <><h2>Offline maps</h2><p>Use the installed editor to download offline map packs.</p></>;
+  return <LocalOfflinePanel />;
+}
+
+function LocalOfflinePanel() {
   const w = useWorkspace(),
     point = activeSite(w.study);
   const [status, setStatus] = useState<OfflineStatus>(),

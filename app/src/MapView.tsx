@@ -1,3 +1,5 @@
+import { hosted } from "./runtime";
+import { moonLayers, moonTileUrl } from "./moonTiles";
 import { missionFrame, missionRoute, routePlayback } from "./missionPlayback";
 import { aboveTerrain, renderedGroundHeight, terrainOverlays, visibleSurfaceMarker } from "./terrainOverlays";
 import { clearsAvoidAreas } from "./routeAvoidance";
@@ -48,16 +50,10 @@ const R = 1737400;
 const ellipsoid = new C.Ellipsoid(R, R, R);
 const cart = (lon: number, lat: number, height = 100) =>
   C.Cartesian3.fromDegrees(lon, lat, height, ellipsoid);
-const layers = {
-  imagery: { id: "LRO_WAC_Mosaic_Global_303ppd_v02", ext: "jpg", max: 8 },
-  elevation: { id: "LRO_LOLA_ClrShade_Global_256ppd_v06", ext: "png", max: 6 },
-  hillshade: { id: "LRO_LOLA_Shade_Global_128ppd_v04", ext: "png", max: 5 },
-  slope: { id: "LRO_LOLA_ClrSlope_Global_16ppd", ext: "png", max: 2 },
-};
 const imageryProvider = (surfaceLayer: Study["layer"]) => {
-  const layer = layers[surfaceLayer];
+  const layer = moonLayers[surfaceLayer];
   return new C.UrlTemplateImageryProvider({
-    url: `/api/tiles/${surfaceLayer}/{z}/{y}/{x}.${layer.ext}`,
+    url: moonTileUrl(surfaceLayer, hosted, "{z}", "{y}", "{x}"),
     tilingScheme: new C.GeographicTilingScheme({
       ellipsoid,
       numberOfLevelZeroTilesX: 2,
@@ -93,6 +89,8 @@ export default function MapView({
   const enhanced3d = preferences.hardware3d && !(preferences.performanceGuard && lowPerformanceDevice);
   const [autoImage, setAutoImage] = useState(prefersImageMap);
   const [terrainError, setTerrainError] = useState("");
+  const [imageryFailed, setImageryFailed] = useState(false);
+  const [imageryAttempt, setImageryAttempt] = useState(0);
   const imageMode = preferences.terrainMode === "image" || (preferences.terrainMode === "auto" && autoImage);
   const effectiveView = imageMode ? "2d" : study.view;
   const route = useMemo(() => routePlayback(missionRoute(
@@ -872,7 +870,7 @@ export default function MapView({
     v.scene.globe.tileCacheSize = quality.cache;
     v.resolutionScale = imageMode ? Math.min(1, devicePixelRatio) : Math.min(devicePixelRatio, quality.scale);
     v.scene.globe.depthTestAgainstTerrain = !imageMode;
-    v.terrainProvider = imageMode ? new C.EllipsoidTerrainProvider({ ellipsoid }) : createLunarTerrain(ellipsoid, quality.level, (message) => {
+    v.terrainProvider = (hosted || imageMode) ? new C.EllipsoidTerrainProvider({ ellipsoid }) : createLunarTerrain(ellipsoid, quality.level, (message) => {
       if (disposed || v.isDestroyed()) return;
       setTerrainError(message);
       v.terrainProvider = new C.EllipsoidTerrainProvider({ ellipsoid });
@@ -889,7 +887,7 @@ export default function MapView({
   }, [imageMode, preferences.terrainExaggeration]);
   useEffect(() => {
     const v = viewer.current;
-    if (!v || !preferences.adaptiveTerrain || imageMode) return;
+    if (!v || hosted || !preferences.adaptiveTerrain || imageMode) return;
     let previous = 0, total = 0, count = 0, moving = false;
     const removeStart = v.camera.moveStart.addEventListener(() => { moving = true; previous = 0; });
     const removeEnd = v.camera.moveEnd.addEventListener(() => { moving = false; total = 0; count = 0; });
@@ -918,6 +916,7 @@ export default function MapView({
     const v = viewer.current;
     if (!v) return;
     setTiles("Loading NASA imagery…");
+    setImageryFailed(false);
     // If a previous crossfade was interrupted, keep its incoming layer as the
     // current surface so a rapid selection change never flashes to the globe.
     const previousTransition = surfaceTransitionRef.current;
@@ -933,14 +932,17 @@ export default function MapView({
     const provider = imageryProvider(study.layer);
     const incoming = v.imageryLayers.addImageryProvider(provider);
     incoming.alpha = 0;
-    provider.errorEvent.addEventListener(() =>
-      setTiles("Some NASA tiles unavailable · zoom out or change layer"),
-    );
+    let failed = false;
+    const removeError = provider.errorEvent.addEventListener(() => {
+      failed = true;
+      setImageryFailed(true);
+      setTiles("Some NASA tiles are unavailable");
+    });
     const remove = v.scene.globe.tileLoadProgressEvent.addEventListener(
       (count: number) => {
-        if (count === 0)
+        if (count === 0 && !failed)
           setTiles(
-            "Local tile cache · detail limited to downloaded/source levels",
+            hosted ? "NASA Moon Trek" : "Local tile cache · detail limited to downloaded/source levels",
           );
       },
     );
@@ -994,6 +996,7 @@ export default function MapView({
       cancelAnimationFrame(fadeFrame);
       if (readyTimer !== undefined) window.clearTimeout(readyTimer);
       removeReady();
+      removeError();
       remove();
       if (!v.isDestroyed() && v.imageryLayers.contains(incoming)) {
         incoming.alpha = 1;
@@ -1002,7 +1005,7 @@ export default function MapView({
       }
       if (surfaceTransitionRef.current?.incoming === incoming) surfaceTransitionRef.current = null;
     };
-  }, [study.layer]);
+  }, [study.layer, imageryAttempt]);
   useEffect(() => {
     const v = viewer.current;
     if (!v) return;
@@ -1603,7 +1606,7 @@ export default function MapView({
               ? "GLOBAL EQUIRECTANGULAR"
               : "OBLIQUE MAP"}
         </strong>
-        <span>{layers[study.layer].id.replaceAll("_", " ")}</span>
+        <span>{moonLayers[study.layer].id.replaceAll("_", " ")}</span>
       </div>
       <div
         ref={tools}
@@ -1810,6 +1813,7 @@ export default function MapView({
       )}
       <div className="map-info">
         <span className={tiles.startsWith("Loading") ? "is-loading" : ""}>{tiles}</span>
+        {imageryFailed && <button type="button" onClick={() => setImageryAttempt((attempt) => attempt + 1)}>Retry imagery</button>}
         <span>
           {activeSite(study).lat.toFixed(5)}°,{" "}
           {activeSite(study).lon.toFixed(5)}° E ·{" "}
@@ -1817,7 +1821,7 @@ export default function MapView({
         </span>
       </div>
       <div className="map-model-note">
-        {imageMode ? "Image map · terrain geometry off" : terrainError ? "Terrain unavailable · reference sphere" : `LOLA 3D terrain · ${terrainQuality} detail · ${preferences.terrainExaggeration.toFixed(1)}× elevation`} ·{" "}
+        {imageMode ? "Image map · terrain geometry off" : hosted ? "Reference sphere · no terrain relief" : terrainError ? "Terrain unavailable · reference sphere" : `LOLA 3D terrain · ${terrainQuality} detail · ${preferences.terrainExaggeration.toFixed(1)}× elevation`} ·{" "}
         {study.lighting ? "SPICE solar lighting" : "Unlit surface mosaic"} · {enhanced3d ? "3D spacecraft models active" : preferences.hardware3d ? "3D hardware paused by performance guard" : "3D hardware off in Preferences"}
       </div>
     </div>

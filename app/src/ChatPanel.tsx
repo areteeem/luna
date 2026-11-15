@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { Plus, ChatCircleDots, Trash, List, X } from "@phosphor-icons/react";
 import { useWorkspace } from "./WorkspaceContext";
@@ -289,7 +290,7 @@ function ChatSession() {
         liveWorkspace.current.compare,
         cfg.shareStudy,
         cfg.shareResults,
-        cfg.allowWebBrowsing,
+        (!hosted && cfg.allowWebBrowsing),
       ),
       toolResults: Array.isArray(toolResults) && toolResults.length
         ? {
@@ -337,6 +338,7 @@ function ChatSession() {
           log,
         ).catch(async (error) => {
           if (!/no WebGPU support|GPUBuffer|mapAsync|device lost|WebGPU/i.test(String(error))) throw error;
+          if (hosted) throw new Error("WebGPU is unavailable. Choose Ollama in AI & models to explicitly connect to a model on this device.");
           const status = await aiAPI<AIStatus>("status", undefined, activeController.signal);
           const fallback = status.providers.ollama?.models[0];
           if (!fallback) throw new Error("This device cannot run the selected browser model, and no local Ollama model is connected. Choose Ollama with a downloaded model in AI & models; local Ollama can use Apple, supported GPU, or CPU backends.");
@@ -383,7 +385,7 @@ function ChatSession() {
     reply = normalizeAIReply(JSON.stringify(reply), reply.format_warning);
     const currentRequest = [...history].reverse().find((message) => message.role === "user")?.content || "";
     const webActions = reply.actions.filter((action) => action.type === "web_search" || action.type === "web_open");
-    if (webActions.length && cfg.allowWebBrowsing) {
+    if (webActions.length && (!hosted && cfg.allowWebBrowsing)) {
       const nextResults = Array.isArray(toolResults) ? [...toolResults] : [];
       let calls = 0;
       for (const webAction of webActions) {
@@ -410,9 +412,9 @@ function ChatSession() {
       return round(history, study, attachments, index + 1, nextResults, browseCalls + calls);
     }
     const appActions = reply.actions.filter((action) => action.type !== "web_search" && action.type !== "web_open");
-    if (webActions.length && !cfg.allowWebBrowsing) log("Ignored web browse request because web browsing is disabled in AI settings");
+    if (webActions.length && !(!hosted && cfg.allowWebBrowsing)) log("Ignored web browse request because web browsing is disabled in AI settings");
     const allowedActions = actionsForCurrentUserTurn(appActions, 0, currentRequest);
-    if (webActions.length && !cfg.allowWebBrowsing) {
+    if (webActions.length && !(!hosted && cfg.allowWebBrowsing)) {
       reply = { ...reply, reply: "Web browsing is disabled in AI settings. Enable it to let LUNA search and read public web sources." };
     }
     if (allowedActions.length < appActions.length) {
@@ -596,7 +598,7 @@ function ChatSession() {
       <p className="chat-scope">
         {cfg.provider} ·{" "}
         {cfg.autoApply ? "Automatic reversible edits" : "Review edits first"} ·{" "}
-        {cfg.allowWebBrowsing ? "Web browsing enabled" : "Web browsing disabled"} ·{" "}
+        {(!hosted && cfg.allowWebBrowsing) ? "Web browsing enabled" : "Web browsing disabled"} ·{" "}
         {cfg.shareStudy ? "Study shared" : "Study hidden"} ·{" "}
         {cfg.shareResults ? "A/B results shared" : "Results hidden"}
       </p>

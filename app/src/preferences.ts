@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import { DEFAULT_AI } from "./ai";
 import type { AISettings } from "./ai";
 export type ReportOptions = {
@@ -122,7 +123,10 @@ export function loadPreferences(): Preferences {
       theme: ["light", "dark", "system"].includes(p?.theme)
         ? p.theme
         : "system",
-      ai: { ...DEFAULT_AI, ...p?.ai },
+      ai: { ...DEFAULT_AI, ...p?.ai, ...(hosted ? {
+        allowWebBrowsing: false,
+        ...(["openai", "gemini"].includes(p?.ai?.provider) ? { provider: "browser" as const, model: "" } : {}),
+      } : {}) },
       shortcuts: {
         ...DEFAULT_PREFERENCES.shortcuts,
         ...p?.shortcuts,

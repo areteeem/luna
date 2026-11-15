@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import type { MLCEngine } from "@mlc-ai/web-llm";
 export type AISettings = {
   provider: "openai" | "gemini" | "ollama" | "browser";
@@ -16,7 +17,7 @@ export type AISettings = {
   system: string;
 };
 export const DEFAULT_AI: AISettings = {
-  provider: "ollama",
+  provider: hosted ? "browser" : "ollama",
   model: "",
   temperature: 0.3,
   maxTokens: 2048,
@@ -27,7 +28,7 @@ export const DEFAULT_AI: AISettings = {
   allowEdits: true,
   shareStudy: true,
   shareResults: true,
-  allowWebBrowsing: true,
+  allowWebBrowsing: !hosted,
   keepHistory: true,
   system:
     "Use plain language first, then scientific detail. State uncertainty.",
@@ -214,6 +215,7 @@ export async function aiAPI<T>(
   data?: unknown,
   signal?: AbortSignal,
 ): Promise<T> {
+  if (hosted) return (await (await import("./hostedAI")).hostedAI(path, data, signal)) as T;
   const response = await fetch("/api/ai/" + path, {
     method: data === undefined ? "GET" : "POST",
     headers:
