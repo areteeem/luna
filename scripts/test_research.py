@@ -16,7 +16,7 @@ class HorizonsFixtureTests(unittest.TestCase):
         rows = parse_horizons(self.payload, "10")
         self.assertEqual(len(rows), 49)
         self.assertEqual(rows[0]["time_utc"], "2026-11-14T00:00:00Z")
-        self.assertEqual(rows[-1]["time_utc"], "2026-11-16T00:00:00Z")
+        self.assertEqual(rows[-1]["time_utc"], "2026-11-15T23:53:00Z")
         self.assertAlmostEqual(rows[0]["angular_radius_deg"], 1942.008 / 7200)
         self.assertAlmostEqual(rows[0]["elevation_deg"], 1.258335)
 

@@ -19,7 +19,7 @@ const events = [event("landing", 0, .5), event("traverse", 2, 2), event("ascent"
 const site = { name: "Lander", lat: lander[1], lon: lander[0], height: 0 };
 const study = (cursor: number, activities = events): Study => ({
   version: 2, id: "study", name: "Replay", description: "", site, compareSite: site,
-  start: "2026-11-17T00:00:00Z", compareStart: "2026-11-18T00:00:00Z",
+  start: "2026-11-14T13:33:00Z", compareStart: "2026-11-15T13:33:00Z",
   duration: 6, cursor, step: 900, active: "A", alignment: "elapsed",
   satellites: [], annotations: [], events: activities,
   view: "3d", layer: "imagery", grid: false, lighting: true, directions: false,

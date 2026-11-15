@@ -91,14 +91,14 @@ describe("geometry interpolation and coverage", () => {
   const g = {
     rows: [
       {
-        time: "2026-11-14T00:00:00Z",
+        time: "2026-11-15T08:42:00Z",
         elapsed: 0,
         sun: body(359, 10),
         earth: body(0, -1),
         satellites: {},
       },
       {
-        time: "2026-11-14T01:00:00Z",
+        time: "2026-11-15T09:42:00Z",
         elapsed: 1,
         sun: body(1, 12),
         earth: body(0, -1),
@@ -111,9 +111,9 @@ describe("geometry interpolation and coverage", () => {
     kernels: [],
   } satisfies Geometry;
   it("wraps azimuth across north and interpolates seconds without extrapolation", () => {
-    expect(rowAt(g, "2026-11-14T00:30:00Z")?.sun.azimuth).toBe(0);
-    expect(rowAt(g, "2026-11-14T00:30:00Z")?.sun.elevation).toBe(11);
-    expect(rowAt(g, "2026-11-13T23:59:59Z")).toBeNull();
+    expect(rowAt(g, "2026-11-15T09:12:00Z")?.sun.azimuth).toBe(0);
+    expect(rowAt(g, "2026-11-15T09:12:00Z")?.sun.elevation).toBe(11);
+    expect(rowAt(g, "2026-11-15T08:41:59Z")).toBeNull();
   });
   it("integrates half-open durations with no endpoint double counting", () => {
     expect(totals(g)).toEqual({ sun: 1, earth: 0, overlap: 0 });

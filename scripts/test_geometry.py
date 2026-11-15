@@ -14,7 +14,7 @@ class LocalGeometryTests(unittest.TestCase):
     self.assertAlmostEqual(row[body]['elevation'],fixture['bodies'][body][i]['elevation_deg'],delta=.0001)
     self.assertAlmostEqual(row[body]['azimuth'],fixture['bodies'][body][i]['azimuth_deg'],delta=.0001)
  def test_coordinate_and_time_changes_have_real_effects(self):
-  shifted=calculate({**self.payload,'lat':0,'lon':90,'start':'2026-12-01T00:00:01Z','duration':1})
+  shifted=calculate({**self.payload,'lat':0,'lon':90,'start':'2026-11-14T11:53:01Z','duration':1})
   self.assertGreater(abs(shifted['rows'][0]['sun']['elevation']-self.result['rows'][0]['sun']['elevation']),10)
  def test_endpoint_and_seconds(self):
   value=calculate({**self.payload,'start':'2026-11-14T00:00:17Z','duration':.5,'step':900})

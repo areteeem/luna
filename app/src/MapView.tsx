@@ -97,7 +97,7 @@ export default function MapView({
   setTool: (t: MapTool) => void;
   onStatus: (s: string) => void;
 }) {
-  const { preferences, walkMode, setWalkMode, routeOverlay, pickRoutePoint, selectedAnnotation } = useWorkspace();
+  const { preferences, openPreferences, walkMode, setWalkMode, routeOverlay, pickRoutePoint, selectedAnnotation } = useWorkspace();
   const lowPerformanceDevice = isLowPerformanceDevice();
   const enhanced3d = preferences.hardware3d && !(preferences.performanceGuard && lowPerformanceDevice);
   const [autoImage, setAutoImage] = useState(prefersImageMap);
@@ -106,6 +106,7 @@ export default function MapView({
   const [imageryFailed, setImageryFailed] = useState(false);
   const [imageryAttempt, setImageryAttempt] = useState(0);
   const imageMode = preferences.terrainMode === "image" || (preferences.terrainMode === "auto" && autoImage);
+  const performanceDisabled3d = imageMode && preferences.terrainMode === "auto" && autoImage;
   const effectiveView = imageMode ? "2d" : study.view;
   const route = useMemo(() => routePlayback(missionRoute(
     study.annotations, study.prohibitedAreas, routeOverlay?.studyId === study.id ? routeOverlay : null, selectedAnnotation,
@@ -1786,18 +1787,30 @@ export default function MapView({
         </button>
       </div>
       <div className="map-view-buttons animated-segmented">
-        {(["3d", "2d", "oblique"] as const).map((mode) => (
-          <button
-            className={`map-mode-button ${effectiveView === mode ? "active" : ""}`}
-            disabled={imageMode && mode !== "2d"}
-            title={imageMode && mode !== "2d" ? "Choose Auto or 3D terrain in Preferences to enable this view" : undefined}
-            key={mode}
-            onClick={() => onChange({ view: mode })}
-          >
-            {effectiveView === mode && preferences.animations && <motion.span className="segment-indicator" layoutId="map-view-indicator" transition={{ type: "spring", duration: 0.28, bounce: 0.1 }} />}
-            <span>{mode.toUpperCase()}</span>
-          </button>
-        ))}
+        {(["3d", "2d", "oblique"] as const).map((mode) => {
+          const button = (
+            <button
+              className={`map-mode-button ${effectiveView === mode ? "active" : ""}`}
+              disabled={imageMode && mode !== "2d"}
+              title={imageMode && mode !== "2d" && !(mode === "3d" && performanceDisabled3d) ? "Choose Auto or 3D terrain in Preferences to enable this view" : undefined}
+              key={mode}
+              onClick={() => onChange({ view: mode })}
+            >
+              {effectiveView === mode && preferences.animations && <motion.span className="segment-indicator" layoutId="map-view-indicator" transition={{ type: "spring", duration: 0.28, bounce: 0.1 }} />}
+              <span>{mode.toUpperCase()}</span>
+            </button>
+          );
+          return mode === "3d" && performanceDisabled3d ? (
+            <span className="map-mode-tooltip-anchor" key={mode} tabIndex={0} role="group" aria-label="3D view disabled due to device performance" aria-describedby="map-performance-3d-help">
+              {button}
+              <span className="map-mode-performance-tooltip" id="map-performance-3d-help" role="tooltip">
+                <span>3D is disabled due to this device’s performance. You can enable it in</span>
+                <button type="button" onClick={() => openPreferences("appearance")}>Settings</button>
+                <span>.</span>
+              </span>
+            </span>
+          ) : button;
+        })}
         <button
           className="map-direction-button"
           onClick={() => {

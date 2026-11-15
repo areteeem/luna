@@ -12,14 +12,14 @@ At the lunar south pole, a low Sun can disappear behind a ridge. Earth visibilit
 
 **Same site. Same hardware. A different window.** In this worked example at NASA’s LOLA Site04 study point, the reference chart looks favorable on both days: the Sun and Earth centers stay above the ideal horizontal plane. Once LUNA accounts for the sampled terrain horizon, the modeled solar array goes from generating about **11.1 kWh to 0 kWh**. Neither date yields a sampled access window to the selected Earth station, DSS-14.
 
-| 24-hour study at Site04 | A · Nov 20, 2026 | B · Nov 21, 2026 |
+| 24-hour study at Site04 | A · Nov 14, 2026 | B · Nov 15, 2026 |
 | --- | ---: | ---: |
 | Sun and Earth centers both above the reference plane | 24 h | 24 h |
 | Modeled solar generation with terrain masking | 11.1 kWh | 0 kWh |
 | Minimum modeled battery charge | 80% | 0% |
 | Modeled DSS-14 geometric access at sampled times | 0 h | 0 h |
 
-To reproduce: [run LUNA locally](#run-luna-locally) with the science data installed. Open **Help → NASA examples** and select **Open working example** under **LOLA Site04 · rover terrain / power trade-off**. In **Study properties**, set A’s start to **2026-11-20 00:00 UTC**. In **Project explorer**, select **Duplicate A +24 hours**. Keep the preset’s 24-hour duration, 10-minute sample step, terrain and hardware settings, and activity offsets. Compare **Geometry & timeline** with **Mission analysis** for A and B.
+To reproduce: [run LUNA locally](#run-luna-locally) with the science data installed. Open **Help → NASA examples** and select **Open working example** under **LOLA Site04 · rover terrain / power trade-off**. In **Study properties**, set A’s start to **2026-11-14 15:33 Europe/Kyiv**. In **Project explorer**, select **Duplicate A +24 hours**. Keep the preset’s 24-hour duration, 10-minute sample step, terrain and hardware settings, and activity offsets. Compare **Geometry & timeline** with **Mission analysis** for A and B.
 
 This is a modeled exercise at **89.7668° S, 171.87° W** using illustrative hardware. Holding the hardware and schedule fixed isolates the date change. The point also exceeds the preset slope threshold, so this example is useful for screening out a candidate.
 

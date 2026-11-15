@@ -280,8 +280,7 @@ export default function App() {
   }, [preferences]);
   const [workspace, setWorkspace] = useState<Workspace>(loadWorkspace),
     [menu, setMenu] = useState<string | null>(null),
-    [dialog, setDialog] = useState<"new" | "help" | "preferences" | "preview" | null>(null),
-    [previewUrl, setPreviewUrl] = useState<string | null>(null),
+    [dialog, setDialog] = useState<"new" | "help" | "preferences" | null>(null),
     [tool, setTool] = useState<MapTool>("pan"),
     [walkMode, setWalkMode] = useState(false),
     [selectedAnnotation, selectAnnotation] = useState<string | null>(null),
@@ -785,11 +784,24 @@ export default function App() {
     }
     setMenu(null);
     const name = fileName(study);
+    let reportTab: Window | null = null;
     try {
       if (["pdf", "csv", "svg"].includes(format) && (!geometry || !compare))
         throw new Error(
           "Wait for both scenario calculations before exporting geometry.",
         );
+      if (format === "pdf") {
+        reportTab = window.open("", "_blank");
+        if (!reportTab) {
+          const error = new Error("Allow pop-ups to open the PDF report in a new tab.");
+          notify(error.message);
+          if (reportToCaller) throw error;
+          return;
+        }
+        reportTab.document.title = "Preparing study report";
+        reportTab.document.body.innerHTML =
+          '<p style="font: 16px system-ui; padding: 24px">Preparing study report…</p>';
+      }
       if (format === "json")
         saveFile(
           studyJSON(study, geometry, compare),
@@ -875,51 +887,21 @@ export default function App() {
           preferences.report,
           views,
         );
-        saveFile(blob, "application/pdf", `${name}-study.pdf`);
+        const reportUrl = URL.createObjectURL(blob);
+        reportTab!.location.replace(reportUrl);
+        window.setTimeout(() => URL.revokeObjectURL(reportUrl), 60_000);
         setBusy(false);
       }
       notify(`${format.toUpperCase()} exported`);
     } catch (e) {
+      reportTab?.close();
       setBusy(false);
       const error = e instanceof Error ? e : new Error("Export failed");
       notify(error.message);
       if (reportToCaller) throw error;
     }
   };
-  const previewReport = async () => {
-    if (!geometry || !compare) {
-      notify("Wait for both scenario calculations before previewing the report.");
-      return;
-    }
-    setMenu(null);
-    setBusy(true);
-    try {
-      showPanel("map");
-      await new Promise((resolve) => setTimeout(resolve, 180));
-      let image: string | undefined;
-      let views: { label: string; image: string }[] = [];
-      try {
-        image = await mapActions.current?.readyScreenshot(5000);
-      } catch {
-        notify("Live map imagery is unavailable. The preview will use a clearly labeled site locator and mission chart.");
-      }
-      if (image && preferences.report.extraViews) {
-        try {
-          views = (await mapActions.current?.captureViews(undefined, undefined, 5000)) || [];
-        } catch {
-          notify("Additional map views were unavailable; the report still has its primary figure and mission chart.");
-        }
-      }
-      const blob = await exportPDF(study, geometry, compare, image, preferences.report, views);
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(URL.createObjectURL(blob));
-      setDialog("preview");
-    } catch (e) {
-      notify(e instanceof Error ? e.message : "Report preview failed");
-    } finally {
-      setBusy(false);
-    }
-  };
+  const previewReport = async () => exportAs("pdf");
   const startTour = () => {
     setDialog(null);
     showPanel("map");
@@ -1523,7 +1505,7 @@ export default function App() {
                         format === "pdf" ? (
                           <div className="menu-action-row" key={format}>
                             <button onClick={() => exportAs(format)}>{label}<small>{ext}</small></button>
-                            <button className="menu-info" title="Preview report PDF" aria-label="Preview report PDF" onClick={previewReport}><Info size={14} /></button>
+                            <button className="menu-info" title="Open report in a new tab" aria-label="Open report in a new tab" onClick={() => exportAs("pdf")}><Info size={14} /></button>
                           </div>
                         ) : <button key={format} onClick={() => exportAs(format)}>{label}<small>{ext}</small></button>
                       ))}
@@ -1716,8 +1698,6 @@ export default function App() {
             onMouseDown={(e) => {
               if (e.target === e.currentTarget) {
                 setDialog(null);
-                if (previewUrl) URL.revokeObjectURL(previewUrl);
-                setPreviewUrl(null);
               }
             }}
           >
@@ -1730,7 +1710,7 @@ export default function App() {
                   ? "Create project"
                   : dialog === "preferences"
                     ? "Preferences"
-                      : dialog === "preview" ? "PDF report preview" : "Help and workspace guide"
+                    : "Help and workspace guide"
               }
               onKeyDown={(e) => {
                 if (e.key === "Tab") {
@@ -1755,12 +1735,12 @@ export default function App() {
                     ? "Create a study"
                     : dialog === "preferences"
                       ? "Preferences"
-                      : dialog === "preview" ? "Report preview" : "Help & workspace guide"}
+                      : "Help & workspace guide"}
                 </h2>
                 <button
                   autoFocus
                   aria-label="Close popup"
-                  onClick={() => { setDialog(null); if (previewUrl) URL.revokeObjectURL(previewUrl); setPreviewUrl(null); }}
+                  onClick={() => setDialog(null)}
                 >
                   <X size={20} />
                 </button>
@@ -1769,8 +1749,6 @@ export default function App() {
                 <NewStudy onCreate={addProject} />
               ) : dialog === "preferences" ? (
                 <PreferencesPanel initial={preferencesSection} />
-              ) : dialog === "preview" ? (
-                previewUrl ? <iframe className="report-preview" title="PDF report preview" src={previewUrl} /> : <div className="report-preview-loading loading-surface" role="status"><span className="inline-loader" aria-hidden="true" /> Preparing report preview…</div>
               ) : (
                 <HelpGuide startTour={startTour} />
               )}
