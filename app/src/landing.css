@@ -119,6 +119,8 @@ button, summary { cursor: pointer; }
 .film-stage { position: relative; max-width: 1050px; aspect-ratio: 16 / 9; overflow: hidden; background: #131821; border-radius: 12px; margin-top: 38px; isolation: isolate; }
 .film-stage > img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .film-stage iframe { width: 100%; height: 100%; border: 0; display: block; }
+.film-player { position: absolute; inset: 0; }
+.film [data-film-actions][hidden] { display: none; }
 .film-stage.has-film img { transition: filter .3s; }
 .film-stage.has-film:hover img, .film-stage:focus-within img { filter: brightness(.58) blur(4px); }
 .film-play { position: absolute; inset: 0; width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; border: 0; color: white; background: rgb(5 5 5 / .38); font: 600 clamp(13px, 2vw, 20px)/1.3 var(--display); }
@@ -212,25 +214,23 @@ html:has(.desktop-dialog[open]) { overflow: hidden; }
   .nav-shell .wordmark { width: 41px; }
   .primary-nav { display: none; }
   .nav-launch { grid-column: 2; min-height: 44px; padding-inline: 16px; }
-  .mobile-menu { --menu-origin-x: calc(100% - var(--gutter) - 24px); --menu-origin-y: calc((var(--header-height) - 48px) / 2 + 24px); display: block; grid-column: 3; }
-  html:has(.mobile-menu[open]) { overflow: hidden; }
-  .mobile-menu summary { position: relative; z-index: 2; list-style: none; display: grid; width: 48px; height: 48px; place-content: center; gap: 5px; }
-  .mobile-menu[open] summary { position: fixed; z-index: 3; top: calc((var(--header-height) - 48px) / 2); right: var(--gutter); }
-  .mobile-menu summary span { transform-origin: center; transition: transform 220ms cubic-bezier(.23, 1, .32, 1), translate 220ms cubic-bezier(.23, 1, .32, 1); }
-  .mobile-menu[open] summary span:first-child { translate: 0 3px; transform: rotate(45deg); }
-  .mobile-menu[open] summary span:last-child { translate: 0 -3px; transform: rotate(-45deg); }
-  .mobile-menu[open] summary { color: var(--nav-fg); }
-  .mobile-menu summary::-webkit-details-marker { display: none; }
-  .mobile-menu summary span { display: block; height: 1px; width: 18px; background: currentColor; }
-  .mobile-menu nav { position: fixed; z-index: 1; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 3vh, 30px); padding: 84px max(var(--gutter), calc((100vw - 480px) / 2)); overflow-y: auto; background: var(--nav-solid); visibility: hidden; clip-path: circle(0 at var(--menu-origin-x) var(--menu-origin-y)); transition: clip-path 260ms cubic-bezier(.23, 1, .32, 1), visibility 0s linear 260ms; }
-  .mobile-menu[open] nav { visibility: visible; clip-path: circle(150vmax at var(--menu-origin-x) var(--menu-origin-y)); transition-delay: 0s; }
-  .mobile-menu a { display: block; padding: 8px 0; font: 600 clamp(28px, 7vw, 48px)/1.1 var(--display); letter-spacing: -.045em; opacity: 0; transform: translateY(-14px); transition: opacity 140ms cubic-bezier(.23, 1, .32, 1), transform 170ms cubic-bezier(.23, 1, .32, 1); }
-  .mobile-menu[open] a { opacity: 1; transform: translateY(0); }
-  .mobile-menu[open] a:nth-child(1) { transition-delay: 0ms; }
-  .mobile-menu[open] a:nth-child(2) { transition-delay: 28ms; }
-  .mobile-menu[open] a:nth-child(3) { transition-delay: 56ms; }
-  .mobile-menu[open] a:nth-child(4) { transition-delay: 84ms; }
-  .mobile-menu[open] a:nth-child(5) { transition-delay: 112ms; }
+  .mobile-menu { display: block; grid-column: 3; }
+  html:has(.mobile-menu.is-open) { overflow: hidden; }
+  .menu-toggle { position: relative; z-index: 2; display: grid; width: 48px; height: 48px; padding: 0; place-content: center; gap: 5px; border: 0; color: var(--nav-fg); background: transparent; }
+  .menu-toggle span { display: block; width: 19px; height: 1.5px; border-radius: 2px; background: currentColor; transform-origin: center; transition: transform 240ms cubic-bezier(.23, 1, .32, 1), opacity 140ms ease-out; }
+  .mobile-menu.is-open .menu-toggle span:first-child { transform: translateY(6.5px) rotate(45deg); }
+  .mobile-menu.is-open .menu-toggle span:nth-child(2) { opacity: 0; }
+  .mobile-menu.is-open .menu-toggle span:last-child { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu nav { position: fixed; z-index: 14; inset: var(--header-height) 0 0; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-start; gap: clamp(12px, 2.6vh, 24px); padding: clamp(24px, 7vh, 64px) max(var(--gutter), calc((100vw - 480px) / 2)) 72px; overflow-y: auto; clip-path: inset(0 0 100% 0 round 0 0 18px 18px); opacity: 0; visibility: hidden; pointer-events: none; transition: clip-path 380ms cubic-bezier(.23, 1, .32, 1), opacity 220ms ease-out, visibility 0s linear 380ms; }
+  .mobile-menu nav::before { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--nav-frost); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%); }
+  .mobile-menu.is-open nav { clip-path: inset(0 0 0 0 round 0 0 18px 18px); opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+  .mobile-menu a { position: relative; display: block; width: fit-content; padding: 8px 0; font: 600 clamp(28px, 7vw, 48px)/1.1 var(--display); letter-spacing: -.045em; opacity: 0; transform: translateX(-24px); transition: opacity 220ms ease-out, transform 340ms cubic-bezier(.23, 1, .32, 1); }
+  .mobile-menu.is-open a { opacity: 1; transform: translateX(0); }
+  .mobile-menu.is-open a:nth-child(1) { transition-delay: 35ms; }
+  .mobile-menu.is-open a:nth-child(2) { transition-delay: 90ms; }
+  .mobile-menu.is-open a:nth-child(3) { transition-delay: 145ms; }
+  .mobile-menu.is-open a:nth-child(4) { transition-delay: 200ms; }
+  .mobile-menu.is-open a:nth-child(5) { transition-delay: 255ms; }
   .hero { padding-top: 48px; }
   .hero-copy h1 br { display: none; }
   .hero h1 { text-wrap: balance; }
@@ -264,4 +264,5 @@ html:has(.desktop-dialog[open]) { overflow: hidden; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .site-header::before { inset: 0; background: var(--nav-solid); backdrop-filter: none; mask-image: none; }
+  .mobile-menu nav::before { background: var(--nav-solid); -webkit-backdrop-filter: none; backdrop-filter: none; -webkit-mask-image: none; mask-image: none; }
 }

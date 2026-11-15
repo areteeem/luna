@@ -1,9 +1,32 @@
 import { canLaunchNavigator, navigatorPath } from "./desktopAccess";
 
+type YouTubePlayerEvent = { data: number };
+type YouTubePlayer = { destroy: () => void };
+type YouTubeApi = {
+  Player: new (
+    element: HTMLElement,
+    options: {
+      videoId: string;
+      playerVars: Record<string, string | number>;
+      events: { onStateChange: (event: YouTubePlayerEvent) => void };
+    },
+  ) => YouTubePlayer;
+  PlayerState: { ENDED: number };
+};
+
+declare global {
+  interface Window {
+    YT?: YouTubeApi;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
 const header = document.querySelector<HTMLElement>("[data-header]")!;
 const launchLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("main [data-launch]"));
 const tintedSections = Array.from(document.querySelectorAll<HTMLElement>("[data-dark], .pale"));
-const mobileMenu = document.querySelector<HTMLDetailsElement>(".mobile-menu")!;
+const mobileMenu = document.querySelector<HTMLElement>(".mobile-menu")!;
+const mobileMenuToggle = mobileMenu.querySelector<HTMLButtonElement>(".menu-toggle")!;
+const mobileMenuPanel = mobileMenu.querySelector<HTMLElement>("nav")!;
 const dialog = document.querySelector<HTMLDialogElement>("#desktop-dialog")!;
 const address = document.querySelector<HTMLInputElement>("#desktop-address")!;
 const copyStatus = document.querySelector<HTMLElement>(".copy-status")!;
@@ -48,10 +71,8 @@ function showDesktopAccess() {
 document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof Element)) return;
-  if (!mobileMenu.contains(target) || target.closest(".mobile-menu a")) {
-    mobileMenu.open = false;
-    mobileMenu.querySelector("summary")?.setAttribute("aria-expanded", "false");
-    mobileMenu.querySelector("summary")?.setAttribute("aria-label", "Open navigation menu");
+  if (mobileMenu.classList.contains("is-open") && (!mobileMenu.contains(target) || target.closest(".mobile-menu a"))) {
+    setMobileMenuOpen(false);
   }
   if (target.closest("[data-launch]") && !canLaunchNavigator()) {
     event.preventDefault();
@@ -59,23 +80,23 @@ document.addEventListener("click", (event) => {
   }
 });
 
-mobileMenu.querySelector("summary")!.addEventListener("click", () => {
-  requestAnimationFrame(() => {
-    const summary = mobileMenu.querySelector("summary")!;
-    summary.setAttribute("aria-expanded", String(mobileMenu.open));
-    summary.setAttribute("aria-label", mobileMenu.open ? "Close navigation menu" : "Open navigation menu");
-    if (mobileMenu.open) {
-      mobileMenu.querySelector<HTMLElement>("nav a")?.focus();
-    }
-  });
+function setMobileMenuOpen(open: boolean) {
+  mobileMenu.classList.toggle("is-open", open);
+  mobileMenuToggle.setAttribute("aria-expanded", String(open));
+  mobileMenuToggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+  mobileMenuPanel.setAttribute("aria-hidden", String(!open));
+  mobileMenuPanel.inert = !open;
+  if (open) requestAnimationFrame(() => mobileMenuPanel.querySelector<HTMLElement>("a")?.focus());
+  else mobileMenuToggle.focus({ preventScroll: true });
+}
+
+mobileMenuToggle.addEventListener("click", () => {
+  setMobileMenuOpen(!mobileMenu.classList.contains("is-open"));
 });
 
 mobileMenu.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape" || !mobileMenu.open) return;
-  mobileMenu.open = false;
-  mobileMenu.querySelector("summary")?.setAttribute("aria-expanded", "false");
-  mobileMenu.querySelector("summary")?.setAttribute("aria-label", "Open navigation menu");
-  mobileMenu.querySelector("summary")?.focus();
+  if (event.key !== "Escape" || !mobileMenu.classList.contains("is-open")) return;
+  setMobileMenuOpen(false);
 });
 
 document.querySelector("[data-copy]")!.addEventListener("click", async () => {
@@ -130,12 +151,35 @@ horizonToggle.addEventListener("click", () => {
   horizonToggle.firstChild!.textContent = showingSun ? "Show Earth " : "Show the Sun ";
 });
 
-const youtubeId = import.meta.env.VITE_LUNA_YOUTUBE_ID;
-if (typeof youtubeId === "string" && /^[\w-]{11}$/.test(youtubeId)) {
+const youtubeId = "R3W25BC510k";
+if (/^[\w-]{11}$/.test(youtubeId)) {
   const stage = document.querySelector<HTMLElement>("[data-film-stage]")!;
   const play = document.querySelector<HTMLButtonElement>("[data-film-play]")!;
-  const next = document.querySelector<HTMLAnchorElement>("[data-film-next]")!;
   const launch = document.querySelector<HTMLAnchorElement>("[data-film-launch]")!;
+  const actions = document.querySelector<HTMLElement>("[data-film-actions]")!;
+  const poster = stage.querySelector<HTMLImageElement>("img")!;
+
+  let youtubeApiPromise: Promise<YouTubeApi> | undefined;
+  const loadYouTubeApi = () => {
+    if (window.YT?.Player) return Promise.resolve(window.YT);
+    if (youtubeApiPromise) return youtubeApiPromise;
+    youtubeApiPromise = new Promise<YouTubeApi>((resolve, reject) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        previousReady?.();
+        if (window.YT) resolve(window.YT);
+        else reject(new Error("YouTube player API did not initialize."));
+      };
+      let script = document.querySelector<HTMLScriptElement>('script[src="https://www.youtube.com/iframe_api"]');
+      if (!script) {
+        script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        script.onerror = () => reject(new Error("YouTube player API could not load."));
+        document.head.append(script);
+      }
+    });
+    return youtubeApiPromise;
+  };
 
   for (const link of document.querySelectorAll("[data-film-link]")) {
     link.firstChild!.textContent = "Watch the Film ";
@@ -144,19 +188,32 @@ if (typeof youtubeId === "string" && /^[\w-]{11}$/.test(youtubeId)) {
   stage.classList.add("has-film");
   play.hidden = false;
   document.querySelector("[data-film-description]")!.textContent =
-    "A three-minute demonstration of LUNA’s lunar planning workspace.";
+    "Watch a 38-second tour of the lunar navigator and site planning workspace.";
 
   play.addEventListener("click", () => {
-    const player = document.createElement("iframe");
-    player.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&cc_load_policy=1`;
-    player.title = "LUNA project demonstration";
-    player.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-    player.allowFullscreen = true;
-    stage.replaceChildren(player);
-    launch.hidden = false;
-    requestHeaderUpdate();
-    next.textContent = "Watch on YouTube ↗";
-    next.href = `https://www.youtube.com/watch?v=${youtubeId}`;
-    player.focus();
+    play.hidden = true;
+    poster.hidden = true;
+    const playerMount = document.createElement("div");
+    playerMount.className = "film-player";
+    stage.append(playerMount);
+    void loadYouTubeApi().then((YT) => {
+      new YT.Player(playerMount, {
+        videoId: youtubeId,
+        playerVars: { autoplay: 1, start: 0, end: 38, controls: 1, rel: 0, enablejsapi: 1 },
+        events: {
+          onStateChange: (event) => {
+            if (event.data !== YT.PlayerState.ENDED) return;
+            actions.hidden = false;
+            launch.hidden = false;
+            requestHeaderUpdate();
+          },
+        },
+      });
+    }).catch((error: unknown) => {
+      console.error(error);
+      playerMount.remove();
+      poster.hidden = false;
+      play.hidden = false;
+    });
   }, { once: true });
 }

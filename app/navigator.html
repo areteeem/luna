@@ -11,13 +11,41 @@
       content="A lunar engineering workspace with a global 3D map, local SPICE geometry, mission planning and study exports."
     />
     <title>LUNA Navigator</title>
+    <style>
+      :root { color-scheme: dark light; }
+      html, body { min-width: 100%; min-height: 100%; margin: 0; }
+      body { background: transparent; color: #dce9f7; font: 15px/1.5 system-ui, sans-serif; }
+      #navigator-status {
+        position: fixed; inset: 0; display: grid; place-content: center; justify-items: center;
+        gap: 12px; margin: 0; padding: 24px; text-align: center;
+        background: transparent;
+      }
+      #navigator-status img { width: clamp(112px, 16vw, 168px); height: auto; animation: loading-pulse 1.6s ease-in-out infinite; }
+      #navigator-status .loading-logo-light { display: none; }
+      @media (prefers-color-scheme: light) {
+        body { color: #183653; }
+        #navigator-status .loading-logo-dark { display: none; }
+        #navigator-status .loading-logo-light { display: block; }
+      }
+      html[data-theme="dark"] #navigator-status { color: #dce9f7; }
+      html[data-theme="dark"] #navigator-status .loading-logo-dark { display: block; }
+      html[data-theme="dark"] #navigator-status .loading-logo-light { display: none; }
+      html[data-theme="light"] #navigator-status { color: #183653; }
+      html[data-theme="light"] #navigator-status .loading-logo-dark { display: none; }
+      html[data-theme="light"] #navigator-status .loading-logo-light { display: block; }
+      #navigator-status a { color: inherit; }
+      @keyframes loading-pulse { 0%, 100% { opacity: .72; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
+      @media (prefers-reduced-motion: reduce) { #navigator-status img { animation-duration: 3s; } }
+    </style>
   </head>
   <body>
     <div id="root"></div>
-    <p id="navigator-status" style="max-width:40rem;margin:4rem auto;padding:0 1.25rem;font:1rem/1.5 system-ui" role="status">
-      Opening LUNA Navigator…
+    <div id="navigator-status" role="status" aria-live="polite">
+      <img class="loading-logo-dark" src="/brand/luna-dark.png" width="1254" height="1254" alt="LUNA" />
+      <img class="loading-logo-light" src="/brand/luna-light.png" width="1254" height="1254" alt="LUNA" />
+      <span>Opening LUNA Navigator…</span>
       <a href="%BASE_URL%">Return to LUNA</a>
-    </p>
+    </div>
     <noscript><p>Enable JavaScript to use LUNA Navigator.</p></noscript>
     <script type="module" src="/src/navigator.ts"></script>
   </body>
