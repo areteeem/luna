@@ -50,9 +50,9 @@ class handler(BaseHTTPRequestHandler):
             self._json(200, result)
         except (ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
             self._json(400, {"error": str(error)[:300]})
-        except Exception:
+        except Exception as error:
             traceback.print_exc()
-            self._json(503, {"error": "Geometry calculation is temporarily unavailable"})
+            self._json(503, {"error": f"{type(error).__name__}: {error}"[:300]})
 
     def _json(self, status, payload):
         body = json.dumps(payload, allow_nan=False).encode("utf-8")
