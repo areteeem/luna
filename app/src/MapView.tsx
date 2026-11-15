@@ -3,7 +3,7 @@ import { moonLayers, moonTileUrl } from "./moonTiles";
 import { missionFrame, missionRoute, routePlayback } from "./missionPlayback";
 import { aboveTerrain, renderedGroundHeight, terrainOverlays, visibleSurfaceMarker } from "./terrainOverlays";
 import { clearsAvoidAreas } from "./routeAvoidance";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as C from "cesium";
 import { createPortal } from "react-dom";
 import { motion } from "motion/react";
@@ -124,6 +124,9 @@ export default function MapView({
   const rendererFaulted = useRef(false);
   const [toolPosition, setToolPosition] = useState({ x: 14, y: 70 });
   const tools = useRef<HTMLDivElement>(null);
+  const sceneFilterId = `luna-scene-frost-${useId()}`;
+  const sharpMapWindow = useRef<SVGFEFloodElement>(null);
+  const mapInfo = useRef<HTMLDivElement>(null);
   const mapSurface = useRef<HTMLDivElement>(null);
   const inputSurface = useRef<HTMLDivElement>(null);
   const landingProgressRef = useRef<number | null>(null);
@@ -150,7 +153,8 @@ export default function MapView({
     const area = mapSurface.current;
     const renderer = container.current;
     const input = inputSurface.current;
-    if (!area || !renderer || !input) return;
+    const sharpWindow = sharpMapWindow.current;
+    if (!area || !renderer || !input || !sharpWindow) return;
     let frame = 0;
     let fadeFrame = 0;
     let hideTimer: number | undefined;
@@ -169,9 +173,19 @@ export default function MapView({
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const rect = area.getBoundingClientRect();
-        const full = document.documentElement.dataset.mapGlassActive === "true";
+        const { mapGlassActive, blur } = document.documentElement.dataset;
+        const full = mapGlassActive === "true";
+        const frost = full && blur !== "false";
+        if (frost) {
+          const footerTop = mapInfo.current?.getBoundingClientRect().top ?? rect.bottom;
+          sharpWindow.setAttribute("x", String(rect.left));
+          sharpWindow.setAttribute("y", String(rect.top));
+          sharpWindow.setAttribute("width", String(rect.width));
+          sharpWindow.setAttribute("height", String(Math.max(0, footerTop - rect.top)));
+        }
         const visible = rect.width > 0 && rect.height > 0;
         Object.assign(renderer.style, {
+          filter: frost ? `url("#${sceneFilterId}")` : "",
           left: `${full ? 0 : rect.left}px`, top: `${full ? 0 : rect.top}px`,
           width: `${full ? window.innerWidth : rect.width}px`,
           height: `${full ? window.innerHeight : rect.height}px`,
@@ -203,8 +217,9 @@ export default function MapView({
     };
     const resize = new ResizeObserver(sync);
     resize.observe(area);
+    if (mapInfo.current) resize.observe(mapInfo.current);
     const attributes = new MutationObserver(sync);
-    attributes.observe(document.documentElement, { attributes: true, attributeFilter: ["data-map-glass-active"] });
+    attributes.observe(document.documentElement, { attributes: true, attributeFilter: ["data-map-glass-active", "data-blur"] });
     window.addEventListener("resize", sync);
     const forward = (event: Event) => {
       const canvas = viewer.current?.canvas;
@@ -219,7 +234,7 @@ export default function MapView({
     events.forEach((type) => input.addEventListener(type, forward, { passive: false }));
     sync();
     return () => { cancelAnimationFrame(frame); cancelAnimationFrame(fadeFrame); if (hideTimer !== undefined) window.clearTimeout(hideTimer); resize.disconnect(); attributes.disconnect(); window.removeEventListener("resize", sync); events.forEach((type) => input.removeEventListener(type, forward)); };
-  }, []);
+  }, [sceneFilterId]);
   useEffect(() => {
     const surface = inputSurface.current;
     if (!surface || !walkMode || !preferences.wasdNavigation) return;
@@ -1583,7 +1598,22 @@ export default function MapView({
   }, []);
   return (
     <div ref={mapSurface} className={`map-view map-tool-${tool}`} data-tour="map">
-      {createPortal(<div ref={container} className="cesium-container live-map-renderer" />, document.getElementById("live-map-layer") || document.body)}
+      {createPortal(<>
+        {/* Filter the live scene directly so docked panels never sample an isolated backdrop. */}
+        <svg className="live-map-filter" width="0" height="0" aria-hidden="true">
+          <filter id={sceneFilterId} colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="24" edgeMode="duplicate" result="blurred-scene" />
+            <feFlood ref={sharpMapWindow} width="0" height="0" result="map-window" />
+            <feComposite in="blurred-scene" in2="map-window" operator="out" result="frosted-scene" />
+            <feComposite in="SourceGraphic" in2="map-window" operator="in" result="sharp-scene" />
+            <feMerge>
+              <feMergeNode in="frosted-scene" />
+              <feMergeNode in="sharp-scene" />
+            </feMerge>
+          </filter>
+        </svg>
+        <div ref={container} className="cesium-container live-map-renderer" />
+      </>, document.getElementById("live-map-layer") || document.body)}
       <div ref={inputSurface} className="map-input-surface" tabIndex={0} aria-label="Lunar map. Use WASD to move in Moon walk mode; Shift increases speed. Press Escape to leave." />
       {terrainError && <div className="terrain-status" role="status">{terrainError}</div>}
       {mapError && (
@@ -1814,7 +1844,7 @@ export default function MapView({
           Click the Moon to relocate scenario {study.active}.
         </div>
       )}
-      <div className="map-info" style={imageryFailed ? { zIndex: 10 } : undefined}>
+      <div ref={mapInfo} className="map-info" style={imageryFailed ? { zIndex: 10 } : undefined}>
         <span className={tiles.startsWith("Loading") ? "is-loading" : ""}>{tiles}</span>
         {imageryFailed && <button type="button" style={{ pointerEvents: "auto" }} onClick={() => setImageryAttempt((attempt) => attempt + 1)}>Retry imagery</button>}
         <span>

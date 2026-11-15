@@ -1,7 +1,6 @@
 import { scienceRequest } from "./scienceClient";
 import { hosted } from "./runtime";
 import ChatPanel from "./ChatPanel";
-import FrostedBackdrop from "./FrostedBackdrop";
 import HelpGuide from "./HelpGuide";
 import { arrange } from "./layouts";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -1127,7 +1126,6 @@ export default function App() {
     <WorkspaceContext.Provider value={value}>
       <div className="app">
         <div id="live-map-layer" aria-hidden="true" />
-        <FrostedBackdrop />
         <header className="commandbar unified-header" ref={menuRef}>
           <div className="brand" title={hasProject ? study.name : "LUNA"}>
             <span className="brand-mark">
