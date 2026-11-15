@@ -313,7 +313,7 @@
         "angular_radius_deg": 0.2696030555555556
       },
       {
-        "time_utc": "2026-11-16T00:00:00Z",
+        "time_utc": "2026-11-15T23:53:00Z",
         "azimuth_deg": 102.263871,
         "elevation_deg": 1.449028,
         "angular_radius_deg": 0.2696
@@ -609,7 +609,7 @@
         "angular_radius_deg": 0.9071569444444444
       },
       {
-        "time_utc": "2026-11-16T00:00:00Z",
+        "time_utc": "2026-11-15T23:53:00Z",
         "azimuth_deg": 356.022696,
         "elevation_deg": -1.812529,
         "angular_radius_deg": 0.9074040277777778

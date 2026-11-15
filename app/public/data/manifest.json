@@ -5,37 +5,37 @@
     {
       "path": "data/README.md",
       "bytes": 2287,
-      "sha256": "0f7989a4327cdba1ddc009b5b87f7778efb774a4cb1b1f70a434b3c5267041e5"
+      "sha256": "31aa5999c0e6bf2f6ed7d5d0f32ec85e057a5d7feeeb136f39cae6489b33103d"
     },
     {
       "path": "data/acquisition-log.json",
       "bytes": 2652,
-      "sha256": "3d9a1623333edf10dc6728859d48b6839f0ade2b5f713bd07f863ce381e9f5c4"
+      "sha256": "54483452bfd72a89b4e769cff22a3033c03b7ca735e7b9be2ce59d0cc14821f4"
     },
     {
       "path": "data/earth-horizons.json",
-      "bytes": 9705,
-      "sha256": "67e9be158306f0b6888e5d1e41bcbc48a5364a95bf63d2b0bc42191fc8548b1c"
+      "bytes": 9679,
+      "sha256": "d65e9277f136ff043fc88b297e7d1b2cca8f55688e878bc24371cfa49c08643a"
     },
     {
       "path": "data/earth-request.json",
       "bytes": 519,
-      "sha256": "bc135e0dc58d640e871c73f95135915f63902da5230495d0ab71ad695237b8c6"
+      "sha256": "be729f857704c9b1094f04e2b7642927b809ec6c13d2851a8bdfd784fff252a5"
     },
     {
       "path": "data/ephemeris-fixture.csv",
       "bytes": 6541,
-      "sha256": "31494f991e5e2d1ceb1cc434c7ab6884f0bdeb1ad1ebe2f4c3ba99ba83d5cd43"
+      "sha256": "c4a3c352d58461c18e413ea170dcfd38b77ab0814541105a6de05702ba1d5bc5"
     },
     {
       "path": "data/ephemeris-fixture.json",
       "bytes": 18289,
-      "sha256": "49a07d750d1b9fa62138f6c9d4f9b6ecb503f6d2309b74551de88742ef4d3899"
+      "sha256": "d415e032d602a41adcb9bb552d561931798129245a125beeef329a79eefe0c82"
     },
     {
       "path": "data/historical-sites.json",
       "bytes": 824,
-      "sha256": "92cfe3f36d7ee3b0167c755debd6fb3d0ac874a619948eb619a391f76f8b0e12"
+      "sha256": "862c28951fa96e0df375c8c3491f9b5e70ef17c492484556b5b56ae9c6cc3e58"
     },
     {
       "path": "data/horizons-api.html",
@@ -44,8 +44,8 @@
     },
     {
       "path": "data/horizons-manual.html",
-      "bytes": 229979,
-      "sha256": "be45b0137b37068c48760bbaf306f52a72c10239c175ba91119a30eb30612a81"
+      "bytes": 229981,
+      "sha256": "a4421311578ce0f48712de0cd79e135295a55535ca0b8fa845e8c8da54f76c50"
     },
     {
       "path": "data/lola-readme.txt",
@@ -80,7 +80,7 @@
     {
       "path": "data/site04-dem-sample.metadata.json",
       "bytes": 1382,
-      "sha256": "7880dc0db947e169d5cd90bba153c16b673b46f249212cef368c88af7e4637f2"
+      "sha256": "0883d17501b93d0f61959401bd6d756af19fb06965d990d024bbaa673fa4502b"
     },
     {
       "path": "data/site04-dem-sample.tif",
@@ -94,13 +94,13 @@
     },
     {
       "path": "data/sun-horizons.json",
-      "bytes": 9705,
-      "sha256": "c28accb28d462529c8ae833c878bb17fca21ec9026dcf8c4d3a5717d10e88774"
+      "bytes": 9679,
+      "sha256": "e701c03b871f377d631bc9d9952905c6ff26d4acba0ea889fb0762a17840b1e1"
     },
     {
       "path": "data/sun-request.json",
       "bytes": 518,
-      "sha256": "4c52708fbd94840556802e5b3e5eb70723c7e0298f58ce37a36052bdbda77b39"
+      "sha256": "8695147d9d289a0df9e9bb88649a5ecc5e0ffe7a86d6b7cc3f2c17bd1c8a7b71"
     },
     {
       "path": "data/svs4930.html",
