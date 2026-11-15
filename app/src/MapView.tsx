@@ -1811,9 +1811,9 @@ export default function MapView({
           Click the Moon to relocate scenario {study.active}.
         </div>
       )}
-      <div className="map-info">
+      <div className="map-info" style={imageryFailed ? { zIndex: 10 } : undefined}>
         <span className={tiles.startsWith("Loading") ? "is-loading" : ""}>{tiles}</span>
-        {imageryFailed && <button type="button" onClick={() => setImageryAttempt((attempt) => attempt + 1)}>Retry imagery</button>}
+        {imageryFailed && <button type="button" style={{ pointerEvents: "auto" }} onClick={() => setImageryAttempt((attempt) => attempt + 1)}>Retry imagery</button>}
         <span>
           {activeSite(study).lat.toFixed(5)}°,{" "}
           {activeSite(study).lon.toFixed(5)}° E ·{" "}
