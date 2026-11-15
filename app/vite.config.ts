@@ -44,7 +44,7 @@ function localApiOriginGuard() {
 export default defineConfig({
   plugins: [react(), { ...cesium(), transformIndexHtml: undefined }, localApiOriginGuard()],
   build: {
-    rollupOptions: { input: { landing: "index.html", navigator: "navigator.html" } },
+    rollupOptions: { input: { landing: "index.html", navigator: "navigator.html", science: "science.html" } },
   },
   server: { host: "127.0.0.1", proxy: { "/api": "http://127.0.0.1:8765" } },
   preview: { proxy: { "/api": "http://127.0.0.1:8765" } },

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="NASA datasets, research, formulas, and methods behind the LUNA Lunar Landing Site Navigator." />
+    <link rel="icon" type="image/png" href="%BASE_URL%favicon-light.png" />
+    <link rel="preload" href="%BASE_URL%landing/inter.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/landing.css" />
+    <link rel="stylesheet" href="/src/science.css" />
+    <title>Science &amp; Sources — LUNA</title>
+  </head>
+  <body class="science-page">
+    <a class="skip-link" href="#science-content">Skip to content</a>
+    <div data-site-header-root></div>
+
+    <main class="science-main" id="science-content">
+      <section class="resource-intro">
+        <div class="wide">
+          <p class="eyebrow"><span class="status-dot"></span> Science &amp; sources</p>
+          <h1>Science,<br />with sources.</h1>
+          <p class="resource-lede">The data, software, equations, and screening methods behind LUNA. Primary datasets are listed by source-file size; supporting references and tools follow by role.</p>
+          <div class="resource-jumps" aria-label="On this page">
+            <a href="#nasa-data">NASA data</a><a href="#nasa-references">NASA references</a><a href="#other-resources">Other resources</a><a href="#formulas">Formulas</a><a href="#methodology">Methodology</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="resource-section wide" id="nasa-data">
+        <div class="resource-heading"><div><p class="eyebrow">01 / Source data</p><h2>NASA data</h2></div><p>Largest source files first. Sizes describe acquired source files, not the smaller crops or derived samples that may be bundled with the app.</p></div>
+        <ol class="resource-list">
+          <li class="resource-row"><span class="resource-rank">01</span><div><h3>LOLA 80 m south-polar regional DEM</h3><p>Regional elevation raster used for curved-surface horizon and terrain visibility calculations. Acquired source: 189,158,392 bytes (189.2 MB).</p></div><a class="resource-link" href="https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF">Download DEM ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">02</span><div><h3>LOLA Site04 5 m terrain DEM</h3><p>Native-resolution Shackleton rim surface used for the local horizon override and landing-slope/roughness screening. Acquired source: 40,980,806 bytes (41.0 MB); the app also retains a small crop.</p><p class="resource-sub">Product notes: <a href="https://pgda.gsfc.nasa.gov/products/78">NASA GSFC PGDA product 78</a> · <a href="https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/README">README and frame/units</a></p></div><a class="resource-link" href="https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif">Download DEM ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">03</span><div><h3>LRO LOLA global LDEM_16 V3.1</h3><p>Global 16 pixels-per-degree topography used for lunar globe context and terrain mesh. Acquired raster: 33,177,600 bytes (33.2 MB), 0.5 m height scale, 1,737,400 m reference radius.</p><p class="resource-sub">PDS label: <a href="https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/ldem_16.lbl">LDEM_16 label</a></p></div><a class="resource-link" href="https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/ldem_16.img">Download IMG ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">04</span><div><h3>JPL DE440s planetary ephemeris</h3><p>Planetary translation kernel used with SPICE for Sun, Earth, and body geometry. Acquired file: 32,726,016 bytes (32.7 MB).</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp">Download SPK ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">05</span><div><h3>Earth orientation BPC, 1962–2026</h3><p>Long-term Earth-orientation kernel used for station-frame geometry. Acquired file: 31,318,016 bytes (31.3 MB); long-range predicted orientation has lower accuracy.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_1962_260806_2126_combined.bpc">Download BPC ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">06</span><div><h3>LRO definitive trajectory SPK</h3><p>NASA FDF/GSFC ACTUAL spacecraft trajectory for the November 2022 eclipse example; coverage is 2022-09-15 to 2022-12-15. Acquired file: 7,658,496 bytes (7.66 MB).</p><p class="resource-sub">Coverage label: <a href="https://naif.jpl.nasa.gov/pub/naif/pds/data/lro-l-spice-6-v1.0/lrosp_1000/data/spk/lrorg_2022258_2022349_v01.lbl">SPK label</a></p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/pds/data/lro-l-spice-6-v1.0/lrosp_1000/data/spk/lrorg_2022258_2022349_v01.bsp">Download SPK ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">07</span><div><h3>Short-term Earth orientation BPC</h3><p>Dated Earth-orientation prediction kernel used within its coverage. Acquired file: 5,160,960 bytes (5.16 MB).</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_000101_270204_261109.bpc">Download BPC ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">08</span><div><h3>Moon PA DE421 orientation BPC</h3><p>Lunar orientation kernel used with DE421 and the MOON_ME frame. Acquired file: 1,770,496 bytes (1.77 MB).</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/moon_pa_de421_1900-2050.bpc">Download BPC ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">09</span><div><h3>NAIF body constants PCK</h3><p>Planetary constants used by the SPICE geometry setup. Acquired file: 131,226 bytes.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc">Download PCK ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">10</span><div><h3>Earth topocentric station frame</h3><p>Station frame definition paired with the ITRF93 coordinates. Acquired file: 69,400 bytes.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/stations/earth_topo_260814.tf">Download TF ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">11</span><div><h3>Earth station coordinates SPK</h3><p>ITRF93 station coordinates for DSS-14, DSS-43, and DSS-63. Acquired file: 26,624 bytes.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/stations/earthstns_itrf93_260814.bsp">Download SPK ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">12</span><div><h3>Moon frame definition</h3><p>DE421 lunar frame definition used to interpret orientation data. Acquired file: 21,437 bytes.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_080317.tf">Download TF ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">13</span><div><h3>Leap-second kernel</h3><p>NAIF time kernel for UTC-to-ET conversion. Acquired file: 5,257 bytes.</p></div><a class="resource-link" href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls">Download TLS ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">14</span><div><h3>NASA Moon Trek map tiles</h3><p>Network-served map context, loaded by requested map area rather than as one fixed-size dataset: LRO WAC global mosaic, LOLA color shade, LOLA shade, and LOLA color slope layers.</p><p class="resource-sub">Layers: <code>LRO_WAC_Mosaic_Global_303ppd_v02</code>, <code>LRO_LOLA_ClrShade_Global_256ppd_v06</code>, <code>LRO_LOLA_Shade_Global_128ppd_v04</code>, <code>LRO_LOLA_ClrSlope_Global_16ppd</code>.</p></div><a class="resource-link" href="https://trek.nasa.gov/tiles/apidoc/">WMTS documentation ↗</a></li>
+          <li class="resource-row"><span class="resource-rank">15</span><div><h3>JPL Horizons Sun/Earth ephemerides</h3><p>API requests and responses are retained as reference fixtures for solar and Earth geometry. The interactive mission-analysis calculations use local SPICE kernels.</p></div><a class="resource-link" href="https://ssd-api.jpl.nasa.gov/doc/horizons.html">API documentation ↗</a></li>
+        </ol>
+        <p class="resource-note">Reviewed but not ingested as numerical inputs: <a href="https://pgda.gsfc.nasa.gov/products/90">PGDA product 90 (20 m DEM listed at 2.6 GB)</a>, the alternative <a href="https://pgda.gsfc.nasa.gov/products/81">5 m south-pole mosaic</a>, and <a href="https://pgda.gsfc.nasa.gov/products/69">long-term polar illumination averages</a>. The 2.6 GB product is not downloaded or analyzed by this project.</p>
+      </section>
+
+      <section class="resource-section resource-band dark" id="nasa-references" data-dark>
+        <div class="wide">
+          <div class="resource-heading"><div><p class="eyebrow">02 / Context and verification</p><h2>NASA references</h2></div><p>Primary sources and NASA-authored materials used for examples, map/visual attribution, and model context.</p></div>
+          <div class="resource-cards">
+            <article><h3>Mission examples and operations</h3><ul>
+              <li><a href="https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo17info.html">Apollo 17 landing record</a> — epoch and rounded Taurus–Littrow coordinates.</li>
+              <li><a href="https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_17i_Timeline.htm">Apollo 17 timeline</a> — historical event times.</li>
+              <li><a href="https://science.nasa.gov/mission/viper/lunar-operations/">VIPER lunar operations</a> — planning context for light, slope, energy, and communications.</li>
+              <li><a href="https://science.nasa.gov/moon/eclipses/">Moon eclipses and LRO power</a> — eclipse context.</li>
+              <li><a href="https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html">Lunar spacecraft and artifacts</a> — historical landing-site reference.</li>
+              <li><a href="https://science.nasa.gov/moon/solar-wind/">NASA lunar solar-wind context</a>.</li>
+              <li><a href="https://ntrs.nasa.gov/citations/20240001709">VIPER traverse planning</a>, <a href="https://ntrs.nasa.gov/citations/20250000720">lunar navigation survey</a>, and <a href="https://ntrs.nasa.gov/citations/20230007028">crater-relative localization</a> — NASA Technical Reports Server.</li>
+            </ul></article>
+            <article><h3>Engineering and science context</h3><ul>
+              <li><a href="https://deepspace.jpl.nasa.gov/dsndocs/810-005/">Deep Space Network Telecommunications Link Design Handbook</a> — link-budget framework.</li>
+              <li><a href="https://naif.jpl.nasa.gov/naif/toolkit.html">NAIF SPICE Toolkit</a> and <a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/occult_c.html">occultation routine reference</a>.</li>
+              <li><a href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/stations/earthstns_itrf93_260814.cmt">DSN station coordinates notes</a> and <a href="https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_1962_260806_2126_combined.cmt">Earth-orientation kernel limits</a>.</li>
+              <li><a href="https://www.nasa.gov/safe-and-precise-landing-integrated-capabilities-evolution-splice/">SPLICE landing hazard detection</a> — capabilities outside LUNA’s terrain screen.</li>
+              <li><a href="https://www.nasa.gov/news-release/liftoff-nasa-tech-science-en-route-to-moon-with-intuitive-machines/">NASA-supported Micro Nova hopper</a> — general hop context; not the modeled vehicle.</li>
+              <li><a href="https://doi.org/10.1016/j.pss.2020.105119">LOLA south-pole terrain research</a> and <a href="https://doi.org/10.1016/j.icarus.2010.10.030">lunar illumination research</a> — cited scientific context.</li>
+            </ul></article>
+            <article><h3>NASA imagery and visual data</h3><ul>
+              <li><a href="https://svs.gsfc.nasa.gov/5049/">Moon disk</a> — NASA SVS.</li>
+              <li><a href="https://science.nasa.gov/resource/earth-and-sun-from-the-moons-south-pole/">Earth and Sun from the lunar south pole</a> — NASA visualization.</li>
+              <li><a href="https://svs.gsfc.nasa.gov/3577/">South-pole terrain</a> — NASA SVS.</li>
+              <li><a href="https://www.nasa.gov/image-article/apollo-8-earthrise/">Apollo 8 Earthrise</a> — NASA photograph.</li>
+              <li><a href="https://svs.gsfc.nasa.gov/20140/">LRO illustration</a> — NASA SVS.</li>
+              <li><a href="https://svs.gsfc.nasa.gov/4930/">South-pole illumination 2023–2030</a> and <a href="https://svs.gsfc.nasa.gov/5228/">South Pole Illumination with Earth and Sun</a> — qualitative visual references, not numerical ground truth.</li>
+            </ul></article>
+            <article><h3>Space Apps project brief</h3><ul>
+              <li><a href="https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/">Lunar Landing Site Navigator challenge brief</a> — project scope.</li>
+              <li><a href="https://www.spaceappschallenge.org/resources/participant-faqs/">Participant FAQs</a> — challenge participation rules.</li>
+            </ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="resource-section wide" id="other-resources">
+        <div class="resource-heading"><div><p class="eyebrow">03 / Implementation</p><h2>Other resources</h2></div><p>Libraries and APIs used to build, run, or author the project. Lockfiles record resolved versions and transitive packages.</p></div>
+        <div class="resource-cards">
+          <article><h3>Runtime and interface</h3><ul>
+            <li><a href="https://github.com/CesiumGS/cesium">CesiumJS</a> — interactive globe and terrain.</li>
+            <li><a href="https://github.com/facebook/react">React</a> and <a href="https://github.com/facebook/react">React DOM</a> — application UI.</li>
+            <li><a href="https://github.com/vitejs/vite">Vite</a>, <a href="https://github.com/vitejs/vite-plugin-react">Vite React plugin</a>, and <a href="https://github.com/nshen/vite-plugin-cesium">Vite Cesium plugin</a> — build and development.</li>
+            <li><a href="https://github.com/mathuo/dockview">Dockview</a> — resizable workspace panels.</li>
+            <li><a href="https://github.com/phosphor-icons/react">Phosphor Icons</a>, <a href="https://github.com/radix-ui/primitives">Radix UI Slider</a>, <a href="https://github.com/omgovich/react-colorful">React Colorful</a>, and <a href="https://github.com/emilkowalski/sonner">Sonner</a> — controls, icons, and notifications.</li>
+            <li><a href="https://github.com/motiondivision/motion">Motion</a> and <a href="https://github.com/kamranahmedse/driver.js">Driver.js</a> — transitions and guided tours.</li>
+            <li><a href="https://github.com/parallax/jsPDF">jsPDF</a> — PDF export; <a href="https://github.com/mlc-ai/web-llm">WebLLM</a> — optional in-browser AI runtime.</li>
+          </ul></article>
+          <article><h3>Scientific and server-side packages</h3><ul>
+            <li><a href="https://github.com/numpy/numpy">NumPy</a> — numerical arrays and raster analysis.</li>
+            <li><a href="https://github.com/rasterio/rasterio">Rasterio</a> — DEM reading and geospatial rasters.</li>
+            <li><a href="https://github.com/pyproj4/pyproj">PyProj</a> — coordinate transforms.</li>
+            <li><a href="https://github.com/AndrewAnnex/SpiceyPy">SpiceyPy</a> — Python interface to SPICE.</li>
+            <li><a href="https://github.com/KaTeX/KaTeX">KaTeX</a> — locally bundled mathematical typesetting for the formula gallery.</li>
+            <li><a href="https://github.com/psf/requests">Requests</a> — NASA API/data retrieval.</li>
+            <li><a href="https://github.com/python-pillow/Pillow">Pillow</a>, <a href="https://github.com/py-pdf/pypdf">pypdf</a>, and <a href="https://github.com/giampaolo/psutil">psutil</a> — image/PDF handling and system information.</li>
+            <li><a href="https://github.com/deedy5/ddgs">DDGS</a> — optional web search integration.</li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4732172/">Foot-mounted inertial-navigation research</a> — background for the optional inertial sensor workflow.</li>
+          </ul></article>
+          <article><h3>Development, runtime, and fonts</h3><ul>
+            <li><a href="https://github.com/microsoft/TypeScript">TypeScript</a>, <a href="https://github.com/vitest-dev/vitest">Vitest</a>, and <a href="https://github.com/oxc-project/oxc">Oxlint</a> — development and quality tooling.</li>
+            <li><a href="https://nodejs.org/">Node.js</a> and <a href="https://www.npmjs.com/">npm</a> — JavaScript runtime and package installation; <a href="https://github.com/astral-sh/uv">uv</a> — Python environment and lockfile management.</li>
+            <li><a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a> — Node, React, and GeoJSON type definitions.</li>
+            <li><a href="https://ollama.com/">Ollama</a> — optional local model runtime; model weights are user-installed.</li>
+            <li><a href="https://openai.com/codex/">OpenAI Codex</a> — software authoring assistance.</li>
+            <li><a href="https://platform.openai.com/docs/api-reference/responses">OpenAI Responses API</a> and <a href="https://ai.google.dev/gemini-api/docs">Google Gemini API</a> — optional cloud AI providers selected by the user.</li>
+            <li><a href="https://github.com/rsms/inter">Inter</a>, <a href="https://github.com/uswds/public-sans">Public Sans</a>, and <a href="https://github.com/google/fonts/tree/main/ofl/dmmono">DM Mono</a> — locally bundled fonts; each distributed with its SIL Open Font License.</li>
+            <li><a href="https://developer.chrome.com/docs/capabilities/serial/">Web Serial API documentation</a> — optional USB sensor connection.</li>
+            <li><a href="https://developers.google.com/youtube/iframe_api">YouTube IFrame Player API</a> — landing-page demo video.</li>
+          </ul></article>
+        </div>
+      </section>
+
+      <section class="resource-section formula-section dark" id="formulas" data-dark>
+        <div class="wide">
+          <div class="resource-heading"><div><p class="eyebrow">04 / Quantitative models</p><h2>Formulas</h2></div><p>Equations reflect the implemented screening models. Inputs are configurable where noted; numerical sampling and physical assumptions limit interpretation.</p></div>
+          <div class="formula-gallery" data-formula-gallery>
+            <p class="formula-hint">Swipe to browse, or use the arrows and keyboard ← → keys.</p>
+            <div class="formula-controls"><span class="formula-count" data-formula-count aria-live="polite">01 / 10</span><div><button type="button" data-formula-previous aria-label="Previous formula">← <span>Previous</span></button><button type="button" data-formula-next aria-label="Next formula"><span>Next</span> →</button></div></div>
+            <div class="formula-track" data-formula-track tabindex="0" aria-label="Formula gallery. Swipe or use left and right arrow keys to browse." aria-roledescription="carousel">
+              <article class="formula-card" data-formula-card aria-label="1 of 10: Local lunar frame">
+                <div class="formula-card-head"><h3>Local lunar frame</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}\hat{\mathbf u}&amp;=(\cos\phi\cos\lambda,\cos\phi\sin\lambda,\sin\phi)\\\hat{\mathbf e}&amp;=(-\sin\lambda,\cos\lambda,0)\\\hat{\mathbf n}&amp;=\hat{\mathbf u}\times\hat{\mathbf e}\\\mathbf r_{obs}&amp;=(R+h)\hat{\mathbf u}\end{aligned}">Local lunar basis and observer position</div>
+                <p>At latitude <i>φ</i> and longitude <i>λ</i>, define local up, east, and north. The observer sits at reference lunar radius plus terrain elevation and mast height.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="2 of 10: Apparent body geometry">
+                <div class="formula-card-head"><h3>Apparent body geometry</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}az&amp;=\operatorname{atan2}(\mathbf v\cdot\hat{\mathbf e},\mathbf v\cdot\hat{\mathbf n})\\el&amp;=\arcsin\left(\frac{\mathbf v\cdot\hat{\mathbf u}}{\|\mathbf v\|}\right)\\\alpha&amp;=\arcsin\left(\frac{r_{body}}{d}\right)\end{aligned}">Azimuth, elevation, and apparent angular radius</div>
+                <p><i>v</i> is the observer-to-body vector, <i>d</i> its distance, and <i>r</i><sub>body</sub> the body radius. Geometry uses SPICE light-time plus stellar aberration (LT+S).</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="3 of 10: Sampled terrain horizon">
+                <div class="formula-card-head"><h3>Sampled terrain horizon</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}e_q&amp;=\operatorname{atan2}((\mathbf q-\mathbf r)\cdot\hat{\mathbf u},\\&amp;\sqrt{[(\mathbf q-\mathbf r)\cdot\hat{\mathbf e}]^2+[(\mathbf q-\mathbf r)\cdot\hat{\mathbf n}]^2})\end{aligned}">Elevation angle from observer to terrain sample</div>
+                <p>The horizon at each bearing is the maximum sampled elevation. Radial spacing is 5 m to 2 km, 20 m to 5 km, then 80 m to 250 km. Missing terrain stays unknown.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="4 of 10: Solar disk overlap and direct sunlight">
+                <div class="formula-card-head"><h3>Solar disk overlap</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}x&amp;=\frac{d^2+r_1^2-r_2^2}{2dr_1},\quad y=\frac{d^2+r_2^2-r_1^2}{2dr_2}\\A_{overlap}&amp;=r_1^2\cos^{-1}(x)+r_2^2\cos^{-1}(y)\\&amp;\quad-\frac12\sqrt{(-d+r_1+r_2)(d+r_1-r_2)(d-r_1+r_2)(d+r_1+r_2)}\\f_{direct}&amp;\approx f_H(1-f_{blocked})\end{aligned}">Apparent disk intersection and estimated direct-sun fraction</div>
+                <p>For separation <i>d</i> and apparent radii <i>r</i><sub>1</sub>, <i>r</i><sub>2</sub>, the overlap gives the blocked solar fraction. Terrain visibility uses 512 deterministic disk samples; the joint nominal fraction is a product approximation.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="5 of 10: Solar array power">
+                <div class="formula-card-head"><h3>Solar array power</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}P&amp;=1361\left(\frac{AU}{d_\odot}\right)^2A\eta\delta\max(0,\cos i)f_\odot\\i_{fixed}&amp;=\max(0,\sin(el)\cos(tilt)+\cos(el)\sin(tilt)\cos(az-az_p))\end{aligned}">Solar flux, panel incidence, and direct illumination</div>
+                <p><i>A</i>, efficiency <i>η</i>, derating <i>δ</i>, panel orientation, and direct-sun fraction come from the study configuration. Tracking arrays use unit incidence.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="6 of 10: Battery energy">
+                <div class="formula-card-head"><h3>Battery energy</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}N&amp;=P_{gen}-P_{load}\\E\prime&amp;=\begin{cases}\operatorname{clip}(E+N\Delta t\eta_c,0,C),&amp;N\ge0\\\operatorname{clip}(E+N\Delta t/\eta_d,0,C),&amp;N&lt;0\end{cases}\\SOC&amp;=E/C\end{aligned}">Sampled battery energy balance with charge and discharge efficiencies</div>
+                <p>Capacity <i>C</i> bounds the stored energy. Activity start and end times split intervals exactly; generation is held constant between samples.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="7 of 10: Radio link budget">
+                <div class="formula-card-head"><h3>Radio link budget</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}\lambda&amp;=c/f\\G_r&amp;=10\log_{10}\left[\eta\left(\frac{\pi D}{\lambda}\right)^2\right]\\FSPL&amp;=20\log_{10}\left(\frac{4\pi d}{\lambda}\right)\\EIRP&amp;=10\log_{10}(P_t)+G_t\\E_b/N_0&amp;=P_r-N_0-10\log_{10}(R_b)\\M&amp;=E_b/N_0-(E_b/N_0)_{req}-L_{impl}-M_{reserve}\end{aligned}">Wavelength, antenna gain, free-space loss, and link margin</div>
+                <p>This simplified free-space budget uses editable hardware, rate, losses, and margin assumptions. A positive margin does not guarantee geometric access or DSN availability.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="8 of 10: Terrain slope and route cost">
+                <div class="formula-card-head"><h3>Terrain slope &amp; route cost</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}z&amp;=ax+by+c\\slope&amp;=\tan^{-1}\left(\sqrt{a^2+b^2}\right)\\roughness&amp;=\sqrt{\operatorname{mean}(residual^2)}\\cost&amp;=distance+w_u\,climb\left(1+\frac{2\,grade}{slope_{limit}}\right)\\&amp;\quad+2s\beta\frac{\pi}{4}\end{aligned}">Plane-fit slope, residual roughness, and path cost</div>
+                <p>The site screen fits a plane to native DEM pixels. Eight-neighbor A* routing excludes unknown, over-slope, and prohibited cells, then accounts for uphill effort and turns.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="9 of 10: Ideal hopper screen">
+                <div class="formula-card-head"><h3>Ideal hopper screen</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}\Delta v&amp;=I_{sp}g_0\ln\left(\frac{m_{dry}+m_{prop}}{m_{dry}}\right)\\range&amp;=\frac{v^2\sin(2\theta)}{g_{Moon}}\\t&amp;=\frac{2v\sin\theta}{g_{Moon}}\\h_{apex}&amp;=\frac{v^2\sin^2\theta}{2g_{Moon}}\\\Delta v_{two\ impulse}&amp;=2v\end{aligned}">Ideal propulsive delta-v and flat-surface ballistic hop</div>
+                <p>Vacuum, impulsive hop under constant lunar gravity. This is a screening estimate, not a trajectory or a model of a specific vehicle.</p>
+              </article>
+              <article class="formula-card" data-formula-card aria-label="10 of 10: Circular reference orbit">
+                <div class="formula-card-head"><h3>Circular reference orbit</h3></div>
+                <div class="formula-equation" data-katex="\begin{aligned}a&amp;=R+h\\n&amp;=\sqrt{\frac{\mu}{a^3}}\\u(t)&amp;=u_0+nt\end{aligned}">Circular two-body orbit radius, angular rate, and phase</div>
+                <p>The user-defined reference orbit uses altitude, initial phase, inclination, and RAAN. It is distinct from the NASA LRO definitive-trajectory example.</p>
+              </article>
+            </div>
+            <div class="formula-dots" data-formula-dots aria-label="Choose a formula"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="resource-section wide" id="methodology">
+        <div class="resource-heading"><div><p class="eyebrow">05 / How results are produced</p><h2>Methodology</h2></div><p>LUNA is a research-planning and education aid. Results screen candidate conditions; they are not landing clearance, guaranteed communications, or flight-qualified predictions.</p></div>
+        <ol class="method-steps">
+          <li><span>01</span><div><h3>Load and disclose inputs</h3><p>NASA LOLA raster cells are sampled in their lunar frame; NASA NAIF kernels provide ephemerides, orientation, time conversion, and station locations. The study export records inputs, source manifest, kernel metadata, and code hashes.</p></div></li>
+          <li><span>02</span><div><h3>Compute time-dependent geometry</h3><p>UTC is converted to SPICE ET. Local Sun, Earth, LRO, and station geometry is evaluated in supported frames with LT+S where used. Surface visibility accounts for the local terrain horizon; contact windows are found from sampled sign changes and refined by bisection.</p></div></li>
+          <li><span>03</span><div><h3>Sample uncertainty and visibility</h3><p>Terrain-height perturbations create deterministic sensitivity bounds, not statistical confidence intervals. Sunlight samples the apparent solar disk; the joint eclipse/terrain nominal fraction is a product approximation. Unknown terrain remains marked unknown.</p></div></li>
+          <li><span>04</span><div><h3>Evaluate power, contact, and candidate schedules</h3><p>Solar production and overlapping activity loads feed a bounded battery model. DSN visibility requires both lunar antenna elevation and the terrestrial station mask; RF margin is evaluated separately. Candidate activity starts are sample-aligned and recomputed against conservative state of charge.</p></div></li>
+          <li><span>05</span><div><h3>Screen terrain and routes</h3><p>Site04 footprint cells are fit to a plane for slope and residual roughness screening. Rover routing uses an eight-neighbor A* grid, slope and polygon constraints, uphill-effort cost, and turn penalties. Finite grid resolution can miss local hazards.</p></div></li>
+        </ol>
+        <div class="limits-box"><h3>Important model limits</h3><p>The globe display is a textured sphere, not a terrain-displaced mesh. Horizon results depend on finite DEM coverage and sampling; the far-field +15 km limit is an explicit assumed height. The Sun is uniform, Earth spherical, and neither atmospheric refraction nor limb darkening is modeled. No DSN reservation, weather/interference model, detailed thermal/battery-management model, rock-scale hazard map, landing dynamics, or mission hardware validation is included.</p></div>
+      </section>
+    </main>
+
+    <footer class="site-footer pale resource-footer"><div class="wide"><div class="footer-top"><div><a class="wordmark" href="%BASE_URL%index.html"><img src="%BASE_URL%landing/logo-light.webp" alt="LUNA home" width="512" height="512" /></a><p>Lunar exploration, made accessible.</p></div><nav aria-label="Footer navigation"><a href="%BASE_URL%index.html#explore">Explore</a><a href="%BASE_URL%science.html">Science</a><a href="%BASE_URL%navigator.html">Launch LUNA ↗</a></nav></div><p class="footer-note">LUNA is an independent NASA Space Apps Challenge 2026 project. NASA data, software, images, and references are credited above; this project is not endorsed by NASA and is not flight-qualified.</p><div class="footer-bottom"><span>Created by Artem Kachan</span><span>© 2026 LUNA</span></div></div></footer>
+    <script type="module" src="/src/sciencePage.ts"></script>
+  </body>
+</html>

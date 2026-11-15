@@ -1,0 +1,99 @@
+.science-main { overflow: clip; }
+.science-page [data-site-header-root] { display: contents; }
+.science-cta { margin-top: 42px; }
+.science-cta > div { display: grid; justify-items: center; width: min(100%, 900px); margin-inline: auto; text-align: center; }
+.science-cta p { max-width: 48ch; margin: 0 auto 12px; color: var(--quiet); font-size: .78rem; line-height: 1.45; opacity: .68; }
+.science-cta .button { min-height: 48px; }
+.resource-intro { padding-block: clamp(92px, 12vw, 166px) clamp(64px, 8vw, 110px); }
+.resource-intro h1 { font-size: clamp(58px, 10vw, 126px); }
+.resource-lede { max-width: 650px; margin-top: 22px; color: var(--quiet); font-size: clamp(17px, 1.7vw, 21px); }
+.resource-jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 34px; }
+.resource-jumps a { min-height: 40px; display: inline-flex; align-items: center; padding: 0 15px; border: 1px solid var(--line); border-radius: 100px; text-decoration: none; font: 550 .78rem var(--display); }
+.resource-jumps a:hover { border-color: var(--blue); color: var(--blue); }
+.resource-section { padding-block: clamp(76px, 9vw, 128px); scroll-margin-top: calc(var(--header-height) + 16px); }
+.resource-heading { display: grid; grid-template-columns: 1fr minmax(260px, 420px); align-items: end; gap: 40px; margin-bottom: 54px; }
+.resource-heading .eyebrow { margin-bottom: 12px; }
+.resource-heading h2 { font-size: clamp(38px, 5.6vw, 68px); }
+.resource-heading > p { color: var(--quiet); font-size: .94rem; }
+.resource-list { padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--line); }
+.resource-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 24px; align-items: start; padding: 30px 0; border-bottom: 1px solid var(--line); }
+.resource-rank, .formula-index { color: var(--blue); font: 400 .78rem/1.5 var(--mono); }
+.resource-row h3, .resource-cards h3, .method-steps h3, .limits-box h3 { font-size: 1.05rem; letter-spacing: -.025em; }
+.resource-row p, .resource-cards li, .resource-note, .method-steps p, .limits-box p { color: var(--quiet); font-size: .9rem; line-height: 1.65; }
+.resource-row p { margin-top: 5px; max-width: 760px; }
+.resource-row .resource-sub { margin-top: 7px; font-size: .8rem; }
+.resource-link { align-self: center; color: var(--blue); font: 550 .76rem var(--display); text-decoration: none; white-space: nowrap; }
+.resource-link:hover, .resource-cards a:hover, .resource-note a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.resource-note { margin-top: 20px; max-width: 920px; }
+.resource-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 64px; }
+.resource-cards article { border-top: 1px solid var(--line); padding-top: 17px; }
+.resource-cards ul { padding-left: 1.1rem; margin: 12px 0 0; }
+.resource-cards li + li { margin-top: 8px; }
+.resource-cards a, .resource-note a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.resource-cards code, .resource-row code { font: .78em var(--mono); overflow-wrap: anywhere; }
+.resource-band.dark .resource-cards article { border-color: var(--line); }
+.resource-band.dark .resource-cards a { color: var(--link); }
+.formula-gallery { border-top: 1px solid #d9d9de; }
+.formula-hint { margin: 0; padding-top: 18px; color: var(--quiet); text-align: right; font: .68rem var(--mono); letter-spacing: .015em; }
+.formula-controls { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.formula-count, .formula-card-head > span { color: var(--blue); font: .76rem var(--mono); letter-spacing: .04em; }
+.formula-controls > div { display: flex; gap: 8px; }
+.formula-controls button { min-height: 42px; padding: 0 14px; border: 1px solid #d9d9de; border-radius: 100px; color: var(--ink); background: transparent; font: 550 .8rem var(--display); transition: color .2s, background .2s, border-color .2s; }
+.formula-controls button:hover:not(:disabled) { color: #fff; background: var(--blue); border-color: var(--blue); }
+.formula-controls button:disabled { opacity: .38; cursor: default; }
+.formula-track { display: flex; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; touch-action: pan-x pan-y; outline: none; padding: 4px 0 20px; }
+.formula-track::-webkit-scrollbar { display: none; }
+.formula-card { flex: 0 0 100%; min-width: 0; height: clamp(300px, calc(100svh - 400px), 560px); min-height: 0; display: flex; flex-direction: column; scroll-snap-align: start; padding: clamp(24px, 4.4vw, 58px); background: #fff; border: 1px solid #e2e2e6; border-radius: 12px; opacity: .64; transform: scale(.985); transition: opacity 380ms ease, transform 480ms cubic-bezier(.2,.8,.2,1); }
+.formula-card[data-active] { opacity: 1; transform: scale(1); }
+.formula-section.dark { --ink: #fff; --quiet: #b3b3bd; --line: #35353b; --link: #8dbbff; }
+.formula-section.dark .formula-gallery { border-color: var(--line); }
+.formula-section.dark .formula-card { color: #fff; background: #0b0b0d; border-color: #303037; }
+.formula-section.dark .formula-card > p { color: var(--quiet); }
+.formula-section.dark .formula-count, .formula-section.dark .formula-card-head > span { color: var(--link); }
+.formula-section.dark .formula-controls button { color: #fff; border-color: #42424a; }
+.formula-section.dark .formula-controls button:hover:not(:disabled) { background: #1768e8; border-color: #1768e8; }
+.formula-section.dark .formula-dots button { background: #64646e; }
+.formula-section.dark .formula-dots button[aria-current="true"] { background: #8dbbff; }
+.formula-card-head { display: flex; align-items: baseline; gap: 18px; }
+.formula-card-head h3 { font-size: clamp(22px, 3vw, 34px); letter-spacing: -.045em; }
+.formula-equation { display: grid; flex: 1 1 0; place-items: center; min-height: 0; margin: clamp(12px, 2vh, 24px) auto; width: 100%; overflow: hidden; color: var(--ink); text-align: center; font-size: clamp(.8rem, 2vw, 1.7rem); }
+.formula-equation .katex-display { margin: 0; }
+.formula-equation .katex { white-space: nowrap; }
+.formula-card > p { max-width: 76ch; margin: 0 auto; color: var(--quiet); text-align: center; font-size: .95rem; line-height: 1.7; }
+.formula-dots { display: flex; justify-content: center; gap: 8px; padding: 16px 0 0; }
+.formula-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #b9b9c1; transition: width .3s ease, background-color .3s ease; }
+.formula-dots button[aria-current="true"] { width: 26px; background: var(--blue); }
+.method-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 44px; padding: 0; margin: 0; list-style: none; }
+.method-steps li { display: grid; grid-template-columns: 36px minmax(0,1fr); gap: 14px; padding: 22px 0; border-top: 1px solid var(--line); }
+.method-steps li > span { color: var(--blue); font: .78rem var(--mono); }
+.method-steps p { margin-top: 7px; }
+.limits-box { padding: clamp(20px, 3vw, 32px); margin-top: 34px; background: var(--pale); }
+.limits-box p { max-width: 900px; margin-top: 8px; }
+.resource-footer { margin-top: 30px; }
+.resource-footer .wordmark { width: 43px; }
+.science-page :target { scroll-margin-top: calc(var(--header-height) + 18px); }
+@media (max-width: 680px) {
+  .resource-intro { padding-top: 58px; }
+  .resource-heading { grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
+  .resource-heading > p { max-width: 50ch; }
+  .resource-row { grid-template-columns: 28px minmax(0,1fr); gap: 12px; padding: 24px 0; }
+  .resource-link { grid-column: 2; justify-self: start; margin-top: 2px; }
+  .resource-cards, .method-steps { grid-template-columns: 1fr; }
+  .resource-cards { gap: 36px; }
+  .formula-controls { min-height: 68px; }
+  .formula-controls button { padding-inline: 11px; }
+  .formula-controls button span { display: none; }
+  .formula-card { height: clamp(300px, calc(100svh - 340px), 440px); padding: 22px 18px; }
+  .formula-card-head { display: block; }
+  .formula-card-head h3 { margin-top: 10px; }
+  .formula-equation { margin-block: 14px; font-size: .95rem; }
+  .formula-card > p { font-size: .8rem; line-height: 1.5; }
+  .method-steps { gap: 0; }
+  .resource-jumps { flex-wrap: nowrap; width: calc(100vw - var(--gutter)); margin-right: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px 0; overflow-x: auto; scrollbar-width: none; }
+  .resource-jumps::-webkit-scrollbar { display: none; }
+  .resource-jumps a { flex: 0 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .formula-track { scroll-behavior: auto; }
+  .formula-card, .formula-dots button { transition: none; }
+}

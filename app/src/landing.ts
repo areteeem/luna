@@ -1,4 +1,6 @@
-import { canLaunchNavigator, navigatorPath } from "./desktopAccess";
+import { mountSiteHeader, refreshSiteHeader } from "./siteHeader";
+
+mountSiteHeader("landing");
 
 type YouTubePlayerEvent = { data: number };
 type YouTubePlayer = { destroy: () => void };
@@ -21,101 +23,8 @@ declare global {
   }
 }
 
-const header = document.querySelector<HTMLElement>("[data-header]")!;
-const launchLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("main [data-launch]"));
-const tintedSections = Array.from(document.querySelectorAll<HTMLElement>("[data-dark], .pale"));
-const mobileMenu = document.querySelector<HTMLElement>(".mobile-menu")!;
-const mobileMenuToggle = mobileMenu.querySelector<HTMLButtonElement>(".menu-toggle")!;
-const mobileMenuPanel = mobileMenu.querySelector<HTMLElement>("nav")!;
 const dialog = document.querySelector<HTMLDialogElement>("#desktop-dialog")!;
-const address = document.querySelector<HTMLInputElement>("#desktop-address")!;
-const copyStatus = document.querySelector<HTMLElement>(".copy-status")!;
 const intro = document.querySelector<HTMLElement>("#intro")!;
-
-let headerFrame = 0;
-function updateHeader() {
-  headerFrame = 0;
-  const headerHeight = header.offsetHeight;
-  const sectionBelow = tintedSections.find((section) => {
-    const bounds = section.getBoundingClientRect();
-    return bounds.top <= headerHeight / 2 && bounds.bottom >= headerHeight / 2;
-  });
-  const launchInView = launchLinks.some((link) => {
-    const bounds = link.getBoundingClientRect();
-    return bounds.top >= headerHeight && bounds.bottom <= window.innerHeight;
-  });
-  header.toggleAttribute("data-dark-header", Boolean(sectionBelow?.hasAttribute("data-dark")));
-  header.toggleAttribute("data-pale-header", Boolean(sectionBelow?.classList.contains("pale")));
-  header.toggleAttribute("data-scrolled", window.scrollY > 8);
-  header.toggleAttribute("data-show-launch", !launchInView);
-}
-
-function requestHeaderUpdate() {
-  if (!headerFrame) headerFrame = window.requestAnimationFrame(updateHeader);
-}
-
-window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
-window.addEventListener("resize", requestHeaderUpdate);
-window.addEventListener("pageshow", requestHeaderUpdate);
-document.fonts.ready.then(requestHeaderUpdate);
-updateHeader();
-
-function showDesktopAccess() {
-  address.value = new URL(navigatorPath, window.location.href).href;
-  document.querySelector<HTMLElement>("[data-local-note]")!.hidden =
-    !["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
-  copyStatus.textContent = "";
-  dialog.showModal();
-}
-
-document.addEventListener("click", (event) => {
-  const target = event.target;
-  if (!(target instanceof Element)) return;
-  if (mobileMenu.classList.contains("is-open") && (!mobileMenu.contains(target) || target.closest(".mobile-menu a"))) {
-    setMobileMenuOpen(false);
-  }
-  if (target.closest("[data-launch]") && !canLaunchNavigator()) {
-    event.preventDefault();
-    showDesktopAccess();
-  }
-});
-
-function setMobileMenuOpen(open: boolean) {
-  mobileMenu.classList.toggle("is-open", open);
-  mobileMenuToggle.setAttribute("aria-expanded", String(open));
-  mobileMenuToggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
-  mobileMenuPanel.setAttribute("aria-hidden", String(!open));
-  mobileMenuPanel.inert = !open;
-  if (open) requestAnimationFrame(() => mobileMenuPanel.querySelector<HTMLElement>("a")?.focus());
-  else mobileMenuToggle.focus({ preventScroll: true });
-}
-
-mobileMenuToggle.addEventListener("click", () => {
-  setMobileMenuOpen(!mobileMenu.classList.contains("is-open"));
-});
-
-mobileMenu.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape" || !mobileMenu.classList.contains("is-open")) return;
-  setMobileMenuOpen(false);
-});
-
-document.querySelector("[data-copy]")!.addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(address.value);
-    copyStatus.textContent = "URL copied.";
-  } catch {
-    address.focus();
-    address.select();
-    copyStatus.textContent = "Address selected. Use your device’s Copy command.";
-  }
-});
-
-const pageUrl = new URL(window.location.href);
-if (pageUrl.searchParams.has("desktop")) {
-  pageUrl.searchParams.delete("desktop");
-  history.replaceState(history.state, "", pageUrl);
-  showDesktopAccess();
-}
 
 try {
   if (!sessionStorage.getItem("luna-landing-intro")) {
@@ -188,7 +97,7 @@ if (/^[\w-]{11}$/.test(youtubeId)) {
   stage.classList.add("has-film");
   play.hidden = false;
   document.querySelector("[data-film-description]")!.textContent =
-    "Watch a 38-second tour of the lunar navigator and site planning workspace.";
+    "Watch introductory film";
 
   play.addEventListener("click", () => {
     play.hidden = true;
@@ -205,7 +114,7 @@ if (/^[\w-]{11}$/.test(youtubeId)) {
             if (event.data !== YT.PlayerState.ENDED) return;
             actions.hidden = false;
             launch.hidden = false;
-            requestHeaderUpdate();
+            refreshSiteHeader();
           },
         },
       });
