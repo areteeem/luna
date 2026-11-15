@@ -73,8 +73,7 @@ export function tilePack(layer: MoonLayer, level: number, lat: number, lon: numb
 async function shellAssets() {
   const response = await fetch("/luna-shell.json", { cache: "no-cache" });
   if (!response.ok) throw new Error("The offline app shell is unavailable.");
-  const { files } = await response.json() as { files: string[] };
-  return files;
+  return await response.json() as { version: string; files: string[] };
 }
 
 export async function sciencePack(): Promise<Pack> {
@@ -133,7 +132,23 @@ export async function downloadPack(pack: Pack, signal: AbortSignal, update: () =
     update();
     try {
       const files = await caches.open(filesCache);
-      for (const path of await shellAssets()) await put(files, path, signal, false, !path.startsWith("/assets/"));
+      const shell = await shellAssets();
+      const savedShell = (await files.match("/luna-shell.json"));
+      const sameShell = savedShell && (await savedShell.json()).version === shell.version;
+      for (let i = 0; i < shell.files.length; i += 8) {
+        if (signal.aborted) throw signal.reason;
+        const batch = await Promise.allSettled(shell.files.slice(i, i + 8).map((path) =>
+          put(files, path, signal, false, !sameShell && !path.startsWith("/assets/"))));
+        const unavailable = batch.find((result) => result.status === "rejected");
+        if (unavailable) throw unavailable.reason;
+        if (i % 32 === 0) {
+          pack.detail = `Saving app files · ${Math.min(shell.files.length, i + 8)}/${shell.files.length}`;
+          await save(pack);
+          update();
+        }
+      }
+      await files.put("/luna-shell.json", Response.json(shell));
+      pack.detail = undefined;
       const cache = pack.kind === "tiles" ? await caches.open(tileCache) : files;
       let missed = 0, quota = false;
       for (let i = 0; i < pack.urls.length && !signal.aborted && !quota; i += 4) {
