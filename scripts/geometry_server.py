@@ -6,7 +6,6 @@ import json, math, hashlib, threading
 from functools import lru_cache
 import numpy as np
 import spiceypy as sp
-import requests
 
 GEOMETRY_LOCK=threading.RLock()
 ROOT = Path(__file__).resolve().parents[1]
@@ -151,10 +150,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(200 if data is not None else 404,data or {'error':'Unknown offline endpoint'})
             if self.path.startswith('/api/ai/'):
                 from ai_service import handle_post
+                from requests.exceptions import RequestException
                 try:
                     data=handle_post(self.path,payload)
                     return self.respond(200 if data is not None else 404,data or {'error':'Unknown AI endpoint'})
-                except requests.exceptions.RequestException: return self.respond(400,{'error':'AI provider could not be reached. Check the connection or local runtime.'})
+                except RequestException: return self.respond(400,{'error':'AI provider could not be reached. Check the connection or local runtime.'})
             if self.path=='/api/routes':
                 from surface_routes import plan_route
                 return self.respond(200,plan_route(payload))

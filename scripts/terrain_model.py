@@ -17,7 +17,9 @@ def raster(name):
     if not path.exists():return None
     try:
         with rasterio.open(path) as src:
-            array=src.read(1).astype('float32')*src.scales[0]+src.offsets[0]
+            array=src.read(1).astype('float32', copy=False)
+            if src.scales[0] != 1:array *= src.scales[0]
+            if src.offsets[0] != 0:array += src.offsets[0]
             if src.nodata is not None and math.isfinite(src.nodata):array[array==src.nodata]=np.nan
             return array,src.transform,tuple(src.bounds),float(abs(src.transform.a))
     except rasterio.errors.RasterioError:return None

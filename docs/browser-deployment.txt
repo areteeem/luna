@@ -1,0 +1,28 @@
+Hosted LUNA
+===========
+
+Vercel builds from the repository root. The hosted build is "npm --prefix app
+run build:hosted" followed by "python3 scripts/browser/prepare.py". The latter
+verifies NASA inputs and the pinned Pyodide runtime, emits versioned files into
+app/dist, and generates the asset manifests. No Function or external service
+deployment is needed. Local "npm --prefix app run dev" still uses Python.
+
+The first geometry calculation downloads the runtime and standard SPICE
+kernels. Terrain studies load the regional DEMs only when required. The 3D map
+reads smaller regional windows after zooming in. Browser storage can be evicted
+by the browser; offline maps and science are separate optional downloads.
+
+Compiler: Emscripten 4.0.15; upstream NAIF Linux CSPICE N0067 archive
+SHA-256 60a95b51a6472f1afe7e40d77ebdee43c12bb5b8823676ccc74692ddfede06ce.
+After verifying and unpacking the archive, rebuild with:
+  python3 scripts/browser/build_spice.py /path/to/cspice
+See app/public/browser-spice/NOTICE.txt for upstream source and terms.
+
+Parity: set up the NASA inputs as described in README.md, then run:
+  uv run python scripts/browser/fixtures.py
+  npm --prefix app run preview -- --port 4181
+  LUNA_PLAYWRIGHT=/path/to/playwright/index.mjs node scripts/browser/test_browser.mjs
+
+Preview changes before pushing to main. Smoke-test imagery switching, export,
+geometry, terrain, route screening, and offline packs on the resulting release.
+Rollback to the last working Vercel production deployment if public smoke fails.

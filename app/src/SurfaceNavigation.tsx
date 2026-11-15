@@ -1,3 +1,4 @@
+import { hosted } from "./runtime";
 import { scienceRequest } from "./scienceClient";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, Trash, Crosshair, Plus, X } from "@phosphor-icons/react";
@@ -10,7 +11,6 @@ import type { LunarPoint, Mobility, RouteLeg, RouteResult } from "./surfaceRoute
 import SensorNavigation from "./SensorNavigation";
 import { useWorkspace } from "./WorkspaceContext";
 
-type PickStopDetails = {name:string; description:string};
 type View = "mission" | "return" | "saved";
 type Pick = "lander" | "stop" | "origin" | "avoid" | "anchor";
 type Draft = { lander: LunarPoint; stops: MissionStop[]; origin?: LunarPoint; avoid: LunarPoint[][] };
@@ -193,7 +193,7 @@ function RoutePlanner({ initialLander }: { initialLander: LunarPoint }) {
     const timeout = window.setTimeout(() => {
       fallback(messages["search-limit"]);
       controller.abort();
-    }, 25_000);
+    }, hosted ? 180_000 : 25_000);
     try {
       const response = await scienceRequest("/api/routes", {
         method: "POST", signal: controller.signal, headers: { "Content-Type": "application/json" },
@@ -249,7 +249,7 @@ function RoutePlanner({ initialLander }: { initialLander: LunarPoint }) {
     setMessage("Route added to Saved routes.");
   }
 
-  function changeStop(id: string, details: Partial<PickStopDetails>) {
+  function changeStop(id: string, details: Partial<MissionStop>) {
     const stops = currentDraft.current.stops.map(stop => stop.id === id ? { ...stop,...details } : stop);
     currentDraft.current = { ...currentDraft.current, stops };
     update({ missionStops:stops });
@@ -334,9 +334,32 @@ function RoutePlanner({ initialLander }: { initialLander: LunarPoint }) {
                   changeStop(stop.id,{ name:e.target.value })} />
                 <textarea aria-label={`Stop ${index+1} description`} placeholder="Description (optional)" maxLength={2000} rows={1} value={stop.description} onChange={e =>
                   changeStop(stop.id,{ description:e.target.value })} />
+                <div className="surface-stop-activities" aria-label={`Activities at stop ${index+1}`}>
+                  {(["study", "charge"] as const).map(kind => {
+                    const field = kind === "study" ? "studyActivity" : "chargeActivity";
+                    const activity = stop[field] ?? { enabled: false, duration: 60 };
+                    return <div className="surface-stop-activity" key={kind}>
+                      <label className="surface-nav-check">
+                        <input type="checkbox" checked={activity.enabled} onChange={event => changeStop(stop.id, {
+                          [field]: { ...activity, enabled: event.target.checked },
+                        })} />
+                        {kind === "study" ? "Study" : "Charge"}
+                      </label>
+                      <label>{kind === "study" ? "Study time (min)" : "Charging time (min)"}
+                        <input type="number" min="1" max={study.duration * 60} step="1" disabled={!activity.enabled}
+                          value={activity.duration} onChange={event => changeStop(stop.id, {
+                            [field]: { ...activity, duration: Math.max(1, Math.min(study.duration * 60, Number(event.target.value) || 1)) },
+                          })} />
+                      </label>
+                    </div>;
+                  })}
+                </div>
               </> : <button className="surface-stop-summary" onClick={() => setEditedStop(stop.id)}>
                 <strong>{stop.name || `Stop ${index+1}`}</strong>
                 {stop.description && <small>{stop.description}</small>}
+                {(stop.studyActivity?.enabled || stop.chargeActivity?.enabled) && <small>
+                  {[stop.studyActivity?.enabled && "Study", stop.chargeActivity?.enabled && "Charge"].filter(Boolean).join(" · ")}
+                </small>}
               </button>}
             </div>
             <div className="surface-stop-actions">

@@ -121,7 +121,7 @@ export function RecommendationsPanel() {
     } finally { setReviewing(null); }
   };
 
-  const useCandidate = (candidate: SiteCandidate) => {
+  const studyCandidate = (candidate: SiteCandidate) => {
     const point = { name: `Screened site ${candidate.lat.toFixed(2)}°, ${candidate.lon.toFixed(2)}°`, lat: candidate.lat, lon: candidate.lon, height: candidate.ground_m ?? 0 };
     w.update(s.active === "A" ? { site: point, ...(candidate.start ? { start: candidate.start } : {}) } : { compareSite: point, ...(candidate.start ? { compareStart: candidate.start } : {}) });
     w.notify(`Applied ${candidate.lat.toFixed(3)}°, ${candidate.lon.toFixed(3)}° and ${candidate.start || search?.start || "the mission start"}. Mission analysis is recalculating.`);
@@ -153,7 +153,7 @@ export function RecommendationsPanel() {
       {unknownHours > 1e-7 && <p className="hint">Horizon known for {Math.max(0, candidate.known_terrain_hours).toFixed(1)} of {(search?.duration || 0).toFixed(1)} h. Unknown intervals use a reference-plane estimate; local shadows are not measured.</p>}
       {candidate.search_resolution && <p className="hint">{candidate.search_resolution}</p>}
       <div className="candidate-actions">
-        <button onClick={() => useCandidate(candidate)}>Study this point</button>
+        <button onClick={() => studyCandidate(candidate)}>Study this point</button>
         <button onClick={() => showCandidate(candidate)}>Show on map</button>
         <button disabled={reviewing === candidate.id} onClick={() => void reviewTerrain(candidate)}>{reviewing === candidate.id ? "Reviewing locally…" : "Review terrain images with on-device AI"}</button>
       </div>
@@ -180,7 +180,7 @@ export function RecommendationsPanel() {
         <td title={estimateTitle}>{hour(candidate.station_access_hours ?? candidate.reference_station_access_hours)}</td>
         <td title={estimateTitle}>{hour(candidate.joint_sun_station_hours ?? candidate.reference_joint_sun_station_hours)}</td>
         {hasTerrainAssessment && <td title="Preliminary DEM terrain screen, not landing clearance">{terrainSummary(candidate)}</td>}
-        <td><button onClick={() => useCandidate(candidate)}>Use</button> <button onClick={() => showCandidate(candidate)}>Map</button></td>
+        <td><button onClick={() => studyCandidate(candidate)}>Use</button> <button onClick={() => showCandidate(candidate)}>Map</button></td>
       </tr>;
       })}</tbody></table></div>;
   };

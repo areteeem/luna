@@ -1,4 +1,5 @@
 import { missionFrame, missionRoute, playbackClock, PLAYBACK_SECONDS, routePlayback } from "./missionPlayback";
+import { updateStopActivity } from "./missionActivities";
 import { moveActivity, reorderActivities, recommendPlan } from "./planning";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
@@ -479,7 +480,7 @@ export function InspectorPanel() {
         />
         <div className="model-state">
           {computing
-            ? "Calculating with local SPICE…"
+            ? "Calculating with SPICE…"
             : error
               ? error
               : "SPICE · MOON_ME / DE421 · LT+S"}
@@ -759,7 +760,7 @@ export function AnalysisPanel() {
   const playing = playingStudy === s.id;
   const route = useMemo(() => routePlayback(missionRoute(
     s.annotations, s.prohibitedAreas, routeOverlay?.studyId === s.id ? routeOverlay : null, selectedAnnotation,
-  )), [s.annotations, s.prohibitedAreas, s.id, routeOverlay, selectedAnnotation]);
+  ), s.missionStops), [s.annotations, s.prohibitedAreas, s.id, s.missionStops, routeOverlay, selectedAnnotation]);
   const frame = missionFrame(s, route);
   const clock = useMemo(() => playbackClock(s.duration, s.events, PLAYBACK_SECONDS[speed]), [s.duration, s.events, speed]);
   const currentCursor = useRef(s.cursor);
@@ -1114,10 +1115,19 @@ export function MissionPanel() {
     [minutes, setMinutes] = useState(30),
     [hover, setHover] = useState<MissionEvent | null>(null),
     [draft, setDraft] = useState<ReturnType<typeof recommendPlan> | null>(null);
-  const edit = (id: string, p: Partial<MissionEvent>) =>
-    w.update({
-      events: s.events.map((e) => (e.id === id ? { ...e, ...p } : e)),
-    });
+  const edit = (id: string, p: Partial<MissionEvent>) => {
+    const event = s.events.find(item => item.id === id);
+    if (event?.stopId && event.stopActivity && (p.offset !== undefined || p.duration !== undefined)) {
+      const activityPatch = updateStopActivity(s, event.stopId, event.stopActivity, {
+        ...(p.offset !== undefined ? { offset: p.offset } : {}),
+        ...(p.duration !== undefined ? { duration: p.duration * 60 } : {}),
+      });
+      const events = activityPatch.events.map(item => item.id === id ? { ...item, ...p } : item);
+      w.update({ missionStops: activityPatch.missionStops, events });
+      return;
+    }
+    w.update({ events: s.events.map((e) => (e.id === id ? { ...e, ...p } : e)) });
+  };
   const add = (name = title, type = kind) => {
     if (!name.trim()) return;
     const offset = Math.min(s.cursor, s.duration),
@@ -1369,11 +1379,19 @@ export function MissionPanel() {
               </span>
             </summary>
             <div className="event-fields">
+              {event.stopId && <div className="surface-nav-row">
+                <span>At {missionStops.find(stop => stop.id === event.stopId)?.name || "mission stop"}</span>
+                <button onClick={() => {
+                  const stop = missionStops.find(item => item.id === event.stopId);
+                  if (stop) { w.showRouteMap(); w.mapActions.current?.focus(...stop.point); }
+                }}>Show stop on map</button>
+              </div>}
               <label className="field">
                 Activity name
                 <input
                   maxLength={200}
                   value={event.name}
+                  disabled={Boolean(event.stopId)}
                   onChange={(e) => edit(event.id, { name: e.target.value })}
                 />
               </label>
@@ -1399,6 +1417,7 @@ export function MissionPanel() {
                 Type
                 <select
                   value={event.type}
+                  disabled={Boolean(event.stopId)}
                   onChange={(e) =>
                     edit(event.id, {
                       type: e.target.value as MissionEvent["type"],
@@ -1427,16 +1446,12 @@ export function MissionPanel() {
                 />
               </label>
               <p className="hint">{when(event)}</p>
-              <button
-                className="danger"
-                onClick={() =>
-                  w.update({
-                    events: s.events.filter((e) => e.id !== event.id),
-                  })
-                }
-              >
-                Remove activity
-              </button>
+              <button className="danger" onClick={() => {
+                if (event.stopId && event.stopActivity) {
+                  const patch = updateStopActivity(s, event.stopId, event.stopActivity, { enabled: false });
+                  w.update(patch);
+                } else w.update({ events: s.events.filter((e) => e.id !== event.id) });
+              }}>Remove activity</button>
             </div>
           </details>
         ))}

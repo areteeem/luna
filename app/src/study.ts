@@ -40,8 +40,18 @@ export type MissionEvent = {
   type: "landing" | "ascent" | "science" | "communication" | "traverse" | "power";
   notes: string;
   done: boolean;
+  stopId?: string;
+  stopActivity?: "study" | "charge";
 };
-export type MissionStop = { id: string; point: LunarPoint; name: string; description: string };
+export type MissionStopActivity = { enabled: boolean; duration: number; offset?: number };
+export type MissionStop = {
+  id: string;
+  point: LunarPoint;
+  name: string;
+  description: string;
+  studyActivity?: MissionStopActivity;
+  chargeActivity?: MissionStopActivity;
+};
 export type Study = {
   missionStops?: MissionStop[];
   prohibitedAreas?: LunarPoint[][];
@@ -228,7 +238,11 @@ export function isStudy(value: unknown): value is Study {
       s.version === 2 &&
       (s.missionStops === undefined || (Array.isArray(s.missionStops) && s.missionStops.length <= 6
         && s.missionStops.every(stop => stop && text(stop.id,100) && lunarPoint(stop.point)
-          && text(stop.name,100) && text(stop.description,2000))
+          && text(stop.name,100) && text(stop.description,2000)
+          && [stop.studyActivity, stop.chargeActivity].every(activity => activity === undefined || (
+            activity && typeof activity.enabled === "boolean" && num(activity.duration, 1, 100000)
+            && (activity.offset === undefined || num(activity.offset, 0, s.duration))
+          )))
         && new Set(s.missionStops.map(stop => stop.id)).size === s.missionStops.length)) &&
       (s.prohibitedAreas === undefined || (Array.isArray(s.prohibitedAreas) && s.prohibitedAreas.length <= 8
         && s.prohibitedAreas.every(poly => Array.isArray(poly) && poly.length >= 3 && poly.length <= 32 && poly.every(lunarPoint)))) &&
@@ -316,7 +330,9 @@ export function isStudy(value: unknown): value is Study {
           ["landing", "ascent", "science", "communication", "traverse", "power"].includes(
             x.type,
           ) &&
-          typeof x.done === "boolean",
+          typeof x.done === "boolean" &&
+          (x.stopId === undefined || text(x.stopId, 100))
+          && (x.stopActivity === undefined || x.stopActivity === "study" || x.stopActivity === "charge"),
       )
     );
   } catch {

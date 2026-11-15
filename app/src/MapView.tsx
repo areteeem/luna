@@ -89,13 +89,14 @@ export default function MapView({
   const enhanced3d = preferences.hardware3d && !(preferences.performanceGuard && lowPerformanceDevice);
   const [autoImage, setAutoImage] = useState(prefersImageMap);
   const [terrainError, setTerrainError] = useState("");
+  const [terrainSource, setTerrainSource] = useState("Global LOLA");
   const [imageryFailed, setImageryFailed] = useState(false);
   const [imageryAttempt, setImageryAttempt] = useState(0);
   const imageMode = preferences.terrainMode === "image" || (preferences.terrainMode === "auto" && autoImage);
   const effectiveView = imageMode ? "2d" : study.view;
   const route = useMemo(() => routePlayback(missionRoute(
     study.annotations, study.prohibitedAreas, routeOverlay?.studyId === study.id ? routeOverlay : null, selectedAnnotation,
-  )), [study.annotations, study.prohibitedAreas, study.id, routeOverlay, selectedAnnotation]);
+  ), study.missionStops), [study.annotations, study.prohibitedAreas, study.id, study.missionStops, routeOverlay, selectedAnnotation]);
   const pose = missionFrame(study, route);
   const mission = useRef(pose);
   const mapSite = activeSite(study);
@@ -870,11 +871,13 @@ export default function MapView({
     v.scene.globe.tileCacheSize = quality.cache;
     v.resolutionScale = imageMode ? Math.min(1, devicePixelRatio) : Math.min(devicePixelRatio, quality.scale);
     v.scene.globe.depthTestAgainstTerrain = !imageMode;
-    v.terrainProvider = (hosted || imageMode) ? new C.EllipsoidTerrainProvider({ ellipsoid }) : createLunarTerrain(ellipsoid, quality.level, (message) => {
+    v.terrainProvider = imageMode ? new C.EllipsoidTerrainProvider({ ellipsoid }) : createLunarTerrain(ellipsoid, quality.level, (message) => {
       if (disposed || v.isDestroyed()) return;
       setTerrainError(message);
       v.terrainProvider = new C.EllipsoidTerrainProvider({ ellipsoid });
       v.scene.requestRender();
+    }, (regional, missing) => {
+      if (!disposed) setTerrainSource((old) => missing ? "Global LOLA · some regional data unavailable" : regional ? "Global and regional LOLA" : old);
     });
     v.scene.requestRender();
     return () => { disposed = true; };
@@ -887,7 +890,7 @@ export default function MapView({
   }, [imageMode, preferences.terrainExaggeration]);
   useEffect(() => {
     const v = viewer.current;
-    if (!v || hosted || !preferences.adaptiveTerrain || imageMode) return;
+    if (!v || !preferences.adaptiveTerrain || imageMode) return;
     let previous = 0, total = 0, count = 0, moving = false;
     const removeStart = v.camera.moveStart.addEventListener(() => { moving = true; previous = 0; });
     const removeEnd = v.camera.moveEnd.addEventListener(() => { moving = false; total = 0; count = 0; });
@@ -1821,7 +1824,7 @@ export default function MapView({
         </span>
       </div>
       <div className="map-model-note">
-        {imageMode ? "Image map · terrain geometry off" : hosted ? "Reference sphere · no terrain relief" : terrainError ? "Terrain unavailable · reference sphere" : `LOLA 3D terrain · ${terrainQuality} detail · ${preferences.terrainExaggeration.toFixed(1)}× elevation`} ·{" "}
+        {imageMode ? "Image map · terrain geometry off" : terrainError ? "Terrain unavailable · reference sphere" : `${hosted ? terrainSource : "LOLA"} 3D terrain · ${terrainQuality} detail · ${preferences.terrainExaggeration.toFixed(1)}× elevation`} ·{" "}
         {study.lighting ? "SPICE solar lighting" : "Unlit surface mosaic"} · {enhanced3d ? "3D spacecraft models active" : preferences.hardware3d ? "3D hardware paused by performance guard" : "3D hardware off in Preferences"}
       </div>
     </div>

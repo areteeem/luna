@@ -99,30 +99,28 @@ class RecommendationTests(unittest.TestCase):
  def test_unknown_terrain_cannot_be_ranked_as_solar_improvement(self):
   with patch('site_recommendations.horizon',return_value={'status':'unavailable','azimuth_deg':[]}),patch('site_recommendations.elevations',return_value=(np.array(float('nan')),np.array(0))),patch('site_recommendations.safety_screen',return_value={'status':'unassessed'}):
    result=recommend({'lat':0,'lon':0,'height':0,'start':'2026-11-14T00:00:00Z','duration':1,'radius_km':1,'analysis':{'terrain':True}})
-  self.assertEqual(len(result['candidates']),16);self.assertIsNone(result['baseline']['solar_hours']);self.assertTrue(all(not c['better_sunlight'] and c['delta_energy_wh'] is None for c in result['candidates']))
+  self.assertEqual(result['candidates'],[]);self.assertIsNone(result['baseline']['solar_hours'])
+  self.assertEqual(result['same_date_candidates'],[]);self.assertGreater(result['same_date_terrain_unassessed_count'],0)
  def test_known_candidate_comparisons_serialize_as_json(self):
   profile={'status':'sampled-bounded','azimuth_deg':[0,180],'elevation_deg':[0,0],'bounded_sectors':[True,True],'azimuth_step_deg':180,'observer_height_m':2}
   with patch('site_recommendations.horizon',return_value=profile),patch('site_recommendations.elevations',return_value=(np.array(0.),np.array(80))),patch('site_recommendations.safety_screen',return_value={'status':'unassessed'}):
    result=recommend({'lat':0,'lon':0,'height':0,'start':'2026-11-14T00:00:00Z','duration':1,'radius_km':1,'analysis':{'terrain':True}})
-  json.dumps(result,allow_nan=False);self.assertIsInstance(result['candidates'][0]['better_sunlight'],bool)
+  json.dumps(result,allow_nan=False);self.assertIsInstance(result['baseline']['better_sunlight'],bool)
+  self.assertTrue(all(qualifies(c,1) for c in result['candidates']))
  def test_global_grid_has_single_pole_and_no_duplicate_points(self):
   points=global_lattice()
   self.assertEqual(len(points),len(set(points)))
   self.assertEqual(sum(lat==90 for lat,lon in points),1)
   self.assertEqual(sum(lat==-90 for lat,lon in points),1)
- def test_date_candidates_start_today_and_satisfy_joint_station_screen(self):
+ def test_reference_only_search_starts_today_but_never_returns_measured_candidates(self):
   from datetime import datetime,timezone
   before=datetime.now(timezone.utc).replace(microsecond=0)
   result=recommend({'lat':-89.7,'lon':-30,'height':0,'start':'2026-11-14T00:00:00Z','duration':24,'radius_km':2,'analysis':{'terrain':False}})
-  candidates=result['date_candidates']
-  self.assertEqual(len(candidates),3)
-  starts=[datetime.fromisoformat(c['start'].replace('Z','+00:00')) for c in candidates]
-  self.assertEqual(starts,sorted(starts))
-  self.assertGreaterEqual(starts[0],before)
-  self.assertEqual(candidates[0]['days_from_today'],0)
-  self.assertTrue(all(qualifies(c,24) and c['station']=='DSS-14' for c in candidates))
-  self.assertGreater(len(result['same_date_candidates']),100)
-  self.assertGreater(len({(c['lat'],c['lon']) for c in result['same_date_candidates']}),100)
+  self.assertGreaterEqual(datetime.fromisoformat(result['searched_from'].replace('Z','+00:00')),before)
+  self.assertEqual(result['days_examined'],32)
+  self.assertEqual(result['date_candidates'],[])
+  self.assertEqual(result['same_date_candidates'],[])
+  self.assertGreater(result['same_date_screened_count'],100)
  def test_recharge_activity_does_not_add_science_load(self):
   rows=[{'elapsed':0,'power_nominal_w':0,'power_lower_w':0},{'elapsed':1,'power_nominal_w':0,'power_lower_w':0}]
   _,result=simulate_battery(rows,{**DEFAULTS,'base_load_w':10,'active_load_w':100},[{'offset':0,'duration':1,'type':'power'}]);self.assertEqual(result['load_wh'],10)

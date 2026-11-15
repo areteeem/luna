@@ -1,0 +1,7 @@
+LUNA's browser science engine includes NASA/JPL NAIF CSPICE N0067.
+Upstream: https://naif.jpl.nasa.gov/naif/toolkit_C_PC_Linux_GCC_64bit.html
+SPICE rules and license: https://naif.jpl.nasa.gov/naif/rules.html
+The original toolkit is available from NAIF. LUNA distributes the compiled subset
+it uses, built with Emscripten 4.0.15 and the ABI adjustments recorded in
+scripts/browser/spice_wasm_abi.py. This is an independent tool, without NASA/JPL
+endorsement or certification. Kernel and terrain credits are in Science & sources.

@@ -68,14 +68,19 @@ function positionAlong({ distances, path }: ReturnType<typeof legPath>, fraction
   return interpolateSurface(path[next - 1], path[next], (target - distances[next - 1]) / (distances[next] - distances[next - 1]));
 }
 
-export function routePlayback(route: ReturnType<typeof missionRoute>) {
+export function routePlayback(route: ReturnType<typeof missionRoute>, missionStops: Study["missionStops"] = []) {
   if (!route || route.speed <= 0 || !route.legs.every(leg => leg.path.length >= 2)) return null;
   const stops = route.legs.filter(leg => leg.end !== 0).length;
   let totalHours = 0;
   const legs = route.legs.map(leg => {
     const start = totalHours;
     const travelHours = leg.distance_m / route.speed / 3600;
-    const dwellHours = stops && leg.end !== 0 ? route.stopMinutes / stops / 60 : 0;
+    const stop = leg.end > 0 ? missionStops?.[leg.end - 1] : undefined;
+    const activityHours = (stop?.studyActivity?.enabled ? stop.studyActivity.duration : 0)
+      + (stop?.chargeActivity?.enabled ? stop.chargeActivity.duration : 0);
+    const dwellHours = leg.end !== 0
+      ? (stops ? route.stopMinutes / stops : 0) / 60 + activityHours / 60
+      : 0;
     totalHours += travelHours + dwellHours;
     return { leg, start, travelHours, end: totalHours, path: legPath(leg) };
   });
@@ -108,7 +113,9 @@ export function missionFrame(study: Study, route: ReturnType<typeof routePlaybac
     }
   }
   if (!route || cursor < routeStart || (traverse && traverse.duration === 0) || frame.flight?.stage === "Descent") return frame;
-  const schedule = Math.min(route.totalHours, traverse?.duration ?? route.totalHours, study.duration - routeStart);
+  const hasStopActivities = events.some(event => event.stopId && event.stopActivity);
+  const schedule = Math.min(route.totalHours, hasStopActivities ? route.totalHours : traverse?.duration ?? route.totalHours,
+    study.duration - routeStart);
   if (schedule <= 0) return frame;
   const elapsed = Math.min(route.totalHours, (cursor - routeStart) / schedule * route.totalHours);
   let distance = 0;

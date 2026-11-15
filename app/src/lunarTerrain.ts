@@ -1,6 +1,8 @@
+import { hosted } from "./runtime";
+import { browserHeightTile } from "./browserTerrain";
 import * as C from "cesium";
 
-export function createLunarTerrain(ellipsoid: C.Ellipsoid, maxLevel: number, onError: (message: string) => void) {
+export function createLunarTerrain(ellipsoid: C.Ellipsoid, maxLevel: number, onError: (message: string) => void, onCoverage?: (regional: boolean, missing: boolean) => void) {
   const provider = new C.CustomHeightmapTerrainProvider({
     width: 65, height: 65,
     tilingScheme: new C.GeographicTilingScheme({ ellipsoid }),
@@ -12,14 +14,19 @@ export function createLunarTerrain(ellipsoid: C.Ellipsoid, maxLevel: number, onE
   provider.requestTileGeometry = (x, y, level) => {
     if (pending >= 12) return undefined;
     pending++;
-    return fetch(`/api/terrain/${level}/${x}/${y}.bin`).then(async (response) => {
+    const tile = hosted ? browserHeightTile(level, x, y).then(({ data, regional, regionalMissing }) => {
+      onCoverage?.(regional, regionalMissing);
+      return data;
+    }) : fetch(`/api/terrain/${level}/${x}/${y}.bin`).then(async (response) => {
       if (!response.ok) {
         const body = await response.text();
         let message = body.trim();
         try { message = JSON.parse(body).error || message; } catch { /* Services may return plain-text errors. */ }
         throw new Error(message || 'Terrain data unavailable');
       }
-      const bytes = await response.arrayBuffer();
+      return response.arrayBuffer();
+    });
+    return tile.then((bytes) => {
       if (bytes.byteLength !== 4 + 65 * 65 * 4) throw new Error('Invalid terrain tile');
       const sourceMaxLevel = new DataView(bytes).getUint32(0, true);
       return new C.HeightmapTerrainData({

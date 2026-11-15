@@ -64,9 +64,9 @@ export async function hostedAI(path: string, input: unknown, signal?: AbortSigna
   if (path === "extract") return attachments(data.attachments);
   if (path === "connect" && data.provider === "ollama") {
     models = undefined;
-    const result = await ollama<{ models?: { name?: string; size?: number }[] }>("tags", undefined,
+    const result = await ollama<{ models?: { name?: string; size?: number; remote_host?: string }[] }>("tags", undefined,
       AbortSignal.any([AbortSignal.timeout(8000), ...(signal ? [signal] : [])]));
-    models = (result.models || []).flatMap(({ name, size }) => name && !name.endsWith(":cloud") ? [{ id: name, bytes: size }] : []);
+    models = (result.models || []).flatMap(({ name, size, remote_host }) => name && !remote_host && !name.endsWith(":cloud") ? [{ id: name, bytes: size }] : []);
     return { provider: "ollama", models };
   }
   if (path === "disconnect" && data.provider === "ollama") {

@@ -21,6 +21,7 @@
     "cesium": "^1.147.0",
     "dockview-react": "^8.9.0",
     "driver.js": "^1.11.0",
+    "geotiff": "^3.0.4",
     "jspdf": "^4.2.1",
     "katex": "^0.19.1",
     "motion": "^14.14.0",

@@ -17,5 +17,6 @@ tmp/
 output/
 tmp/
 
-# Ignore Markdown documents as requested
+# Keep other Markdown documents local
 *.md
+!/README.md

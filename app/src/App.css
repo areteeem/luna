@@ -4347,6 +4347,12 @@ html[data-theme="light"] .surface-stop-pin { color: #205c92; background: #e2effa
 .surface-stop-editor { display: grid; gap: 8px; min-width: 0; }
 .surface-stop-editor label { display: grid; gap: 4px; min-width: 0; }
 .surface-stop-editor :is(input,textarea,select) { box-sizing: border-box; width: 100%; min-width: 0; }
+.surface-stop-activities { display: grid; gap: 8px; padding: 8px; border-radius: 8px; background: rgb(7 20 34 / 35%); }
+.surface-stop-activity { display: grid; grid-template-columns: minmax(72px, .7fr) minmax(110px, 1fr); gap: 8px; align-items: end; }
+.surface-stop-activity .surface-nav-check { display: flex; align-items: center; gap: 6px; padding-bottom: 7px; }
+.surface-stop-activity .surface-nav-check input { width: auto; }
+.surface-stop-activity label:not(.surface-nav-check) { display: grid; gap: 4px; font-size: .85em; }
+.surface-stop-activity input:disabled { opacity: .5; }
 .surface-route-flow { display: flex; flex-wrap: wrap; gap: 6px 8px; }
 .surface-route-flow li {
   min-width: 0;

@@ -27,6 +27,15 @@ const study = (cursor: number, activities = events): Study => ({
 
 describe("mission timeline", () => {
   const route = routePlayback(missionRoute([], [], proposed, null));
+  it("includes enabled stop study and charge durations in surface playback", () => {
+    const withActivities = routePlayback(missionRoute([], [], proposed, null), [{
+      id: "stop-1", point: stop, name: "Ridge", description: "",
+      studyActivity: { enabled: true, duration: 60 },
+      chargeActivity: { enabled: true, duration: 30 },
+    }]);
+    expect(withActivities?.totalHours).toBeCloseTo(3);
+  });
+
   it("moves along the proposed legs, dwells at the stop and holds at the lander", () => {
     expect(missionFrame(study(1.9), route).rover).toBeUndefined();
     const outbound = missionFrame(study(2.25), route).rover;

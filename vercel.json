@@ -1,11 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "npm --prefix app ci && npm --prefix app run build:hosted && python3 scripts/setup_geometry.py",
-  "outputDirectory": "app/dist",
-  "functions": {
-    "api/geometry.py": {
-      "includeFiles": "{scripts/**,work/kernels/**}"
-    }
-  }
+  "buildCommand": "npm --prefix app ci && npm --prefix app run build:hosted && python3 scripts/browser/prepare.py",
+  "outputDirectory": "app/dist"
 }

@@ -58,6 +58,7 @@ import type { MapActions, MapTool } from "./MapView";
 import SurfaceNavigation from "./SurfaceNavigation";
 import type { LunarPoint, RouteOverlay } from "./surfaceRoutes";
 import SciencePanel from "./SciencePanel";
+import { syncStopActivityEvents } from "./missionActivities";
 import TasksPanel from "./TasksPanel";
 import { isLowPerformanceDevice, loadPreferences } from "./preferences";
 import { PreferencesPanel } from "./PreferencesPanel";
@@ -570,7 +571,9 @@ export default function App() {
     (p: Partial<Study>) =>
       setWorkspace((prev) => {
         const current = prev.projects.find((s) => s.id === prev.activeId)!;
-        if (!isStudy({ ...current, ...p })) {
+        const nextStudy = { ...current, ...p };
+        nextStudy.events = syncStopActivityEvents(nextStudy);
+        if (!isStudy(nextStudy)) {
           queueMicrotask(() =>
             notify(
               "Change rejected: check the study date range, activity duration or coordinates.",
@@ -601,7 +604,7 @@ export default function App() {
         return {
           ...prev,
           projects: prev.projects.map((s) =>
-            s.id === prev.activeId ? { ...s, ...p } : s,
+            s.id === prev.activeId ? nextStudy : s,
           ),
         };
       }),

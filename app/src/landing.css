@@ -157,6 +157,8 @@ button, summary { cursor: pointer; }
 .editorial-grid p { max-width: 33ch; margin-top: 10px; color: var(--quiet); }
 .editorial-grid li > span { display: block; color: var(--blue); font: 400 clamp(27px, 4vw, 52px)/1 var(--mono); letter-spacing: -.08em; margin-bottom: 22px; }
 .steps .actions { margin-top: 42px; }
+.science-cta > div { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+.science-cta p { max-width: 55ch; color: var(--quiet); font-size: .88rem; line-height: 1.5; }
 .science-figure { max-width: 1000px; margin-top: 36px; }
 .science-figure img { width: 100%; border: 1px solid #383941; border-radius: 8px; }
 .science-figure figcaption { margin-top: 10px; }
