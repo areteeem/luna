@@ -26,7 +26,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { activeSite, cursorTime, rowAt, surfaceDistance, uid } from "./study";
-import type { Annotation, Geometry, Study } from "./study";
+import type { Annotation, Geometry, GeometryRow, Study } from "./study";
 import { isLowPerformanceDevice } from "./preferences";
 export type MapActions = {
   requestRender: () => void;
@@ -63,6 +63,19 @@ const imageryProvider = (surfaceLayer: Study["layer"]) => {
     credit: "NASA/GSFC/ASU · LROC / LOLA · NASA/JPL Moon Trek",
   });
 };
+function updateMoonLight(viewer: C.Viewer | null, row: GeometryRow | null | undefined) {
+  if (!viewer || !row?.sun.vector?.length) return;
+  const towardSun = C.Cartesian3.normalize(
+    C.Cartesian3.fromArray(row.sun.vector),
+    new C.Cartesian3(),
+  );
+  // DirectionalLight.direction points along the rays, from the Sun toward the Moon.
+  viewer.scene.light = new C.DirectionalLight({
+    direction: C.Cartesian3.negate(towardSun, towardSun),
+    intensity: 2,
+  });
+  viewer.scene.requestRender();
+}
 export default function MapView({
   study,
   geometry,
@@ -143,11 +156,7 @@ export default function MapView({
   }, [pose]);
   useLayoutEffect(() => {
     geometryRow.current = row;
-    const v = viewer.current;
-    if (!v || !row) return;
-    const direction = C.Cartesian3.normalize(C.Cartesian3.fromArray(row.sun.vector), new C.Cartesian3());
-    v.scene.light = new C.DirectionalLight({ direction: C.Cartesian3.negate(direction, direction), intensity: 2 });
-    v.scene.requestRender();
+    updateMoonLight(viewer.current, row);
   }, [row]);
   useEffect(() => {
     const area = mapSurface.current;
@@ -422,6 +431,10 @@ export default function MapView({
         showRenderLoopErrors: false,
       });
       viewer.current = v;
+      // The first geometry row can already be available before Cesium finishes
+      // mounting. Apply it here as well as on cursor changes so the initial
+      // mission time is lit from the same SPICE Sun vector.
+      updateMoonLight(v, geometryRow.current);
       const renderError = (_scene: C.Scene, error: unknown) => {
         rendererFaulted.current = true;
         v.useDefaultRenderLoop = false;
@@ -1072,6 +1085,7 @@ export default function MapView({
     const v = viewer.current;
     if (!v) return;
     v.scene.globe.enableLighting = study.lighting;
+    updateMoonLight(v, geometryRow.current);
     v.scene.requestRender();
   }, [study.lighting]);
   useEffect(() => {

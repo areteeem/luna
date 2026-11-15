@@ -37,6 +37,26 @@ type Job = {
   id: number; kind: "geometry" | "routes" | "recommendations";
   body: string;
 };
+function geometryTerrainSources(payload: Record<string, any>) {
+  const lat = Number(payload.lat);
+  const rangeKm = Number(payload.analysis?.horizon_range_km ?? 250);
+  if (!Number.isFinite(lat) || !Number.isFinite(rangeKm)) return [];
+
+  // The browser build currently carries southern polar DEMs only. Avoid
+  // downloading and expanding them for geometry sites whose entire horizon
+  // range is outside those rasters. The Python model then reports unavailable
+  // terrain explicitly; it does not substitute a flat horizon.
+  const radiansToKm = 1737.4 * Math.PI / 180;
+  const sources: string[] = [];
+  const distanceTo80SouthKm = Math.max(0, lat + 80) * radiansToKm;
+  if (distanceTo80SouthKm <= rangeKm) sources.push("lola80s.tif");
+
+  // Site04 is a small south polar patch extending about 18 km from the pole.
+  // Load it only when the observer's requested horizon can reach that patch.
+  const distanceToSouthPoleKm = (90 + lat) * radiansToKm;
+  if (distanceToSouthPoleKm <= rangeKm + 18) sources.push("site04.tif");
+  return sources;
+}
 async function run({ id, kind, body }: Job) {
   if (canceled.delete(id)) return;
   try {
@@ -57,8 +77,10 @@ async function run({ id, kind, body }: Job) {
       if (wantsLRO) policy.add("lrorg_2022258_2022349_v01.bsp");
     }
     if (terrain) {
-      policy.add("lola80s.tif");
-      policy.add("site04.tif");
+      const terrainSources = kind === "geometry"
+        ? geometryTerrainSources(payload)
+        : ["lola80s.tif", "site04.tif"];
+      for (const name of terrainSources) policy.add(name);
       if (kind === "routes") policy.add("ldem_16.img");
     }
     for (const name of policy) {
