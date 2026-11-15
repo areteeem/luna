@@ -38,8 +38,11 @@ def calculate(payload):
     count = math.ceil(duration*3600/step)
     if count > 1500: step = math.ceil(duration*3600/1500);count=math.ceil(duration*3600/step)
     profile={'status':'disabled','complete':False,'azimuth_deg':[],'elevation_deg':[],'reason':'Ideal reference-plane mode selected.'}
-    from mission_models import normalize
-    model_cfg=normalize(payload.get('analysis'))
+    analysis=payload.get('analysis') or {}
+    model_cfg={'enabled':False,'terrain':False}
+    if analysis.get('enabled'):
+        from mission_models import normalize
+        model_cfg=normalize(analysis)
     if model_cfg['enabled']:
         missing=[name for name in SCIENCE_KERNELS if not (ROOT/'work/kernels'/name).exists()]
         if missing:raise ValueError('Science kernels missing. Run npm run setup:science in app/.')
