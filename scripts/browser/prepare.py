@@ -45,8 +45,12 @@ def ensure(target, url, expected=None):
     if not target.exists() or (expected and digest(target) != expected):
         target.parent.mkdir(parents=True, exist_ok=True)
         temp = target.with_suffix(target.suffix + ".partial")
-        with urllib.request.urlopen(url, timeout=90) as response, temp.open("wb") as f:
-            shutil.copyfileobj(response, f)
+        try:
+            with urllib.request.urlopen(url, timeout=90) as response, temp.open("wb") as f:
+                shutil.copyfileobj(response, f)
+        except OSError as error:
+            temp.unlink(missing_ok=True)
+            raise RuntimeError(f"Cannot acquire {url}: {error}") from error
         if expected and digest(temp) != expected:
             temp.unlink()
             raise ValueError(f"Unexpected SHA-256 for {target.name}")
@@ -63,7 +67,13 @@ def dataset(record, category):
     path = record.get("file") or f"work/kernels/{name}"
     if category == "display":
         path = f"work/terrain/{name}"
-    target = ensure(root / path, record["url"], record["sha256"])
+    retained = root / "data/naif" / name
+    if retained.is_file():
+        if digest(retained) != record["sha256"]:
+            raise ValueError(f"Checksum mismatch for retained NAIF kernel {name}")
+        target = retained
+    else:
+        target = ensure(root / path, record["url"], record["sha256"])
     # Asset names include the checksum. Chunk below hosting/proxy file limits.
     chunks = []
     with target.open("rb") as f:

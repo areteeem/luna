@@ -1,0 +1,5 @@
+NASA/JPL NAIF Earth orientation kernel, retained because the dated upstream
+file was retired from the rolling high-precision series.
+Original: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_000101_270204_261109.bpc
+SHA-256: 7369bae21e0103d5f79ccee5a87874effc2e497ea3064d9d5d69c069cf74d1c5
+See https://naif.jpl.nasa.gov/naif/rules.html for terms and attribution.

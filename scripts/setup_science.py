@@ -13,6 +13,11 @@ FILES=[
 records=[]
 for relative,url,cap in FILES:
  dest=ROOT/relative;dest.parent.mkdir(parents=True,exist_ok=True)
+ if not dest.exists() and (retained:=ROOT/'data/naif'/dest.name).is_file():
+  contents=retained.read_bytes()
+  expected='7369bae21e0103d5f79ccee5a87874effc2e497ea3064d9d5d69c069cf74d1c5'
+  if hashlib.sha256(contents).hexdigest()!=expected:raise ValueError('Retained NAIF kernel failed checksum')
+  dest.write_bytes(contents)
  if not dest.exists():
   print('Acquiring',dest.name,flush=True)
   tmp=dest.with_suffix('.download')
