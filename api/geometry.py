@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 import json
 import sys
+import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -50,6 +51,7 @@ class handler(BaseHTTPRequestHandler):
         except (ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
             self._json(400, {"error": str(error)[:300]})
         except Exception:
+            traceback.print_exc()
             self._json(503, {"error": "Geometry calculation is temporarily unavailable"})
 
     def _json(self, status, payload):
