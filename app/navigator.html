@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#24272b" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon-light.png" media="(prefers-color-scheme: light)" />
+    <meta
+      name="description"
+      content="A lunar engineering workspace with a global 3D map, local SPICE geometry, mission planning and study exports."
+    />
+    <title>LUNA Navigator</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <p id="navigator-status" style="max-width:40rem;margin:4rem auto;padding:0 1.25rem;font:1rem/1.5 system-ui" role="status">
+      Opening LUNA Navigator…
+      <a href="%BASE_URL%">Return to LUNA</a>
+    </p>
+    <noscript><p>Enable JavaScript to use LUNA Navigator.</p></noscript>
+    <script type="module" src="/src/navigator.ts"></script>
+  </body>
+</html>
